@@ -1,0 +1,25 @@
+# Dependencies
+/node_modules/
+
+# Next.js and build output
+/.next/
+/out/
+/build/
+/coverage/
+/next-env.d.ts
+*.tsbuildinfo
+
+# Local environment and deployment settings
+.env*
+!.env.example
+/.vercel/
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# macOS
+.DS_Store
+._*
