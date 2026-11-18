@@ -31,3 +31,58 @@ describe("demonstration catalog", () => {
     }
   });
 });
+
+describe("kitchen measures", () => {
+  it("calculates exactly the masses specified by the kitchen quantities", () => {
+    const result = calculateRecipe(recipes[0], products);
+    expect(result.ok).toBe(true);
+    if (!result.ok) throw new Error(result.reason);
+    const ingredients = result.components[0].ingredients;
+    expect(ingredients.find(({ product }) => product.id === "banana")?.grams).toBe(236);
+    expect(ingredients.find(({ product }) => product.id === "milk")?.grams).toBeCloseTo(412);
+    expect(result.total.calories).toBeCloseTo(835.88);
+    expect(result.perServing).toMatchObject({
+      protein: expect.closeTo(17.998), fat: expect.closeTo(6.728), carbohydrates: expect.closeTo(66.836),
+    });
+  });
+
+  it("uses two medium bananas in the yoghurt recipe as well", () => {
+    const result = calculateRecipe(recipes[1], products);
+    if (!result.ok) throw new Error(result.reason);
+    expect(result.components[0].ingredients.find(({ product }) => product.id === "banana")?.grams).toBe(236);
+    expect(result.perServing.calories).toBeCloseTo(318.04);
+  });
+
+  it("matches the equivalent gram-based recipe without altering the calculator", () => {
+    const gramRecipe = {
+      ...recipes[0],
+      components: recipes[0].components.map((component) => ({
+        ...component,
+        ingredients: component.ingredients.map((ingredient) => ({
+          ...ingredient,
+          unit: "g" as const,
+          quantity: ingredient.productId === "banana" ? 236 : ingredient.productId === "milk" ? 412 : ingredient.quantity,
+        })),
+      })),
+    };
+    const kitchenResult = calculateRecipe(recipes[0], products);
+    const gramResult = calculateRecipe(gramRecipe, products);
+    if (!kitchenResult.ok || !gramResult.ok) throw new Error("Expected complete nutrition");
+    expect(kitchenResult.total).toEqual(gramResult.total);
+  });
+
+  it("does not produce nutrition when a required kitchen conversion is missing", () => {
+    const withoutBananaConversion = products.map((product) => product.id === "banana" ? { ...product, gramsPerUnit: undefined } : product);
+    expect(calculateRecipe(recipes[0], withoutBananaConversion)).toMatchObject({ ok: false });
+  });
+
+  it("records a separate source and scope for every catalog conversion", () => {
+    for (const product of products) {
+      for (const conversion of product.gramsPerUnit ?? []) {
+        expect(conversion.source?.url).toMatch(/^https:\/\//);
+        expect(conversion.source?.note).toBeTruthy();
+        expect(conversion.source?.checkedAt).toBe("2026-11-18");
+      }
+    }
+  });
+});

@@ -27,6 +27,13 @@ export type Product = Readonly<{
 		state: ProductState
 		unit: Exclude<IngredientUnit, 'g'>
 		grams: number
+		pieceLabels?: readonly [one: string, few: string, many: string]
+		source?: Readonly<{
+			title: string
+			url: string
+			checkedAt: string
+			note: string
+		}>
 	}[]
 }>
 
@@ -48,6 +55,12 @@ export type Recipe = Readonly<{
 	id: string
 	name: string
 	description: string
+	category?: 'breakfast' | 'lunch' | 'dinner' | 'snack'
+	image?: Readonly<{
+		src: string
+		alt: string
+		origin: 'ai' | 'photo'
+	}>
 	baseServings: number
 	components: readonly RecipeComponent[]
 	steps: readonly string[]

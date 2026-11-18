@@ -3,6 +3,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { products, recipes } from "./catalog";
 import { RecipeCatalog } from "./recipe-catalog";
+import { RecipePhoto } from "./recipe-photo";
 import { RecipeDetails } from "./recipe-details";
 
 describe("recipe read-only states", () => {
@@ -16,15 +17,33 @@ describe("recipe read-only states", () => {
     const html = renderToStaticMarkup(createElement(RecipeDetails, { recipe: recipes[0], products: [] }));
     expect(html).toContain("Расчёт недоступен");
     expect(html).toContain("отсутствует в справочнике");
-    expect(html).not.toContain("Весь рецепт");
+    expect(html).not.toContain("КБЖУ всего рецепта");
+    expect(html).not.toContain('aria-label="КБЖУ одной порции"');
     expect(html).not.toContain("На 100 г готового блюда");
   });
 
   it("keeps calculated nutrition available without a cooked yield", () => {
     const html = renderToStaticMarkup(createElement(RecipeDetails, { recipe: recipes[0], products }));
-    expect(html).toContain("798,8");
-    expect(html).toContain("399,4");
+    expect(html).toContain("835,9");
+    expect(html).toContain("417,9");
     expect(html).toContain("Без данных о выходе");
     expect(html).not.toContain("Расчёт недоступен");
+  });
+  it("shows kitchen quantities, per-serving nutrition and expandable calculation details", () => {
+    const html = renderToStaticMarkup(createElement(RecipeDetails, { recipe: recipes[0], products }));
+    expect(html).toContain("2 средних банана");
+    expect(html).toContain("400 мл");
+    expect(html).toContain("На одну порцию");
+    expect(html).toContain("<details");
+    expect(html).not.toContain("<details open");
+    expect(html).toContain("Расчёт и источники");
+    expect(html).toContain("AI-иллюстрация блюда");
+    expect(html).not.toContain("Взвесьте мякоть банана");
+  });
+
+  it("explains the absence of a photo without producing a broken image", () => {
+    const html = renderToStaticMarkup(createElement(RecipePhoto, { image: undefined }));
+    expect(html).toContain("Изображения пока нет");
+    expect(html).not.toContain("<img");
   });
 });

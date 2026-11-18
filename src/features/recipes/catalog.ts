@@ -20,6 +20,15 @@ export const products: readonly Product[] = [
   {
     id: "milk",
     name: "Молоко 1,2%",
+    gramsPerUnit: [{
+      state: "ready", unit: "ml", grams: 1.03,
+      source: {
+        title: "FAO/INFOODS Density Database 2.0 · Milk, liquid (whole, semi-skimmed, skimmed)",
+        url: "https://www.fao.org/fileadmin/templates/food_composition/documents/density_DB_v2_0_01.pdf#page=13",
+        checkedAt: "2026-11-18",
+        note: "Бытовая оценка: 1 мл жидкого молока ≈ 1,03 г. Применяется к полуобезжиренному коровьему молоку, не к любому напитку.",
+      },
+    }],
     nutrition: [{
       state: "ready",
       per100g: { calories: 45, protein: 4, fat: 1.2, carbohydrates: 4.5 },
@@ -33,7 +42,17 @@ export const products: readonly Product[] = [
   },
   {
     id: "banana",
-    name: "Банан без кожуры",
+    name: "Банан",
+    gramsPerUnit: [{
+      state: "raw", unit: "piece", grams: 118,
+      pieceLabels: ["средний банан", "средних банана", "средних бананов"],
+      source: {
+        title: "USDA · Nutritive Value of Foods · Table 9, Bananas, raw, medium",
+        url: "https://www.ars.usda.gov/ARSUserFiles/oc/np/NutritiveValueofFoods/NutritiveValueofFoods.pdf#page=36",
+        checkedAt: "2026-11-18",
+        note: "1 средний банан — в среднем 118 г съедобной части без кожуры. Это оценка, а не результат взвешивания конкретного плода.",
+      },
+    }],
     nutrition: [{
       state: "raw",
       per100g: { calories: 88, protein: 1.1, fat: 0.2, carbohydrates: 19.7 },
@@ -66,8 +85,10 @@ export const products: readonly Product[] = [
 export const recipes: readonly Recipe[] = [
   {
     id: "banana-porridge",
+    image: { src: "/recipes/banana-porridge.webp", alt: "Овсяная каша на молоке с размятым бананом в светлой керамической миске", origin: "ai" },
     name: "Овсяная каша с бананом",
     description: "Хлопья на молоке и банан, размятый в готовую кашу. Один завтрак для общего стола.",
+    category: "breakfast",
     baseServings: 2,
     activeMinutes: 5,
     totalMinutes: 15,
@@ -76,20 +97,22 @@ export const recipes: readonly Recipe[] = [
       name: "Каша с бананом",
       ingredients: [
         { productId: "rolled-oats", state: "dry", quantity: 120, unit: "g" },
-        { productId: "milk", state: "ready", quantity: 400, unit: "g" },
-        { productId: "banana", state: "raw", quantity: 200, unit: "g" },
+        { productId: "milk", state: "ready", quantity: 400, unit: "ml" },
+        { productId: "banana", state: "raw", quantity: 2, unit: "piece" },
       ],
     }],
     steps: [
-      "Отмерьте хлопья и молоко. Взвесьте мякоть банана без кожуры.",
+      "Отмерьте 120 г хлопьев и 400 мл молока. Очистите 2 средних банана.",
       "Смешайте хлопья с молоком в кастрюле. Доведите до слабого кипения и готовьте, помешивая, до мягкости хлопьев; ориентируйтесь на инструкцию на упаковке.",
       "Разомните банан, вмешайте в готовую кашу и распределите между двумя порциями.",
     ],
   },
   {
     id: "banana-yoghurt",
+    image: { src: "/recipes/banana-yoghurt.webp", alt: "Натуральный йогурт с размятым бананом и овсяными хлопьями в светлой миске", origin: "ai" },
     name: "Йогурт с бананом и хлопьями",
     description: "Натуральный йогурт, овсяные хлопья и мягкий банан. Смешайте и подайте в двух чашах.",
+    category: "breakfast",
     baseServings: 2,
     activeMinutes: 5,
     totalMinutes: 5,
@@ -98,12 +121,12 @@ export const recipes: readonly Recipe[] = [
       name: "Йогурт с бананом и хлопьями",
       ingredients: [
         { productId: "yoghurt", state: "ready", quantity: 300, unit: "g" },
-        { productId: "banana", state: "raw", quantity: 200, unit: "g" },
+        { productId: "banana", state: "raw", quantity: 2, unit: "piece" },
         { productId: "rolled-oats", state: "dry", quantity: 60, unit: "g" },
       ],
     }],
     steps: [
-      "Взвесьте йогурт, хлопья и мякоть банана без кожуры. Для этого блюда возьмите хлопья, которые по инструкции производителя подходят для употребления без варки.",
+      "Отмерьте 300 г йогурта и 60 г хлопьев. Очистите 2 средних банана. Для этого блюда возьмите хлопья, которые по инструкции производителя подходят для употребления без варки.",
       "Разомните банан вилкой и смешайте с йогуртом и хлопьями.",
       "Распределите смесь между двумя чашами и подайте.",
     ],
