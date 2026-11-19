@@ -56,9 +56,10 @@ export function RecipePortions({ recipe, products, children }: {
           <div className="recipe-detail-grid">
             <section className="recipe-ingredients" aria-labelledby="ingredients-heading">
               <div className="recipe-section-heading"><h2 id="ingredients-heading">Ингредиенты</h2><span>Порций: {formatServings(result.servings)}</span></div>
-              {result.components.map(({ component, ingredients }) => (
-                <div key={component.id}>
+              {result.components.map(({ component, ingredients, expectedYieldGrams }) => (
+                <div className="recipe-ingredient-group" key={component.id}>
                   {result.components.length > 1 && <h3>{component.name}</h3>}
+                  {expectedYieldGrams !== null && <p className="recipe-small">Ожидаемый выход: {formatAmount(expectedYieldGrams)} г</p>}
                   <ul className="recipe-ingredient-list">
                     {ingredients.map(({ ingredient, product }, index) => (
                       <li key={`${product.id}-${index}`}><span>{product.name}</span><strong>{formatIngredientQuantity(ingredient, product)}</strong></li>
@@ -82,6 +83,26 @@ export function RecipePortions({ recipe, products, children }: {
                   {result.per100g && <> На 100 г готового блюда: {formatAmount(result.per100g.calories)} ккал · Б {formatAmount(result.per100g.protein)} г · Ж {formatAmount(result.per100g.fat)} г · У {formatAmount(result.per100g.carbohydrates)} г.</>}
                 </p>
               )}
+              {result.expectedYieldGrams === null && result.components.length > 1 && (
+                <p>Компоненты без данных о выходе: {result.components.filter((item) => item.expectedYieldGrams === null).map((item) => item.component.name).join(", ")}. Общий выход нельзя определить по части компонентов.</p>
+              )}
+              {result.components.length > 1 && result.components.map(({ component, nutrition, expectedYieldGrams, per100g }) => (
+                <div className="recipe-component-calculation" key={component.id}>
+                  <h3>{component.name}</h3>
+                  <p className="recipe-small">КБЖУ компонента для выбранного объёма</p>
+                  <NutritionFacts value={nutrition} label={`КБЖУ компонента: ${component.name}`} />
+                  {expectedYieldGrams === null ? (
+                    <p>Ожидаемый выход не задан. КБЖУ компонента рассчитаны по ингредиентам; показатель на 100 г готового компонента недоступен.</p>
+                  ) : (
+                    <p>Ожидаемый выход: {formatAmount(expectedYieldGrams)} г.</p>
+                  )}
+                  {per100g && <>
+                    <h4>На 100 г готового компонента</h4>
+                    <NutritionFacts value={per100g} label={`КБЖУ на 100 г компонента: ${component.name}`} />
+                  </>}
+                </div>
+              ))}
+              {result.expectedYieldGrams !== null && result.components.length > 1 && <p>Общие показатели на 100 г относятся к составу и соотношению компонентов этого рецепта.</p>}
               <h3>Методика расчёта</h3>
               <p>КБЖУ рассчитаны по массе исходных ингредиентов и соответствующим их состоянию профилям на 100 г. Потери нутриентов при приготовлении не учитываются. Значения округлены только для отображения. Штучные продукты рассчитаны по среднему размеру. Средние массы и плотность — бытовые оценки.</p>
               <h3>Источники пищевой ценности и переводов единиц</h3>

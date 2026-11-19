@@ -63,3 +63,22 @@ describe("recipe read-only states", () => {
     expect(html).not.toContain("<img");
   });
 });
+
+describe("compound recipe display", () => {
+  it("keeps known component data visible without presenting unknown yields as ingredient errors", () => {
+    const original = recipes.find((recipe) => recipe.id === "chicken-rice-vegetables");
+    if (!original) throw new Error("Missing compound recipe");
+    const recipe = { ...original, components: original.components.map((component, index) => index === 0 ? { ...component, expectedYieldGrams: 300 } : component) };
+    const html = renderToStaticMarkup(createElement(RecipeDetails, { recipe, products }));
+    const mainIngredients = html.split('<details')[0];
+    expect(mainIngredients).toContain("Куриная грудка");
+    expect(mainIngredients).toContain("Овощи на пару");
+    expect(mainIngredients).toContain("Ожидаемый выход: 300 г");
+    expect(mainIngredients).not.toContain("Выход неизвестен");
+    expect(mainIngredients).not.toContain("Расчёт недоступен");
+    expect(html).toContain('aria-label="КБЖУ компонента: Куриная грудка"');
+    expect(html).toContain('aria-label="КБЖУ на 100 г компонента: Куриная грудка"');
+    expect(html).not.toContain('aria-label="КБЖУ на 100 г компонента: Рис"');
+    expect(html).toContain("Компоненты без данных о выходе: Рис, Овощи на пару");
+  });
+});

@@ -6,7 +6,7 @@ describe("demonstration catalog", () => {
   it.each(recipes)("$id has complete, calculable source data", (recipe) => {
     expect(calculateRecipe(recipe, products).ok).toBe(true);
     expect(recipe.steps.length).toBeGreaterThan(0);
-    expect(recipe.components).toHaveLength(1);
+    expect(recipe.components.length).toBeGreaterThan(0);
   });
 
   it("has unique recipe and product identifiers", () => {
@@ -19,7 +19,7 @@ describe("demonstration catalog", () => {
       for (const profile of product.nutrition) {
         expect(profile.source.recordId).toMatch(/^\d{2}\.\d{3}$/);
         expect(new URL(profile.source.url).pathname).toMatch(/^\/en\/[^/]+\/$/);
-        expect(profile.source.checkedAt).toBe("2026-11-17");
+        expect(profile.source.checkedAt).toMatch(/^\d{4}-\d{2}-\d{2}$/);
       }
     }
   });
@@ -84,5 +84,25 @@ describe("kitchen measures", () => {
         expect(conversion.source?.checkedAt).toBe("2026-11-18");
       }
     }
+  });
+});
+
+describe("chicken, rice and vegetables", () => {
+  it("provides three components with complete raw/dry profiles and no invented cooked mass", () => {
+    const recipe = recipes.find((item) => item.id === "chicken-rice-vegetables");
+    expect(recipe).toBeDefined();
+    if (!recipe) throw new Error("Missing compound demonstration recipe");
+    expect(recipe.components).toHaveLength(3);
+    const result = calculateRecipe(recipe, products);
+    expect(result).toMatchObject({
+      ok: true, total: { calories: expect.closeTo(1088.8), protein: expect.closeTo(116.08), fat: expect.closeTo(9.52), carbohydrates: expect.closeTo(129.44) },
+      perServing: { calories: expect.closeTo(544.4), protein: expect.closeTo(58.04), fat: expect.closeTo(4.76), carbohydrates: expect.closeTo(64.72) },
+      expectedYieldGrams: null, per100g: null,
+      components: [
+        { ingredients: [{ ingredient: { state: "raw" }, grams: 400 }], nutrition: { calories: 444 }, expectedYieldGrams: null },
+        { ingredients: [{ ingredient: { state: "dry" }, grams: 160 }], nutrition: { calories: expect.closeTo(548.8) }, expectedYieldGrams: null },
+        { ingredients: [{ ingredient: { state: "raw" }, grams: 400 }], nutrition: { calories: 96 }, expectedYieldGrams: null },
+      ],
+    });
   });
 });

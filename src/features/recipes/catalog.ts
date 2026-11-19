@@ -78,6 +78,48 @@ export const products: readonly Product[] = [
       },
     }],
   },
+  {
+    id: "chicken-breast",
+    name: "Куриная грудка без кожи и костей",
+    nutrition: [{
+      state: "raw",
+      per100g: { calories: 111, protein: 23, fat: 2.1, carbohydrates: 0 },
+      source: {
+        title: "Matvaretabellen · Chicken, fillet, without skin, raw",
+        url: "https://www.matvaretabellen.no/en/chicken-fillet-without-skin-raw/",
+        recordId: "03.205",
+        checkedAt: "2026-11-19",
+      },
+    }],
+  },
+  {
+    id: "white-rice",
+    name: "Рис белый длиннозёрный",
+    nutrition: [{
+      state: "dry",
+      per100g: { calories: 343, protein: 7.8, fat: 0.7, carbohydrates: 75.9 },
+      source: {
+        title: "Matvaretabellen · Rice, white, long-grain, uncooked",
+        url: "https://www.matvaretabellen.no/en/rice-white-long-grain-uncooked/",
+        recordId: "05.212",
+        checkedAt: "2026-11-19",
+      },
+    }],
+  },
+  {
+    id: "broccoli",
+    name: "Брокколи, съедобная часть",
+    nutrition: [{
+      state: "raw",
+      per100g: { calories: 24, protein: 2.9, fat: 0, carbohydrates: 2 },
+      source: {
+        title: "Matvaretabellen · Broccoli, Norwegian, raw",
+        url: "https://www.matvaretabellen.no/en/broccoli-norwegian-raw/",
+        recordId: "06.018",
+        checkedAt: "2026-11-19",
+      },
+    }],
+  },
 ];
 
 // Demonstration compositions; preparation times are estimates, not measured data.
@@ -129,6 +171,40 @@ export const recipes: readonly Recipe[] = [
       "Отмерьте йогурт и хлопья по актуальному списку ингредиентов. Очистите бананы. Для этого блюда возьмите хлопья, которые по инструкции производителя подходят для употребления без варки.",
       "Разомните банан вилкой и смешайте с йогуртом и хлопьями.",
       "Разделите смесь на выбранное количество порций и подайте.",
+    ],
+  },
+  {
+    id: "chicken-rice-vegetables",
+    image: { src: "/recipes/chicken-rice-vegetables.webp", alt: "Запечённая куриная грудка, белый рис и брокколи на пару отдельными компонентами на светлой тарелке", origin: "ai" },
+    name: "Куриная грудка с рисом и овощами",
+    description: "Куриная грудка, рассыпчатый рис и брокколи на пару. Три компонента одного семейного обеда.",
+    category: "lunch",
+    baseServings: 2,
+    activeMinutes: 15,
+    totalMinutes: 40,
+    components: [
+      {
+        id: "chicken",
+        name: "Куриная грудка",
+        ingredients: [{ productId: "chicken-breast", state: "raw", quantity: 400, unit: "g" }],
+      },
+      {
+        id: "rice",
+        name: "Рис",
+        ingredients: [{ productId: "white-rice", state: "dry", quantity: 160, unit: "g" }],
+      },
+      {
+        id: "vegetables",
+        name: "Овощи на пару",
+        ingredients: [{ productId: "broccoli", state: "raw", quantity: 400, unit: "g" }],
+      },
+    ],
+    steps: [
+      "Подготовьте грудку без кожи и костей, сухой рис и очищенную съедобную часть брокколи по актуальному списку ингредиентов. Для сырой курицы используйте отдельную доску и вымойте руки и инвентарь после работы с ней.",
+      "Разогрейте духовку до 200 °C. Положите грудку в пакет из пергамента и запекайте без масла до готовности. Проверьте пищевым термометром: температура в самой толстой части должна достигнуть 74 °C. Время зависит от толщины филе и объёма приготовления.",
+      "Промойте рис и сварите в воде по инструкции на упаковке. Количество воды и время варки выбирайте для вашего риса; готовый выход заранее не предполагается.",
+      "Разберите брокколи на соцветия и приготовьте на пару до желаемой мягкости.",
+      "Нарежьте готовую грудку и подайте с рисом и брокколи, разделив каждый компонент на выбранное количество порций. Масло, соусы и другие добавки в этот рецепт и его КБЖУ не включены.",
     ],
   },
 ];

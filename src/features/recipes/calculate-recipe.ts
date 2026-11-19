@@ -11,6 +11,8 @@ type CalculatedComponent = Readonly<{
   component: RecipeComponent;
   ingredients: readonly CalculatedIngredient[];
   nutrition: Nutrition;
+  expectedYieldGrams: number | null;
+  per100g: Nutrition | null;
 }>;
 
 export type RecipeCalculation =
@@ -113,11 +115,17 @@ export function calculateRecipe(
     if (yieldGrams !== undefined && (!Number.isFinite(yieldGrams) || yieldGrams <= 0)) {
       return { ok: false, reason: `Некорректный ожидаемый выход компонента «${component.name}».` };
     }
-    expectedYieldGrams = expectedYieldGrams !== null && yieldGrams !== undefined
-      ? expectedYieldGrams + yieldGrams * scale
+    const componentYieldGrams = yieldGrams === undefined ? null : yieldGrams * scale;
+    const componentPer100g = componentYieldGrams === null ? null : divideNutrition(nutrition, componentYieldGrams / 100);
+    if ((componentYieldGrams !== null && (!Number.isFinite(componentYieldGrams) || componentYieldGrams <= 0))
+      || (componentPer100g !== null && !isCompleteNutrition(componentPer100g))) {
+      return { ok: false, reason: `Результат компонента «${component.name}» выходит за допустимый числовой диапазон.` };
+    }
+    expectedYieldGrams = expectedYieldGrams !== null && componentYieldGrams !== null
+      ? expectedYieldGrams + componentYieldGrams
       : null;
     for (const key of nutritionKeys) total[key] += nutrition[key];
-    components.push({ component, ingredients, nutrition });
+    components.push({ component, ingredients, nutrition, expectedYieldGrams: componentYieldGrams, per100g: componentPer100g });
   }
 
   const perServing = divideNutrition(total, servings);
