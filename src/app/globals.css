@@ -143,3 +143,15 @@
   .recipe-card, .recipe-photo img { transition: none; }
   .recipe-card:hover, .recipe-card:hover .recipe-photo img { transform: none; }
 }
+
+.recipe-servings-control { display: grid; grid-template-columns: max-content 112px minmax(0, 1fr); align-items: center; gap: 12px 20px; margin-top: 28px; }
+.recipe-servings-control label { font-size: 16px; font-weight: 600; }
+.recipe-servings-control input { width: 100%; min-height: 48px; padding: 10px 14px; border: 1px solid var(--recipe-border); border-radius: 12px; background: #fff; color: var(--recipe-ink); font: inherit; font-size: 17px; }
+.recipe-servings-control input:focus-visible { outline: 3px solid var(--recipe-green); outline-offset: 3px; }
+.recipe-servings-control input[aria-invalid="true"] { border-color: var(--recipe-ink); border-width: 2px; }
+.recipe-servings-feedback { max-width: 60ch; font-size: 14px; color: var(--recipe-muted); }
+.recipe-portions > .recipe-preparation { margin-top: 28px; }
+@media (max-width: 700px) {
+  .recipe-servings-control { grid-template-columns: minmax(0, 1fr) 112px; gap: 12px 16px; margin-top: 24px; }
+  .recipe-servings-feedback { grid-column: 1 / -1; }
+}

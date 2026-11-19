@@ -16,6 +16,7 @@ type CalculatedComponent = Readonly<{
 export type RecipeCalculation =
   | Readonly<{
       ok: true;
+      servings: number;
       total: Nutrition;
       perServing: Nutrition;
       expectedYieldGrams: number | null;
@@ -46,16 +47,24 @@ function divideNutrition(value: Nutrition, divisor: number): Nutrition {
   };
 }
 
-/** Calculates the original recipe volume. Serving changes belong to POR-004. */
-export function calculateRecipe(recipe: Recipe, products: readonly Product[]): RecipeCalculation {
+/** Always calculates from the original recipe; never from a previous result. */
+export function calculateRecipe(
+  recipe: Recipe,
+  products: readonly Product[],
+  servings = recipe.baseServings,
+): RecipeCalculation {
   if (!Number.isFinite(recipe.baseServings) || recipe.baseServings <= 0) {
     return { ok: false, reason: "Базовое количество порций должно быть положительным конечным числом." };
+  }
+  if (!Number.isFinite(servings) || servings <= 0) {
+    return { ok: false, reason: "Количество порций должно быть положительным конечным числом." };
   }
   if (recipe.components.length === 0) {
     return { ok: false, reason: "В рецепте нет компонентов." };
   }
 
   const total = emptyNutrition();
+  const scale = servings / recipe.baseServings;
   const components: CalculatedComponent[] = [];
   let expectedYieldGrams: number | null = 0;
 
@@ -67,8 +76,10 @@ export function calculateRecipe(recipe: Recipe, products: readonly Product[]): R
     const ingredients: CalculatedIngredient[] = [];
     let componentGrams = 0;
 
-    for (const ingredient of component.ingredients) {
-      if (!Number.isFinite(ingredient.quantity) || ingredient.quantity < 0) {
+    for (const originalIngredient of component.ingredients) {
+      const ingredient = { ...originalIngredient, quantity: originalIngredient.quantity * scale };
+      if (!Number.isFinite(originalIngredient.quantity) || originalIngredient.quantity < 0
+        || !Number.isFinite(ingredient.quantity)) {
         return { ok: false, reason: `Некорректное количество ингредиента в компоненте «${component.name}».` };
       }
       const product = products.find((item) => item.id === ingredient.productId);
@@ -103,18 +114,18 @@ export function calculateRecipe(recipe: Recipe, products: readonly Product[]): R
       return { ok: false, reason: `Некорректный ожидаемый выход компонента «${component.name}».` };
     }
     expectedYieldGrams = expectedYieldGrams !== null && yieldGrams !== undefined
-      ? expectedYieldGrams + yieldGrams
+      ? expectedYieldGrams + yieldGrams * scale
       : null;
     for (const key of nutritionKeys) total[key] += nutrition[key];
     components.push({ component, ingredients, nutrition });
   }
 
-  const perServing = divideNutrition(total, recipe.baseServings);
+  const perServing = divideNutrition(total, servings);
   const per100g = expectedYieldGrams === null ? null : divideNutrition(total, expectedYieldGrams / 100);
   if (!isCompleteNutrition(total) || !isCompleteNutrition(perServing)
     || (per100g !== null && !isCompleteNutrition(per100g))
     || (expectedYieldGrams !== null && !Number.isFinite(expectedYieldGrams))) {
     return { ok: false, reason: "Результат выходит за допустимый числовой диапазон." };
   }
-  return { ok: true, total, perServing, per100g, expectedYieldGrams, components };
+  return { ok: true, servings, total, perServing, per100g, expectedYieldGrams, components };
 }

@@ -28,6 +28,48 @@ const recipe: Recipe = {
 };
 
 describe("calculateRecipe", () => {
+  it("recalculates 2 → 4 → 1 → 2 servings without changing its source recipe", () => {
+    const source: Recipe = { ...recipe, baseServings: 2 };
+    const before = structuredClone({ source, product });
+    const results = [2, 4, 1, 2].map((servings) => calculateRecipe(source, [product], servings));
+    expect(results.map((result) => result.ok ? result.total.calories : null)).toEqual([400, 800, 200, 400]);
+    expect(results[3]).toEqual(results[0]);
+    expect({ source, product }).toEqual(before);
+  });
+
+  it("supports fractional servings without rounding the calculation", () => {
+    const result = calculateRecipe(recipe, [product], 1.25);
+    expect(result).toMatchObject({ ok: true, servings: 1.25, total: { calories: 125, protein: 6.25, fat: 3.125, carbohydrates: 12.5 }, expectedYieldGrams: 250, perServing: { calories: 100 } });
+    if (!result.ok) throw new Error(result.reason);
+    expect(result.components[0].ingredients[0]).toMatchObject({ ingredient: { quantity: 62.5 }, grams: 62.5 });
+  });
+
+  it("keeps scaled nutrition available when cooked yield is unknown", () => {
+    const unknown: Recipe = { ...recipe, components: [{ ...recipe.components[0], expectedYieldGrams: undefined }] };
+    expect(calculateRecipe(unknown, [product], 8)).toMatchObject({ ok: true, total: { calories: 800 }, perServing: { calories: 100 }, expectedYieldGrams: null, per100g: null });
+  });
+
+  it.each([0, -1, NaN, Infinity, -Infinity])("rejects invalid requested servings: %s", (servings) => {
+    expect(calculateRecipe(recipe, [product], servings)).toMatchObject({
+      ok: false,
+      reason: "Количество порций должно быть положительным конечным числом.",
+    });
+  });
+
+  it("scales ingredients, total nutrition and known yield from the base recipe", () => {
+    const result = calculateRecipe(recipe, [product], 8);
+    expect(result).toMatchObject({
+      ok: true,
+      servings: 8,
+      total: { calories: 800, protein: 40, fat: 20, carbohydrates: 80 },
+      perServing: { calories: 100, protein: 5, fat: 2.5, carbohydrates: 10 },
+      expectedYieldGrams: 1600,
+      per100g: { calories: 50, protein: 2.5, fat: 1.25, carbohydrates: 5 },
+    });
+    if (!result.ok) throw new Error(result.reason);
+    expect(result.components[0].ingredients[0]).toMatchObject({ ingredient: { quantity: 400 }, grams: 400 });
+  });
+
   it("calculates all nutrition values for the original volume and one base serving", () => {
     const result = calculateRecipe(recipe, [product]);
     expect(result).toMatchObject({

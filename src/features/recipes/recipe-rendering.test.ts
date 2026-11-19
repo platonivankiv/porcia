@@ -7,6 +7,10 @@ import { RecipePhoto } from "./recipe-photo";
 import { RecipeDetails } from "./recipe-details";
 
 describe("recipe read-only states", () => {
+  it("does not round a fractional serving count to the nutrition display precision", () => {
+    const html = renderToStaticMarkup(createElement(RecipeDetails, { recipe: { ...recipes[0], baseServings: 1.25 }, products }));
+    expect(html).toContain("Порций: 1,25");
+  });
   it("explains an empty catalog", () => {
     const html = renderToStaticMarkup(createElement(RecipeCatalog, { recipes: [], products }));
     expect(html).toContain("Рецептов пока нет");
@@ -17,7 +21,7 @@ describe("recipe read-only states", () => {
     const html = renderToStaticMarkup(createElement(RecipeDetails, { recipe: recipes[0], products: [] }));
     expect(html).toContain("Расчёт недоступен");
     expect(html).toContain("отсутствует в справочнике");
-    expect(html).not.toContain("КБЖУ всего рецепта");
+    expect(html).not.toContain("КБЖУ выбранного объёма");
     expect(html).not.toContain('aria-label="КБЖУ одной порции"');
     expect(html).not.toContain("На 100 г готового блюда");
   });
@@ -39,6 +43,11 @@ describe("recipe read-only states", () => {
     expect(html).toContain("Расчёт и источники");
     expect(html).toContain("AI-иллюстрация блюда");
     expect(html).not.toContain("Взвесьте мякоть банана");
+    expect(html).toContain('for="recipe-servings"');
+    expect(html).toContain('inputMode="decimal"');
+    expect(html).toContain('value="2"');
+    expect(html).toContain("Базовых порций");
+    expect(html).not.toContain("Отмерьте 120 г");
   });
 
   it("explains the absence of a photo without producing a broken image", () => {
