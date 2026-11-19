@@ -1,7 +1,8 @@
 import Link from "next/link";
 import type { Product, Recipe } from "./model";
 import { RecipePhoto } from "./recipe-photo";
-import { formatServings, ImageCredits, RecipeHeader, recipeCategoryLabel } from "./recipe-ui";
+import { ImageCredits, RecipeHeader } from "./recipe-ui";
+import { formatServings, recipeCategoryLabel } from "./recipe-format";
 import { RecipePortions } from "./recipe-portions";
 
 export function RecipeDetails({ recipe, products }: { recipe: Recipe; products: readonly Product[] }) {

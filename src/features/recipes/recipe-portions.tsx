@@ -4,7 +4,8 @@ import { useState, type ReactNode } from "react";
 import { calculateRecipe } from "./calculate-recipe";
 import type { Product, Recipe } from "./model";
 import { parseServingsInput } from "./servings-input";
-import { formatAmount, formatIngredientQuantity, formatServings, NutritionFacts, stateLabels } from "./recipe-ui";
+import { NutritionFacts } from "./recipe-ui";
+import { formatAmount, formatIngredientQuantity, formatServings, stateLabels } from "./recipe-format";
 
 export function RecipePortions({ recipe, products, children }: {
   recipe: Recipe;

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { products } from "./catalog";
-import { formatIngredientQuantity } from "./recipe-ui";
+import { formatIngredientQuantity } from "./recipe-format";
 
 describe("ingredient kitchen labels", () => {
   it("rounds binary arithmetic noise only for display and marks the approximation", () => {

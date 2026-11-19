@@ -7,6 +7,13 @@ import { RecipePhoto } from "./recipe-photo";
 import { RecipeDetails } from "./recipe-details";
 
 describe("recipe read-only states", () => {
+  it("preserves fractional base servings in catalog cards", () => {
+    const html = renderToStaticMarkup(createElement(RecipeCatalog, {
+      recipes: [{ ...recipes[0], baseServings: 1.25 }],
+      products,
+    }));
+    expect(html).toContain("Порций: 1,25");
+  });
   it("does not round a fractional serving count to the nutrition display precision", () => {
     const html = renderToStaticMarkup(createElement(RecipeDetails, { recipe: { ...recipes[0], baseServings: 1.25 }, products }));
     expect(html).toContain("Порций: 1,25");

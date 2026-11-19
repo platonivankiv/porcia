@@ -2,7 +2,8 @@ import Link from "next/link";
 import { calculateRecipe } from "./calculate-recipe";
 import type { Product, Recipe } from "./model";
 import { RecipePhoto } from "./recipe-photo";
-import { formatAmount, ImageCredits, RecipeHeader, recipeCategoryLabel } from "./recipe-ui";
+import { ImageCredits, RecipeHeader } from "./recipe-ui";
+import { formatAmount, formatServings, recipeCategoryLabel } from "./recipe-format";
 
 export function RecipeCatalog({ recipes, products }: { recipes: readonly Recipe[]; products: readonly Product[] }) {
   const categories = [...new Set(recipes.map((recipe) => recipe.category))];
@@ -42,7 +43,7 @@ export function RecipeCatalog({ recipes, products }: { recipes: readonly Recipe[
                         <p>{recipe.description}</p>
                         <div className="recipe-card-meta">
                           {recipe.totalMinutes !== undefined && <span>≈ {recipe.totalMinutes} мин</span>}
-                          <span>Порций: {formatAmount(recipe.baseServings)}</span>
+                          <span>Порций: {formatServings(recipe.baseServings)}</span>
                         </div>
                         <div className="recipe-card-bottom">
                           <span>{result.ok ? <><strong>{formatAmount(result.perServing.calories)}</strong> ккал / порция</> : "Расчёт КБЖУ недоступен"}</span>

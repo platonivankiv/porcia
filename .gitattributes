@@ -1,0 +1,2 @@
+# Installed third-party skills are not application source.
+.agents/skills/** linguist-vendored
