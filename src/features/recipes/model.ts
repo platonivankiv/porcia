@@ -1,4 +1,6 @@
 export type ProductState = 'dry' | 'raw' | 'ready' | 'cooked'
+// Extend this union when another known allergen is recorded.
+export type Allergen = 'milk' | 'walnut'
 export type IngredientUnit = 'g' | 'ml' | 'piece'
 
 export type Nutrition = Readonly<{
@@ -22,6 +24,8 @@ export type ProductNutrition = Readonly<{
 export type Product = Readonly<{
 	id: string
 	name: string
+	// Missing or empty metadata does not establish allergen safety.
+	allergens?: readonly Allergen[]
 	nutrition: readonly ProductNutrition[]
 	gramsPerUnit?: readonly {
 		state: ProductState
@@ -48,6 +52,7 @@ export type RecipeComponent = Readonly<{
 	id: string
 	name: string
 	ingredients: readonly RecipeIngredient[]
+	seasonings?: readonly string[]
 	expectedYieldGrams?: number
 }>
 
@@ -64,6 +69,7 @@ export type Recipe = Readonly<{
 	baseServings: number
 	components: readonly RecipeComponent[]
 	steps: readonly string[]
+	safetyNote?: string
 	activeMinutes?: number
 	totalMinutes?: number
 }>

@@ -64,6 +64,9 @@ export function RecipePortions({ recipe, products, children }: {
                     {ingredients.map(({ ingredient, product }, index) => (
                       <li key={`${product.id}-${index}`}><span>{product.name}</span><strong>{formatIngredientQuantity(ingredient, product)}</strong></li>
                     ))}
+                    {component.seasonings?.map((seasoning) => (
+                      <li key={seasoning}><span>{seasoning}</span><strong>по вкусу</strong></li>
+                    ))}
                   </ul>
                 </div>
               ))}
@@ -104,7 +107,7 @@ export function RecipePortions({ recipe, products, children }: {
               ))}
               {result.expectedYieldGrams !== null && result.components.length > 1 && <p>Общие показатели на 100 г относятся к составу и соотношению компонентов этого рецепта.</p>}
               <h3>Методика расчёта</h3>
-              <p>КБЖУ рассчитаны по массе исходных ингредиентов и соответствующим их состоянию профилям на 100 г. Потери нутриентов при приготовлении не учитываются. Значения округлены только для отображения. Штучные продукты рассчитаны по среднему размеру. Средние массы и плотность — бытовые оценки.</p>
+              <p>КБЖУ рассчитаны по массе исходных ингредиентов и соответствующим их состоянию профилям на 100 г. Это оценка: небольшие количества обычных приправ не учитываются. Масло, орехи и другие калорийные добавки включены в расчёт. Потери нутриентов при приготовлении не учитываются. Значения округлены только для отображения. Штучные продукты рассчитаны по среднему размеру. Средние массы и плотность — бытовые оценки.</p>
               <h3>Источники пищевой ценности и переводов единиц</h3>
               <ul className="recipe-source-list">
                 {result.components.flatMap(({ component, ingredients }) => ingredients.map(({ ingredient, product, profile, grams }, index) => {

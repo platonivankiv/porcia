@@ -1,13 +1,16 @@
 import Link from "next/link";
-import type { Product, Recipe } from "./model";
+import type { Allergen, Product, Recipe } from "./model";
 import { RecipePhoto } from "./recipe-photo";
 import { ImageCredits, RecipeHeader } from "./recipe-ui";
 import { formatServings, recipeCategoryLabel } from "./recipe-format";
 import { RecipePortions } from "./recipe-portions";
 
+const allergenLabels: Record<Allergen, string> = { milk: "Молоко", walnut: "Грецкие орехи" };
+
 export function RecipeDetails({ recipe, products }: { recipe: Recipe; products: readonly Product[] }) {
   const productIds = new Set(recipe.components.flatMap((component) => component.ingredients.map((ingredient) => ingredient.productId)));
   const recipeProducts = products.filter((product) => productIds.has(product.id));
+  const allergens = [...new Set(recipeProducts.flatMap((product) => product.allergens ?? []))];
   return (
     <div className="recipe-app">
       <RecipeHeader />
@@ -25,6 +28,10 @@ export function RecipeDetails({ recipe, products }: { recipe: Recipe; products: 
               <div><dt>Базовых порций</dt><dd>{formatServings(recipe.baseServings)}</dd></div>
             </dl>
             <p className="recipe-small">Время — оценка для базового объёма; при изменении порций оно может отличаться.</p>
+            {allergens.length > 0 && <div className="recipe-small">
+              <p><strong>Известные аллергены:</strong> {allergens.map((allergen) => allergenLabels[allergen]).join(", ")}.</p>
+              <p>Список не подтверждает отсутствие других аллергенов. Проверяйте состав и предупреждения на упаковке.</p>
+            </div>}
             {recipe.image?.origin === "ai" && <p className="recipe-small recipe-ai-label">AI-иллюстрация блюда</p>}
           </div>
         </div>
@@ -34,6 +41,10 @@ export function RecipeDetails({ recipe, products }: { recipe: Recipe; products: 
             <ol className="recipe-steps">
               {recipe.steps.map((step, index) => <li key={index}><span aria-hidden="true">{index + 1}</span><p>{step}</p></li>)}
             </ol>
+            {recipe.safetyNote && <aside className="recipe-small" aria-labelledby="safety-heading">
+              <h3 id="safety-heading">Безопасное приготовление</h3>
+              <p>{recipe.safetyNote}</p>
+            </aside>}
           </section>
         </RecipePortions>
       </main>

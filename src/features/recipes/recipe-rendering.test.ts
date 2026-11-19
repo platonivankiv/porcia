@@ -35,15 +35,15 @@ describe("recipe read-only states", () => {
 
   it("keeps calculated nutrition available without a cooked yield", () => {
     const html = renderToStaticMarkup(createElement(RecipeDetails, { recipe: recipes[0], products }));
-    expect(html).toContain("835,9");
-    expect(html).toContain("417,9");
+    expect(html).toContain("956,6");
+    expect(html).toContain("478,3");
     expect(html).toContain("Без данных о выходе");
     expect(html).not.toContain("Расчёт недоступен");
   });
   it("shows kitchen quantities, per-serving nutrition and expandable calculation details", () => {
     const html = renderToStaticMarkup(createElement(RecipeDetails, { recipe: recipes[0], products }));
     expect(html).toContain("2 средних банана");
-    expect(html).toContain("400 мл");
+    expect(html).toContain("500 мл");
     expect(html).toContain("На одну порцию");
     expect(html).toContain("<details");
     expect(html).not.toContain("<details open");
@@ -72,13 +72,40 @@ describe("compound recipe display", () => {
     const html = renderToStaticMarkup(createElement(RecipeDetails, { recipe, products }));
     const mainIngredients = html.split('<details')[0];
     expect(mainIngredients).toContain("Куриная грудка");
-    expect(mainIngredients).toContain("Овощи на пару");
+    expect(mainIngredients).toContain("Запечённая брокколи");
     expect(mainIngredients).toContain("Ожидаемый выход: 300 г");
     expect(mainIngredients).not.toContain("Выход неизвестен");
     expect(mainIngredients).not.toContain("Расчёт недоступен");
     expect(html).toContain('aria-label="КБЖУ компонента: Куриная грудка"');
     expect(html).toContain('aria-label="КБЖУ на 100 г компонента: Куриная грудка"');
     expect(html).not.toContain('aria-label="КБЖУ на 100 г компонента: Рис"');
-    expect(html).toContain("Компоненты без данных о выходе: Рис, Овощи на пару");
+    expect(html).toContain("Компоненты без данных о выходе: Рис, Запечённая брокколи");
+  });
+});
+
+describe("home recipe information", () => {
+  it("shows unmeasured seasonings and explains the nutrition estimate", () => {
+    const html = renderToStaticMarkup(createElement(RecipeDetails, { recipe: recipes[0], products }));
+    expect(html).toContain("Корица");
+    expect(html).toContain("по вкусу");
+    expect(html).toContain("небольшие количества обычных приправ не учитываются");
+    const text = html.replace(/<[^>]*>/g, " ");
+    expect(text).toMatch(/Корица\s+по вкусу/);
+    expect(text).toMatch(/Соль\s+по вкусу/);
+  });
+
+  it("identifies walnuts and milk without claiming complete allergen safety", () => {
+    const html = renderToStaticMarkup(createElement(RecipeDetails, { recipe: recipes[1], products }));
+    expect(html).toContain("Известные аллергены");
+    expect(html).toContain("Грецкие орехи");
+    expect(html).toContain("Молоко");
+    expect(html).toContain("не подтверждает отсутствие других аллергенов");
+  });
+
+  it("keeps the safety note visible when ingredient calculation is unavailable", () => {
+    const html = renderToStaticMarkup(createElement(RecipeDetails, { recipe: recipes[2], products: [] }));
+    expect(html).toContain("Расчёт недоступен");
+    expect(html).toContain("Безопасное приготовление");
+    expect(html).toContain("74 °C");
   });
 });
