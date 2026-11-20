@@ -1,5 +1,5 @@
 import type { FamilyStorageDocument } from "./model";
-import { isFamilyStorageDocument } from "./validation";
+import { decodeFamilyDocument, isFamilyStorageDocument } from "./validation";
 
 export const FAMILY_STORAGE_KEY = "porcia.family";
 type StorageProvider = () => Pick<Storage, "getItem" | "setItem" | "removeItem">;
@@ -17,8 +17,8 @@ export function loadFamily(storage: StorageProvider, productIds: readonly string
   }
   if (snapshot === null) return { ok: true, document: null, snapshot };
   try {
-    const document: unknown = JSON.parse(snapshot);
-    if (isFamilyStorageDocument(document, productIds)) return { ok: true, document, snapshot };
+    const document = decodeFamilyDocument(JSON.parse(snapshot), productIds);
+    if (document) return { ok: true, document, snapshot };
   } catch { /* Keep the original record available for an explicit reset. */ }
   return { ok: false, snapshot, message: "Локальные данные повреждены или имеют неподдерживаемый формат. Исходная запись сохранена без изменений." };
 }

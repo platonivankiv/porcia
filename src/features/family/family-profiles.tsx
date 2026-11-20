@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { Product } from "../recipes/model";
 import type { FamilyMember, FamilyStorageDocument } from "./model";
+import { NutritionRecommendation } from "./nutrition-recommendation";
 import { MemberForm } from "./member-form";
 import { loadFamily, resetFamily, saveFamily, type FamilyLoadResult } from "./storage";
 import { goalLabels } from "./validation";
@@ -40,9 +41,10 @@ export function FamilyProfiles({ products }: { products: readonly Pick<Product, 
   function save(value: Omit<FamilyMember, "id" | "householdId">): string | null {
     if (!loaded?.ok) return "Сначала восстановите доступ к локальным данным.";
     const document: FamilyStorageDocument = loaded.document ?? {
-      version: 1, household: { id: crypto.randomUUID(), displayName: "Моя семья" }, members: [],
+      version: 2, household: { id: crypto.randomUUID(), displayName: "Моя семья" }, members: [],
     };
     const member: FamilyMember = {
+      ...(editing && editing !== "new" ? editing : {}),
       ...value,
       id: editing && editing !== "new" ? editing.id : crypto.randomUUID(),
       householdId: document.household.id,
@@ -90,7 +92,7 @@ export function FamilyProfiles({ products }: { products: readonly Pick<Product, 
       </div>
       {!loaded.document?.members.length ? <section className="recipe-empty">
         <h3>Добавьте первого участника</h3>
-        <p>Начните с имени. Цель, дневные ориентиры и предпочтения можно указать позже.</p>
+        <p>Начните с имени. Параметры для расчёта питания и предпочтения можно указать позже.</p>
       </section> : <ul className="family-member-list">
         {loaded.document.members.map((member) => <li className="family-panel family-member" key={member.id}>
           <div className="family-member-heading">
@@ -104,11 +106,7 @@ export function FamilyProfiles({ products }: { products: readonly Pick<Product, 
               ["Вес", member.weightKg === null ? "Не указан" : `${amount.format(member.weightKg)} кг`],
             ]).map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}
           </dl>
-          <dl className="family-summary family-target-summary">
-            {([
-              ["calories", "Энергия", "ккал"], ["protein", "Белки", "г"], ["fat", "Жиры", "г"], ["carbohydrates", "Углеводы", "г"],
-            ] as const).map(([key, label, unit]) => <div key={key}><dt>{label} / день</dt><dd>{member.dailyTargets[key] === null ? "Не задано" : <>{amount.format(member.dailyTargets[key].value)} {unit}<small>Задано вручную</small></>}</dd></div>)}
-          </dl>
+          <NutritionRecommendation inputs={member} />
           <p className="recipe-small">{member.restrictions.status === "not-specified" ? "Ограничения не указаны" : `Раздел ограничений заполнен. Записей: ${member.restrictions.items.length}`}. Предпочтений: {member.preferences.length}.</p>
         </li>)}
       </ul>}

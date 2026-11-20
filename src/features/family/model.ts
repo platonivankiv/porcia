@@ -14,6 +14,19 @@ export type DailyTargets = Readonly<{
   fat: ManualTarget | null;
   carbohydrates: ManualTarget | null;
 }>;
+export type ApplicabilityAnswer = "yes" | "no" | "unknown" | null;
+export type NutritionCalculationSettings = Readonly<{
+  sexForEquation: "male" | "female" | null;
+  activity: "inactive" | "low-active" | "active" | "very-active" | null;
+  training: "none" | "regular-other" | "regular-strength" | null;
+  pregnancyOrLactation: ApplicabilityAnswer;
+  specialNutritionNeeds: ApplicabilityAnswer;
+  eatingOrUnderfuellingConcerns: ApplicabilityAnswer;
+}>;
+export const emptyCalculationSettings: NutritionCalculationSettings = {
+  sexForEquation: null, activity: null, training: null,
+  pregnancyOrLactation: null, specialNutritionNeeds: null, eatingOrUnderfuellingConcerns: null,
+};
 export type FamilyMember = Readonly<{
   id: string;
   householdId: string;
@@ -24,11 +37,13 @@ export type FamilyMember = Readonly<{
   goal: NutritionGoal | null;
   restrictions: Restrictions;
   preferences: readonly FoodPreference[];
-  dailyTargets: DailyTargets;
+  calculation: NutritionCalculationSettings;
+  // Archive from POR-007, never an input to the automatic recommendation.
+  legacyDailyTargets?: DailyTargets;
 }>;
 export type Household = Readonly<{ id: string; displayName: string }>;
 export type FamilyStorageDocument = Readonly<{
-  version: 1;
+  version: 2;
   household: Household;
   members: readonly FamilyMember[];
 }>;

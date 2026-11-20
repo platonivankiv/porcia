@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { emptyCalculationSettings } from "./model";
 import { parseMemberForm } from "./validation";
 
 describe("family profile input", () => {
@@ -12,7 +13,7 @@ describe("family profile input", () => {
       value: {
         displayName: "Тестовый участник", ageYears: null, heightCm: null, weightKg: null,
         goal: null, restrictions: { status: "not-specified" }, preferences: [],
-        dailyTargets: { calories: null, protein: null, fat: null, carbohydrates: null },
+        calculation: emptyCalculationSettings,
       },
     });
   });
@@ -23,14 +24,14 @@ it("accepts zero age and decimal comma/dot without calculating nutrition", () =>
   Object.entries({ displayName: "Тест", ageYears: "0", heightCm: "52,5", weightKg: "3.25", goal: "recomposition", calories: "1800,5", protein: "100.25", fat: "0" }).forEach(([key, value]) => form.set(key, value));
   expect(parseMemberForm(form, [])).toMatchObject({ ok: true, value: {
     ageYears: 0, heightCm: 52.5, weightKg: 3.25, goal: "recomposition",
-    dailyTargets: { calories: { value: 1800.5, source: "manual" }, protein: { value: 100.25, source: "manual" }, fat: { value: 0, source: "manual" }, carbohydrates: null },
+    calculation: emptyCalculationSettings,
   } });
 });
 
 it.each([
   ["ageYears", "1.5"], ["ageYears", "-1"], ["ageYears", "9007199254740992"],
   ["heightCm", "0"], ["weightKg", "-2"], ["weightKg", "Infinity"],
-  ["calories", "0"], ["protein", "-1"], ["fat", "NaN"], ["carbohydrates", "2abc"],
+  ["sexForEquation", "other"], ["activity", "daily"], ["training", "yes"], ["specialNutritionNeeds", "false"],
   ["weightKg", "1e3"], ["goal", "unknown"],
 ])("rejects invalid %s=%s", (key, value) => {
   const form = new FormData();
@@ -69,4 +70,14 @@ it("rejects products outside the catalog", () => {
   form.set("displayName", "Тест");
   form.append("dislikeProducts", "missing");
   expect(parseMemberForm(form, [])).toMatchObject({ ok: false, errors: { dislikeProducts: expect.any(String) } });
+});
+
+it("saves calculation parameters and ignores submitted legacy targets", () => {
+  const form = new FormData();
+  Object.entries({displayName: "Тест", sexForEquation: "female", activity: "active", training: "regular-strength", pregnancyOrLactation: "no", specialNutritionNeeds: "unknown", eatingOrUnderfuellingConcerns: "no", calories: "9999"}).forEach(([key, value]) => form.set(key, value));
+  const result = parseMemberForm(form, []);
+  expect(result).toMatchObject({ok: true, value: {calculation: {sexForEquation: "female", activity: "active", training: "regular-strength", specialNutritionNeeds: "unknown"}}});
+  if (!result.ok) throw new Error("Expected profile");
+  expect(result.value).not.toHaveProperty("dailyTargets");
+  expect(result.value).not.toHaveProperty("legacyDailyTargets");
 });

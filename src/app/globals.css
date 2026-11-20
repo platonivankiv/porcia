@@ -222,3 +222,16 @@
   .family-member-heading .family-button { width: 100%; }
 }
 @media (prefers-reduced-motion: reduce) { .family-button { transition: none; } }
+
+.family-recommendation { margin-top: 20px; }
+.family-recommendation-panel { margin-top: 20px; }
+.family-recommendation-panel > .family-recommendation { margin-top: 0; }
+.family-recommendation > p, .family-method p { margin-top: 12px; }
+.family-recommendation h3 { font-size: 21px; }
+.family-method { margin-top: 16px; color: var(--recipe-muted); font-size: 14px; }
+.family-method summary { display: flex; align-items: center; min-height: 44px; cursor: pointer; color: var(--recipe-green); text-decoration: underline; text-underline-offset: 3px; }
+.family-method a { color: var(--recipe-green); text-underline-offset: 3px; overflow-wrap: anywhere; }
+.family-method ul { padding-left: 20px; }
+.family-method li + li { margin-top: 8px; }
+.family-applicability-title { margin-top: 24px !important; }
+.family-nutrition-note { padding-left: 12px; border-left: 2px solid var(--recipe-border); font-size: 14px; }
