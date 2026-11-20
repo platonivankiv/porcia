@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Nutrition } from "./model";
 import { formatAmount } from "./recipe-format";
 
-export function RecipeHeader() {
+export function RecipeHeader({ section = "recipes" }: { section?: "recipes" | "family" }) {
   return (
     <>
       <a className="recipe-skip" href="#recipe-content">Перейти к содержимому</a>
@@ -13,7 +13,8 @@ export function RecipeHeader() {
             Порция<span className="recipe-brand-note">Семейное питание</span>
           </Link>
           <nav aria-label="Основная навигация">
-            <Link className="recipe-nav-link" href="/recipes">Рецепты</Link>
+            <Link className="recipe-nav-link" href="/recipes" aria-current={section === "recipes" ? "location" : undefined}>Рецепты</Link>
+            <Link className="recipe-nav-link" href="/family" aria-current={section === "family" ? "location" : undefined}>Семья</Link>
           </nav>
         </div>
       </header>
