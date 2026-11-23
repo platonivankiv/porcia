@@ -111,3 +111,28 @@ it.each([
   expect(saveFamily(() => storage, document, [], raw).ok).toBe(false);
   expect(storage.getItem(FAMILY_STORAGE_KEY)).toBe(raw);
 });
+
+it.each(["yes", "no", "unknown", null] as const)("round-trips original v2 compatibility answers (%s) without rewriting on read", (answer) => {
+  const old = { ...document, members: [{ ...document.members[0], calculation: {
+    sexForEquation: "female", activity: "active", training: "regular-strength",
+    pregnancyOrLactation: answer, specialNutritionNeeds: answer, eatingOrUnderfuellingConcerns: answer,
+  } }] };
+  const raw = JSON.stringify(old);
+  const storage = memory(raw);
+  const loaded = loadFamily(() => storage, []);
+  expect(loaded).toEqual({ ok: true, document: old, snapshot: raw });
+  expect(storage.getItem(FAMILY_STORAGE_KEY)).toBe(raw);
+  if (!loaded.ok || !loaded.document) throw new Error("Expected original v2 document");
+  expect(saveFamily(() => storage, loaded.document, [], raw).ok).toBe(true);
+  expect(loadFamily(() => storage, [])).toMatchObject({ ok: true, document: old });
+});
+
+it("saves and reloads a name-only profile without removed calculation answers", () => {
+  const current: FamilyStorageDocument = { ...document, members: [{ ...document.members[0],
+    ageYears: null, heightCm: null, weightKg: null, goal: null,
+    calculation: { sexForEquation: null, activity: null, training: null },
+  }] };
+  const storage = memory();
+  expect(saveFamily(() => storage, current, [], null).ok).toBe(true);
+  expect(loadFamily(() => storage, [])).toMatchObject({ ok: true, document: current });
+});

@@ -24,7 +24,7 @@ export function NutritionRecommendation({ inputs, live = false }: { inputs: Calc
           {result.warnings.map((warning) => <p className="family-nutrition-note" key={warning}>{warning}</p>)}
         </>}
       </>}
-    <p className="recipe-small">Стартовые ориентиры Porcia, не индивидуальная медицинская норма. Скорость изменения веса не прогнозируется.</p>
+    <p className="recipe-small">КБЖУ — расчётные ориентиры. Они не учитывают индивидуальные медицинские обстоятельства.</p>
     <details className="family-method"><summary>Как выполнен расчёт</summary>
       <p>Энергия поддержания оценивается по EER 2023 для взрослых от 19 лет. Общая активность уже включает тренировки; калории тренировок повторно не добавляются. Рекомпозиция использует поддержание энергии и отдельный белковый ориентир.</p>
       <p><a href="https://www.canada.ca/en/health-canada/services/food-nutrition/healthy-eating/dietary-reference-intakes/tables/equations-estimate-energy-requirement.html">Уравнения и категории активности — Health Canada</a>. Методика Porcia: {METHOD_VERSION}.</p>

@@ -13,7 +13,7 @@ describe("family profile input", () => {
       value: {
         displayName: "Тестовый участник", ageYears: null, heightCm: null, weightKg: null,
         goal: null, restrictions: { status: "not-specified" }, preferences: [],
-        calculation: emptyCalculationSettings,
+        calculation: {sexForEquation: null, activity: null, training: null},
       },
     });
   });
@@ -31,7 +31,7 @@ it("accepts zero age and decimal comma/dot without calculating nutrition", () =>
 it.each([
   ["ageYears", "1.5"], ["ageYears", "-1"], ["ageYears", "9007199254740992"],
   ["heightCm", "0"], ["weightKg", "-2"], ["weightKg", "Infinity"],
-  ["sexForEquation", "other"], ["activity", "daily"], ["training", "yes"], ["specialNutritionNeeds", "false"],
+  ["sexForEquation", "other"], ["activity", "daily"], ["training", "yes"],
   ["weightKg", "1e3"], ["goal", "unknown"],
 ])("rejects invalid %s=%s", (key, value) => {
   const form = new FormData();
@@ -72,12 +72,13 @@ it("rejects products outside the catalog", () => {
   expect(parseMemberForm(form, [])).toMatchObject({ ok: false, errors: { dislikeProducts: expect.any(String) } });
 });
 
-it("saves calculation parameters and ignores submitted legacy targets", () => {
+it("saves only current calculation parameters and ignores removed answers and legacy targets", () => {
   const form = new FormData();
   Object.entries({displayName: "Тест", sexForEquation: "female", activity: "active", training: "regular-strength", pregnancyOrLactation: "no", specialNutritionNeeds: "unknown", eatingOrUnderfuellingConcerns: "no", calories: "9999"}).forEach(([key, value]) => form.set(key, value));
   const result = parseMemberForm(form, []);
-  expect(result).toMatchObject({ok: true, value: {calculation: {sexForEquation: "female", activity: "active", training: "regular-strength", specialNutritionNeeds: "unknown"}}});
+  expect(result).toMatchObject({ok: true, value: {calculation: {sexForEquation: "female", activity: "active", training: "regular-strength"}}});
   if (!result.ok) throw new Error("Expected profile");
+  expect(result.value.calculation).toEqual({sexForEquation: "female", activity: "active", training: "regular-strength"});
   expect(result.value).not.toHaveProperty("dailyTargets");
   expect(result.value).not.toHaveProperty("legacyDailyTargets");
 });

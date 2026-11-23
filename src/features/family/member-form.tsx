@@ -44,17 +44,17 @@ export function MemberForm({ member, products, onSave, onCancel }: {
   }
   function numberField(name: string, label: string, value: number | null | undefined, integer = false) {
     return <div className="family-field" key={name}>
-      <label htmlFor={name}>{label}</label>
+      <label htmlFor={name}>{label} <span aria-hidden="true">*</span></label>
       <input id={name} name={name} type="text" inputMode={integer ? "numeric" : "decimal"}
-        defaultValue={value == null ? "" : inputNumber.format(value)} aria-invalid={!!errors[name]} aria-describedby={errors[name] ? `${name}-error` : undefined} />
+        defaultValue={value == null ? "" : inputNumber.format(value)} aria-invalid={!!errors[name]} aria-describedby={`member-fields-hint${errors[name] ? ` ${name}-error` : ""}`} />
       {feedback(name)}
     </div>;
   }
   function settingField(name: keyof typeof calculationOptions, label: string, hint?: string) {
     return <div className="family-field" key={name}>
-      <label htmlFor={name}>{label}</label>
+      <label htmlFor={name}>{label} <span aria-hidden="true">*</span></label>
       <select id={name} name={name} defaultValue={member?.calculation[name] ?? ""} aria-invalid={!!errors[name]}
-        aria-describedby={[hint ? `${name}-hint` : "", errors[name] ? `${name}-error` : ""].filter(Boolean).join(" ") || undefined}>
+        aria-describedby={["member-fields-hint", hint ? `${name}-hint` : "", errors[name] ? `${name}-error` : ""].filter(Boolean).join(" ") || undefined}>
         <option value="">Не указано</option>
         {Object.entries(calculationOptions[name]).map(([value, text]) => <option value={value} key={value}>{text}</option>)}
       </select>
@@ -89,11 +89,11 @@ export function MemberForm({ member, products, onSave, onCancel }: {
   return <form className="family-form" onSubmit={submit} onChange={(event) => setPreview(parseCalculationInputs(new FormData(event.currentTarget)))} noValidate>
     <section className="family-panel" aria-labelledby="member-heading">
       <h2 id="member-heading">{member ? "Редактирование участника" : "Новый участник"}</h2>
-      <p className="recipe-small">Для создания достаточно имени. Остальное можно заполнить позже.</p>
+      <p className="recipe-small" id="member-fields-hint">Имя обязательно для сохранения профиля. Остальные отмеченные поля необходимы для автоматического расчёта КБЖУ. Заполненность всех полей не гарантирует, что расчёт будет доступен.</p>
       <div className="family-field">
-        <label htmlFor="displayName">Отображаемое имя <span className="recipe-small">(обязательно)</span></label>
+        <label htmlFor="displayName">Отображаемое имя <span aria-hidden="true">*</span></label>
         <input id="displayName" name="displayName" type="text" autoComplete="off" required defaultValue={member?.displayName ?? ""}
-          aria-invalid={!!errors.displayName} aria-describedby={errors.displayName ? "displayName-error" : undefined} />
+          aria-invalid={!!errors.displayName} aria-describedby={`member-fields-hint${errors.displayName ? " displayName-error" : ""}`} />
         {feedback("displayName")}
       </div>
       <div className="family-fields family-physical-fields">
@@ -103,8 +103,8 @@ export function MemberForm({ member, products, onSave, onCancel }: {
       </div>
       <p className="recipe-small">Для сохранения профиля параметры необязательны. Для взрослого расчёта нужны возраст от 19 лет, рост и вес. Возраст указан на момент заполнения и автоматически не меняется.</p>
       <div className="family-field">
-        <label htmlFor="goal">Цель питания</label>
-        <select id="goal" name="goal" defaultValue={member?.goal ?? ""} aria-invalid={!!errors.goal} aria-describedby={errors.goal ? "goal-error" : undefined}>
+        <label htmlFor="goal">Цель питания <span aria-hidden="true">*</span></label>
+        <select id="goal" name="goal" defaultValue={member?.goal ?? ""} aria-invalid={!!errors.goal} aria-describedby={`member-fields-hint${errors.goal ? " goal-error" : ""}`}>
           <option value="">Не выбрана</option>
           {Object.entries(goalLabels).map(([value, label]) => <option value={value} key={value}>{label}</option>)}
         </select>
@@ -127,11 +127,6 @@ export function MemberForm({ member, products, onSave, onCancel }: {
         </ul>
         <p className="recipe-small">Это примеры Health Canada, а не перевод количества тренировок в коэффициент.</p>
       </details>
-      <h3 className="family-applicability-title">Применимость взрослого сценария</h3>
-      <p className="recipe-small">Короткие вопросы ограничивают возможности расчёта и не являются медицинской диагностикой. «Не знаю» не считается отсутствием риска.</p>
-      {settingField("pregnancyOrLactation", "Беременность или грудное вскармливание?")}
-      {settingField("specialNutritionNeeds", "Есть особые потребности в питании?", "Например, из-за заболевания, лечения или операции: заболевание почек, бариатрическая операция, лечение диабета с риском гипогликемии.")}
-      {settingField("eatingOrUnderfuellingConcerns", "Есть обстоятельства, требующие индивидуального подхода к питанию?", "Например, расстройство пищевого поведения, непреднамеренное похудение или известные проблемы недостаточного питания и восстановления.")}
     </section>
     <div className="family-panel family-recommendation-panel">
       <NutritionRecommendation inputs={preview.ok ? preview.value : null} live />

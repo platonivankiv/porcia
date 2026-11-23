@@ -11,6 +11,8 @@ export const calculationOptions = {
   sexForEquation: { male: "Мужская", female: "Женская" },
   activity: { inactive: "Обычная бытовая активность", "low-active": "Дополнительно много хожу", active: "Активный день с физической нагрузкой", "very-active": "Очень высокая суммарная нагрузка" },
   training: { none: "Без регулярных тренировок", "regular-other": "Регулярные тренировки без силовых", "regular-strength": "Регулярные силовые тренировки" },
+} as const;
+const compatibilityCalculationOptions = {
   pregnancyOrLactation: { no: "Нет", yes: "Да", unknown: "Не знаю" },
   specialNutritionNeeds: { no: "Нет", yes: "Да", unknown: "Не знаю" },
   eatingOrUnderfuellingConcerns: { no: "Нет", yes: "Да", unknown: "Не знаю" },
@@ -43,9 +45,6 @@ export function parseCalculationInputs(form: FormData): Result<CalculationInputs
     calculation: {
       sexForEquation: choice("sexForEquation", calculationOptions.sexForEquation),
       activity: choice("activity", calculationOptions.activity), training: choice("training", calculationOptions.training),
-      pregnancyOrLactation: choice("pregnancyOrLactation", calculationOptions.pregnancyOrLactation),
-      specialNutritionNeeds: choice("specialNutritionNeeds", calculationOptions.specialNutritionNeeds),
-      eatingOrUnderfuellingConcerns: choice("eatingOrUnderfuellingConcerns", calculationOptions.eatingOrUnderfuellingConcerns),
     },
   };
   return Object.keys(errors).length ? { ok: false, errors } : { ok: true, value };
@@ -123,7 +122,10 @@ function validDocument(value: unknown, productIds: readonly string[], version: 1
     } else {
       const settings = member.calculation;
       if (!record(settings) || "dailyTargets" in member || !Object.entries(calculationOptions).every(([key, labels]) =>
-        settings[key] === null || (typeof settings[key] === "string" && Object.hasOwn(labels, settings[key])))) return false;
+        settings[key] === null || (typeof settings[key] === "string" && Object.hasOwn(labels, settings[key])))
+        || !Object.entries(compatibilityCalculationOptions).every(([key, labels]) =>
+          !Object.hasOwn(settings, key) || settings[key] === null
+          || (typeof settings[key] === "string" && Object.hasOwn(labels, settings[key])))) return false;
       if (member.legacyDailyTargets !== undefined && !legacyTargets(member.legacyDailyTargets)) return false;
     }
     const restrictions = member.restrictions;

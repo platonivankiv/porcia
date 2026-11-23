@@ -1,6 +1,6 @@
 import type { FamilyMember } from "./model";
 
-export const METHOD_VERSION = "porcia-eer2023-v1";
+export const METHOD_VERSION = "porcia-eer2023-v2";
 export type CalculationInputs = Pick<FamilyMember, "ageYears" | "heightCm" | "weightKg" | "goal" | "calculation">;
 type Values = Readonly<{ calories: number; protein: number; fat: number; carbohydrates: number }>;
 export type NutritionRecommendation =
@@ -32,9 +32,6 @@ export function calculateNutritionRecommendation(input: CalculationInputs): Nutr
   }
   if (!Number.isSafeInteger(ageYears) || ageYears < 19) return { status: "unavailable", reason: "Взрослый расчёт EER доступен только с 19 лет. Для детей и подростков он не применяется." };
   if (![heightCm, weightKg].every((value) => Number.isFinite(value) && value > 0)) return { status: "unavailable", reason: "Проверьте рост и вес: нужны положительные конечные значения." };
-  if ([calculation.pregnancyOrLactation, calculation.specialNutritionNeeds, calculation.eatingOrUnderfuellingConcerns].some((answer) => answer !== "no")) {
-    return { status: "unavailable", reason: "Уточните применимость взрослого сценария. При беременности, лактации, особых потребностях в питании или сомнениях нужны индивидуальные ориентиры; обычный расчёт недоступен." };
-  }
   const bmi = weightKg / ((heightCm / 100) ** 2);
   if (!Number.isFinite(bmi) || bmi <= 0) return { status: "unavailable", reason: "Соотношение роста и веса выходит за расчётный диапазон. Проверьте введённые параметры." };
   const [base, age, height, weight] = equations[calculation.sexForEquation][calculation.activity];

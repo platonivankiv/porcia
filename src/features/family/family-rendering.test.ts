@@ -43,3 +43,27 @@ it("renders derived read-only nutrition without manual inputs", () => {
   expect(html).toContain("EER 2023");
   expect(html).not.toContain("<input");
 });
+
+it("removes applicability questions and marks calculation inputs without requiring them for saving", () => {
+  const html = renderToStaticMarkup(createElement(MemberForm, { products: [], onSave: () => null, onCancel: () => {} }));
+  for (const removed of ["Применимость взрослого сценария", "pregnancyOrLactation", "specialNutritionNeeds", "eatingOrUnderfuellingConcerns", "Беременность", "заболевания"]) {
+    expect(html).not.toContain(removed);
+  }
+  for (const name of ["displayName", "ageYears", "heightCm", "weightKg", "goal", "sexForEquation", "activity", "training"]) {
+    const label = html.match(new RegExp(`<label[^>]*for="${name}"[^>]*>(.*?)</label>`))?.[1];
+    expect(label).toContain("*");
+    const control = html.match(new RegExp(`<(?:input|select)[^>]*name="${name}"[^>]*>`))?.[0];
+    expect(control).toBeDefined();
+    expect(control).toContain("member-fields-hint");
+    expect(control?.includes('required=""')).toBe(name === "displayName");
+  }
+  expect(html).toContain("Имя обязательно для сохранения профиля");
+  expect(html).toContain("Остальные отмеченные поля необходимы для автоматического расчёта КБЖУ");
+  expect(html).toContain("Заполненность всех полей не гарантирует, что расчёт будет доступен");
+});
+
+it("explains the limits and current version of calculated targets", () => {
+  const html = renderToStaticMarkup(createElement(NutritionRecommendation, {inputs: null}));
+  expect(html).toContain("КБЖУ — расчётные ориентиры. Они не учитывают индивидуальные медицинские обстоятельства");
+  expect(html).toContain("porcia-eer2023-v2");
+});

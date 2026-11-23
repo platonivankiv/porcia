@@ -233,7 +233,6 @@
 .family-method a { color: var(--recipe-green); text-underline-offset: 3px; overflow-wrap: anywhere; }
 .family-method ul { padding-left: 20px; }
 .family-method li + li { margin-top: 8px; }
-.family-applicability-title { margin-top: 24px !important; }
 .family-nutrition-note { padding-left: 12px; border-left: 2px solid var(--recipe-border); font-size: 14px; }
 
 .family-recipe-portions { margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--recipe-border); }

@@ -19,13 +19,13 @@ export type NutritionCalculationSettings = Readonly<{
   sexForEquation: "male" | "female" | null;
   activity: "inactive" | "low-active" | "active" | "very-active" | null;
   training: "none" | "regular-other" | "regular-strength" | null;
-  pregnancyOrLactation: ApplicabilityAnswer;
-  specialNutritionNeeds: ApplicabilityAnswer;
-  eatingOrUnderfuellingConcerns: ApplicabilityAnswer;
+  // Compatibility data from POR-008; never displayed or used in calculations.
+  pregnancyOrLactation?: ApplicabilityAnswer;
+  specialNutritionNeeds?: ApplicabilityAnswer;
+  eatingOrUnderfuellingConcerns?: ApplicabilityAnswer;
 }>;
 export const emptyCalculationSettings: NutritionCalculationSettings = {
   sexForEquation: null, activity: null, training: null,
-  pregnancyOrLactation: null, specialNutritionNeeds: null, eatingOrUnderfuellingConcerns: null,
 };
 export type FamilyMember = Readonly<{
   id: string;

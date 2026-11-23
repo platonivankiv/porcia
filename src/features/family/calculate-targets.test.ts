@@ -3,8 +3,7 @@ import { calculateNutritionRecommendation, type CalculationInputs } from "./calc
 
 const inputs: CalculationInputs = {
   ageYears: 30, heightCm: 180, weightKg: 80, goal: "maintenance",
-  calculation: { sexForEquation: "male", activity: "inactive", training: "none",
-    pregnancyOrLactation: "no", specialNutritionNeeds: "no", eatingOrUnderfuellingConcerns: "no" },
+  calculation: { sexForEquation: "male", activity: "inactive", training: "none" },
 };
 
 describe("EER 2023 adult equations", () => {
@@ -52,9 +51,10 @@ it.each(["muscle-gain", "recomposition"] as const)("shows only maintenance witho
 it.each([0, 18, 18.5, -1, NaN, Infinity])("does not issue an adult estimate for invalid/unsupported age %s", (ageYears) => {
   expect(calculateNutritionRecommendation({ ...inputs, ageYears }).status).toBe("unavailable");
 });
-it.each(["pregnancyOrLactation", "specialNutritionNeeds", "eatingOrUnderfuellingConcerns"] as const)("does not treat unknown or missing %s as absent risk", (key) => {
-  for (const value of ["yes", "unknown", null] as const) {
-    expect(calculateNutritionRecommendation({ ...inputs, calculation: { ...inputs.calculation, [key]: value } }).status).toBe("unavailable");
+it.each(["pregnancyOrLactation", "specialNutritionNeeds", "eatingOrUnderfuellingConcerns"] as const)("ignores compatibility answer %s", (key) => {
+  for (const value of ["yes", "no", "unknown", null] as const) {
+    expect(calculateNutritionRecommendation({ ...inputs, calculation: { ...inputs.calculation, [key]: value } }))
+      .toEqual(calculateNutritionRecommendation(inputs));
   }
 });
 it("keeps energy partial at BMI 30 without manufacturing protein or using legacy targets", () => {

@@ -46,6 +46,7 @@ export function FamilyProfiles({ products }: { products: readonly Pick<Product, 
     const member: FamilyMember = {
       ...(editing && editing !== "new" ? editing : {}),
       ...value,
+      calculation: { ...(editing && editing !== "new" ? editing.calculation : {}), ...value.calculation },
       id: editing && editing !== "new" ? editing.id : crypto.randomUUID(),
       householdId: document.household.id,
     };
