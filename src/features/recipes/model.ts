@@ -56,6 +56,14 @@ export type RecipeComponent = Readonly<{
 	expectedYieldGrams?: number
 }>
 
+export type MemberRecipePortion = Readonly<{
+	memberId: string
+	components: readonly Readonly<{
+		componentId: string
+		baseServings: number
+	}>[]
+}>
+
 export type Recipe = Readonly<{
 	id: string
 	name: string

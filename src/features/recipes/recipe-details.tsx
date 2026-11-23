@@ -4,6 +4,7 @@ import { RecipePhoto } from "./recipe-photo";
 import { ImageCredits, RecipeHeader } from "./recipe-ui";
 import { formatServings, recipeCategoryLabel } from "./recipe-format";
 import { RecipePortions } from "./recipe-portions";
+import { FamilyRecipePortions } from "./family-recipe-portions";
 
 const allergenLabels: Record<Allergen, string> = { milk: "Молоко", walnut: "Грецкие орехи" };
 
@@ -47,6 +48,7 @@ export function RecipeDetails({ recipe, products }: { recipe: Recipe; products: 
             </aside>}
           </section>
         </RecipePortions>
+        <FamilyRecipePortions key={`family-${recipe.id}`} recipe={recipe} products={products} />
       </main>
       {recipe.image?.origin === "ai" && <ImageCredits />}
     </div>

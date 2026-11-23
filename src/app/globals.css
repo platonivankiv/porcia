@@ -235,3 +235,18 @@
 .family-method li + li { margin-top: 8px; }
 .family-applicability-title { margin-top: 24px !important; }
 .family-nutrition-note { padding-left: 12px; border-left: 2px solid var(--recipe-border); font-size: 14px; }
+
+.family-recipe-portions { margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--recipe-border); }
+.family-recipe-portions > p { margin-top: 12px; }
+.family-recipe-portions .family-panel { margin-top: 24px; }
+.family-recipe-portions a { color: var(--recipe-green); text-underline-offset: 3px; }
+.family-recipe-portions .recipe-button { color: #fff; }
+.portion-components { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 24px; margin-top: 20px; }
+.portion-components > div { min-width: 0; overflow-wrap: anywhere; }
+.portion-members { display: flex; flex-wrap: wrap; gap: 8px 28px; overflow-wrap: anywhere; }
+.portion-member { min-width: 0; }
+.portion-member legend { padding-inline: 8px; font-size: 21px; font-weight: 600; overflow-wrap: anywhere; max-width: 100%; }
+.portion-member .family-field { margin-top: 0; }
+.portion-result { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--recipe-border); }
+.portion-result h3 { margin-bottom: 16px; }
+.portion-result .recipe-nutrients dd { overflow-wrap: anywhere; white-space: normal; }
