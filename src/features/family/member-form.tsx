@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import Image from "next/image";
 import type { Product } from "../recipes/model";
 import { emptyCalculationSettings, type FamilyMember, type FoodSubject } from "./model";
 import { calculationOptions, goalLabels, parseCalculationInputs, parseMemberForm } from "./validation";
 
+import { FamilyIllustration } from "./family-illustration";
 import { NutritionRecommendation } from "./nutrition-recommendation";
 
 type MemberValues = Omit<FamilyMember, "id" | "householdId">;
@@ -24,6 +26,7 @@ export function MemberForm({ member, products, onSave, onCancel }: {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [saveError, setSaveError] = useState<string | null>(null);
   const [recorded, setRecorded] = useState(member?.restrictions.status === "recorded");
+  const [sexForEquation, setSexForEquation] = useState(member?.calculation.sexForEquation ?? null);
   const restrictions = member?.restrictions.status === "recorded" ? member.restrictions.items : [];
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -67,95 +70,127 @@ export function MemberForm({ member, products, onSave, onCancel }: {
     const descriptions = subjects.flatMap((subject) => subject.kind === "description" ? [subject.label] : []).join("\n");
     return <fieldset className="family-food-fields">
       <legend>{label}</legend>
-      <div className="family-fields">
-        <div className="family-field">
-          <label htmlFor={`${prefix}Products`}>Продукты из каталога</label>
-          <select id={`${prefix}Products`} name={`${prefix}Products`} multiple size={4} defaultValue={selected}
-            aria-invalid={!!errors[`${prefix}Products`]} aria-describedby={`${prefix}-hint${errors[`${prefix}Products`] ? ` ${prefix}Products-error` : ""}`}>
-            {products.map((product) => <option key={product.id} value={product.id}>{product.name}</option>)}
-          </select>
-          <p id={`${prefix}-hint`} className="recipe-small">Можно выбрать несколько: на компьютере удерживайте Ctrl или ⌘.</p>
-          {feedback(`${prefix}Products`)}
+      <details className="family-product-picker" open={selected.length > 0 || !!errors[`${prefix}Products`]}>
+        <summary>Продукты из каталога</summary>
+        <div className="family-product-options" role="group" aria-label={`${label}: продукты из каталога`}>
+          {products.map((product) => <label className="family-product-option" htmlFor={`${prefix}-${product.id}`} key={product.id}>
+            <input id={`${prefix}-${product.id}`} type="checkbox" name={`${prefix}Products`} value={product.id}
+              defaultChecked={selected.includes(product.id)} aria-invalid={!!errors[`${prefix}Products`]}
+              aria-describedby={errors[`${prefix}Products`] ? `${prefix}Products-error` : undefined} />
+            {product.name}
+          </label>)}
+          {products.length === 0 && <p className="recipe-small">В каталоге пока нет продуктов. Добавьте запись своими словами.</p>}
         </div>
+      </details>
+      {feedback(`${prefix}Products`)}
+      <details className="family-free-text" open={descriptions.length > 0}>
+        <summary>Добавить запись своими словами</summary>
         <div className="family-field">
           <label htmlFor={`${prefix}Descriptions`}>Своими словами</label>
           <textarea id={`${prefix}Descriptions`} name={`${prefix}Descriptions`} rows={4} defaultValue={descriptions}
             aria-describedby={`${prefix}-description-hint`} />
           <p id={`${prefix}-description-hint`} className="recipe-small">Каждая запись — с новой строки.</p>
         </div>
-      </div>
+      </details>
     </fieldset>;
   }
   return <form className="family-form" onSubmit={submit} onChange={(event) => setPreview(parseCalculationInputs(new FormData(event.currentTarget)))} noValidate>
-    <section className="family-panel" aria-labelledby="member-heading">
-      <h2 id="member-heading">{member ? "Редактирование участника" : "Новый участник"}</h2>
-      <p className="recipe-small" id="member-fields-hint">Имя обязательно для сохранения профиля. Остальные отмеченные поля необходимы для автоматического расчёта КБЖУ. Заполненность всех полей не гарантирует, что расчёт будет доступен.</p>
-      <div className="family-field">
-        <label htmlFor="displayName">Отображаемое имя <span aria-hidden="true">*</span></label>
-        <input id="displayName" name="displayName" type="text" autoComplete="off" required defaultValue={member?.displayName ?? ""}
-          aria-invalid={!!errors.displayName} aria-describedby={`member-fields-hint${errors.displayName ? " displayName-error" : ""}`} />
-        {feedback("displayName")}
+    <div className="family-form-fields">
+      <section className="family-panel" aria-labelledby="member-heading">
+        <h2 id="member-heading">Основное</h2>
+        <p className="recipe-small" id="member-fields-hint">Имя обязательно для сохранения профиля. Остальные отмеченные поля необходимы для автоматического расчёта КБЖУ. Заполненность всех полей не гарантирует, что расчёт будет доступен.</p>
+        <div className="family-field">
+          <label htmlFor="displayName">Отображаемое имя <span aria-hidden="true">*</span></label>
+          <input id="displayName" name="displayName" type="text" autoComplete="off" required defaultValue={member?.displayName ?? ""}
+            aria-invalid={!!errors.displayName} aria-describedby={`member-fields-hint${errors.displayName ? " displayName-error" : ""}`} />
+          {feedback("displayName")}
+        </div>
+        <div className="family-fields family-physical-fields">
+          {numberField("ageYears", "Возраст, полных лет", member?.ageYears, true)}
+          {numberField("heightCm", "Рост, см", member?.heightCm)}
+          {numberField("weightKg", "Вес, кг", member?.weightKg)}
+        </div>
+        <p className="recipe-small">Для сохранения профиля параметры необязательны. Для взрослого расчёта нужны возраст от 19 лет, рост и вес. Возраст указан на момент заполнения и автоматически не меняется.</p>
+        <div className="family-field">
+          <label htmlFor="goal">Цель питания <span aria-hidden="true">*</span></label>
+          <select id="goal" name="goal" defaultValue={member?.goal ?? ""} aria-invalid={!!errors.goal} aria-describedby={`member-fields-hint${errors.goal ? " goal-error" : ""}`}>
+            <option value="">Не выбрана</option>
+            {Object.entries(goalLabels).map(([value, label]) => <option value={value} key={value}>{label}</option>)}
+          </select>
+          {feedback("goal")}
+        </div>
+      </section>
+      <section className="family-panel" aria-labelledby="calculation-heading">
+        <h2 id="calculation-heading">Параметры расчёта</h2>
+        <div className="family-fields">
+          <fieldset className="family-sex-field" aria-describedby="sexForEquation-hint member-fields-hint">
+            <legend>Пол: <span aria-hidden="true">*</span></legend>
+            <div className="family-sex-options">
+              {(["male", "female"] as const).map((value) => <label className="family-sex-option" htmlFor={`sexForEquation-${value}`} key={value}>
+                <input id={`sexForEquation-${value}`} name="sexForEquation" type="radio" value={value}
+                  checked={sexForEquation === value} onChange={() => setSexForEquation(value)}
+                  aria-describedby={`sexForEquation-hint member-fields-hint${errors.sexForEquation ? " sexForEquation-error" : ""}`} />
+                <span className="family-sex-art"><Image src={`/family/${value === "male" ? "man" : "woman"}.webp`}
+                  alt="" width={800} height={1391} sizes="(max-width: 760px) 40vw, 240px" /></span>
+                <span>{value === "male" ? "Мужской" : "Женский"}</span>
+              </label>)}
+            </div>
+            <p className="recipe-small" id="sexForEquation-hint">Категория для расчётной формулы. При отсутствии ответа значение не подставляется.</p>
+            <button className="family-text-button family-sex-clear" type="button" disabled={sexForEquation === null} onClick={(event) => {
+              const form = event.currentTarget.form;
+              if (!form) return;
+              const data = new FormData(form);
+              data.delete("sexForEquation");
+              setSexForEquation(null);
+              setPreview(parseCalculationInputs(data));
+            }}>Снять выбор</button>
+            {feedback("sexForEquation")}
+          </fieldset>
+          {settingField("training", "Тренировки", "Силовые нужны для рекомендации по набору мышц и рекомпозиции. Этот ответ не добавляет калории повторно.")}
+        </div>
+        {settingField("activity", "Общая активность", "Оценивайте весь обычный день: работу, перемещения, быт и тренировки вместе.")}
+        <details className="family-method"><summary>Примеры общей активности</summary>
+          <ul>
+            <li>Обычная бытовая: повседневные дела, например около 30 минут ходьбы и лёгкая работа по дому.</li>
+            <li>Дополнительно много хожу: бытовые дела плюс примерно 60–80 минут ходьбы со скоростью 5–7 км/ч.</li>
+            <li>Активный день: бытовые дела, ходьба и продолжительная физическая нагрузка, например велосипед и теннис.</li>
+            <li>Очень высокая: сочетание длительных нагрузок, например велосипед, бег и теннис в течение дня.</li>
+          </ul>
+          <p className="recipe-small">Это примеры Health Canada, а не перевод количества тренировок в коэффициент.</p>
+        </details>
+      </section>
+      <section className="family-panel" aria-labelledby="restrictions-heading">
+        <h2 id="restrictions-heading">Ограничения и аллергии</h2>
+        <p className="recipe-small">Ограничения сохраняются, но рецепты автоматически не проверяются. Текстовые записи и метки продуктов не подтверждают аллергенную безопасность.</p>
+        <label className="family-checkbox"><input type="checkbox" name="restrictionsRecorded" checked={recorded} onChange={(event) => setRecorded(event.target.checked)} />Раздел ограничений заполнен</label>
+        {!recorded && <p className="recipe-small">Ограничения не указаны. Это не означает их отсутствие.</p>}
+        <fieldset disabled={!recorded} hidden={!recorded} className="family-restrictions">
+          <legend className="sr-only">Записи ограничений</legend>
+          {foodFields("allergy", "Аллергии", restrictions.filter((item) => item.kind === "allergy").map((item) => item.subject))}
+          {foodFields("exclusion", "Строгие исключения", restrictions.filter((item) => item.kind === "exclusion").map((item) => item.subject))}
+        </fieldset>
+        {recorded && <p className="recipe-small">Если записей нет, раздел сохранится как заполненный без указанных ограничений.</p>}
+      </section>
+      <section className="family-panel" aria-labelledby="preferences-heading">
+        <h2 id="preferences-heading">Предпочтения в еде</h2>
+        <p className="recipe-small">Это пожелания, а не строгие запреты.</p>
+        {foodFields("like", "Нравится", member?.preferences.filter((item) => item.preference === "like").map((item) => item.subject) ?? [])}
+        {foodFields("dislike", "Не нравится", member?.preferences.filter((item) => item.preference === "dislike").map((item) => item.subject) ?? [])}
+      </section>
+      <div className="family-actions">
+        <button className="family-button" type="submit">Сохранить участника</button>
+        <button className="family-button family-button-secondary" type="button" onClick={onCancel}>Отмена</button>
       </div>
-      <div className="family-fields family-physical-fields">
-        {numberField("ageYears", "Возраст, полных лет", member?.ageYears, true)}
-        {numberField("heightCm", "Рост, см", member?.heightCm)}
-        {numberField("weightKg", "Вес, кг", member?.weightKg)}
+      <div role="alert">
+        {Object.keys(errors).length > 0 && <p className="family-field-error">Исправьте ошибки в полях: {Object.keys(errors).length}.</p>}
+        {saveError && <p className="family-field-error">{saveError}</p>}
       </div>
-      <p className="recipe-small">Для сохранения профиля параметры необязательны. Для взрослого расчёта нужны возраст от 19 лет, рост и вес. Возраст указан на момент заполнения и автоматически не меняется.</p>
-      <div className="family-field">
-        <label htmlFor="goal">Цель питания <span aria-hidden="true">*</span></label>
-        <select id="goal" name="goal" defaultValue={member?.goal ?? ""} aria-invalid={!!errors.goal} aria-describedby={`member-fields-hint${errors.goal ? " goal-error" : ""}`}>
-          <option value="">Не выбрана</option>
-          {Object.entries(goalLabels).map(([value, label]) => <option value={value} key={value}>{label}</option>)}
-        </select>
-        {feedback("goal")}
-      </div>
-    </section>
-    <section className="family-panel" aria-labelledby="calculation-heading">
-      <h2 id="calculation-heading">Параметры расчёта</h2>
-      <div className="family-fields">
-        {settingField("sexForEquation", "Половая категория для формулы", "Категория из опубликованного уравнения. При отсутствии ответа значение не подставляется.")}
-        {settingField("training", "Тренировки", "Силовые нужны для рекомендации по набору мышц и рекомпозиции. Этот ответ не добавляет калории повторно.")}
-      </div>
-      {settingField("activity", "Общая активность", "Оценивайте весь обычный день: работу, перемещения, быт и тренировки вместе.")}
-      <details className="family-method"><summary>Примеры общей активности</summary>
-        <ul>
-          <li>Обычная бытовая: повседневные дела, например около 30 минут ходьбы и лёгкая работа по дому.</li>
-          <li>Дополнительно много хожу: бытовые дела плюс примерно 60–80 минут ходьбы со скоростью 5–7 км/ч.</li>
-          <li>Активный день: бытовые дела, ходьба и продолжительная физическая нагрузка, например велосипед и теннис.</li>
-          <li>Очень высокая: сочетание длительных нагрузок, например велосипед, бег и теннис в течение дня.</li>
-        </ul>
-        <p className="recipe-small">Это примеры Health Canada, а не перевод количества тренировок в коэффициент.</p>
-      </details>
-    </section>
-    <div className="family-panel family-recommendation-panel">
-      <NutritionRecommendation inputs={preview.ok ? preview.value : null} live />
     </div>
-    <section className="family-panel" aria-labelledby="restrictions-heading">
-      <h2 id="restrictions-heading">Ограничения и аллергии</h2>
-      <p className="recipe-small">Ограничения сохраняются, но рецепты автоматически не проверяются. Текстовые записи и метки продуктов не подтверждают аллергенную безопасность.</p>
-      <label className="family-checkbox"><input type="checkbox" name="restrictionsRecorded" checked={recorded} onChange={(event) => setRecorded(event.target.checked)} />Раздел ограничений заполнен</label>
-      {!recorded && <p className="recipe-small">Ограничения не указаны. Это не означает их отсутствие.</p>}
-      <fieldset disabled={!recorded} hidden={!recorded} className="family-restrictions">
-        <legend className="sr-only">Записи ограничений</legend>
-        {foodFields("allergy", "Аллергии", restrictions.filter((item) => item.kind === "allergy").map((item) => item.subject))}
-        {foodFields("exclusion", "Строгие исключения", restrictions.filter((item) => item.kind === "exclusion").map((item) => item.subject))}
-      </fieldset>
-      {recorded && <p className="recipe-small">Если записей нет, раздел сохранится как заполненный без указанных ограничений.</p>}
-    </section>
-    <section className="family-panel" aria-labelledby="preferences-heading">
-      <h2 id="preferences-heading">Предпочтения в еде</h2>
-      <p className="recipe-small">Это пожелания, а не строгие запреты.</p>
-      {foodFields("like", "Нравится", member?.preferences.filter((item) => item.preference === "like").map((item) => item.subject) ?? [])}
-      {foodFields("dislike", "Не нравится", member?.preferences.filter((item) => item.preference === "dislike").map((item) => item.subject) ?? [])}
-    </section>
-    <div className="family-actions">
-      <button className="family-button" type="submit">Сохранить участника</button>
-      <button className="family-button family-button-secondary" type="button" onClick={onCancel}>Отмена</button>
-    </div>
-    <div role="alert">
-      {Object.keys(errors).length > 0 && <p className="family-field-error">Исправьте ошибки в полях: {Object.keys(errors).length}.</p>}
-      {saveError && <p className="family-field-error">{saveError}</p>}
-    </div>
+    <aside className="family-editor-summary" aria-label="Дневные ориентиры">
+      <FamilyIllustration />
+      <div className="family-panel family-recommendation-panel">
+        <NutritionRecommendation inputs={preview.ok ? preview.value : null} live />
+      </div>
+    </aside>
   </form>;
 }

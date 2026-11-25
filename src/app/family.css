@@ -1,0 +1,804 @@
+/* POR-DESIGN-003: A/v3 family screens. Legacy portion controls keep their styles. */
+.family-app > .family-main {
+  max-width: 1450px;
+}
+
+.family-app .family-page-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.family-page-heading > div {
+  min-width: 0;
+}
+
+.family-app .family-page-heading h1 {
+  font-size: 76px;
+  line-height: 1.03;
+  text-transform: uppercase;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
+.family-app .family-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  color: var(--porcia-muted);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.family-eyebrow::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--porcia-ink);
+}
+
+.family-app .family-local-note {
+  padding: 0 0 0 12px;
+  margin-bottom: 24px;
+  border-left: 3px solid var(--porcia-ink);
+  border-radius: 0;
+  background: transparent;
+  color: var(--porcia-muted);
+  font-size: 13px;
+}
+
+.family-app .family-status {
+  min-height: 0;
+  color: var(--porcia-ink);
+}
+
+.family-status:empty {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.family-list-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-block: 16px;
+  border-top: 1px solid var(--porcia-ink);
+  font-size: 14px;
+}
+
+.family-app .family-list-heading h2 {
+  font: inherit;
+  font-weight: 700;
+  letter-spacing: normal;
+}
+
+.family-app .family-count {
+  display: inline-block;
+  padding: 5px 10px;
+  margin-left: 4px;
+  border: 1px solid var(--porcia-ink);
+  border-radius: 6px;
+  background: var(--porcia-yellow);
+  color: var(--porcia-ink);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.family-app .family-member-list {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+}
+
+.family-member-list > li {
+  min-width: 0;
+}
+
+.family-member {
+  overflow: hidden;
+  border: var(--porcia-card-border);
+  border-radius: 22px;
+  background: var(--porcia-surface);
+}
+
+.family-member-visual {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 105px;
+  align-content: start;
+  gap: 12px;
+  min-height: 300px;
+  padding: 20px;
+  background: var(--porcia-lavender);
+}
+
+.family-member-list > li:nth-child(3n + 2) .family-member-visual {
+  background: var(--porcia-green);
+}
+
+.family-member-list > li:nth-child(3n) .family-member-visual {
+  background: var(--porcia-yellow);
+}
+
+.family-app .family-member-visual h3 {
+  grid-column: 1 / -1;
+  font-family: var(--font-display), "Arial Narrow", sans-serif;
+  font-size: 44px;
+  line-height: 1.08;
+  font-weight: 700;
+  letter-spacing: -.5px;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+
+.family-member-goal {
+  grid-column: 1;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.family-monogram {
+  display: grid;
+  grid-column: 2;
+  grid-row: 2 / 5;
+  align-self: center;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 1;
+  border: var(--porcia-card-border);
+  border-radius: 50%;
+  background: var(--porcia-surface);
+  font-family: var(--font-display), "Arial Narrow", sans-serif;
+  font-size: 64px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.family-member-visual .family-member-age {
+  grid-column: 1;
+  align-self: end;
+  margin-top: 40px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+
+.family-member-facts {
+  padding: 18px 20px;
+  border-top: 2px solid var(--porcia-ink);
+}
+
+.family-member-facts .family-recommendation {
+  margin-top: 0;
+}
+
+.family-app .family-member-facts h3 {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: normal;
+}
+
+.family-app .family-target-summary {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 12px;
+  padding-block: 0;
+  border: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.family-app .family-target-summary dd {
+  font-size: 26px;
+  line-height: 1.3;
+  font-weight: 800;
+  letter-spacing: -.5px;
+}
+
+.family-app .family-target-summary dd span {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: normal;
+}
+
+.family-member-facts .family-method {
+  margin-top: 4px;
+}
+
+.family-app .family-member-facts .family-target-summary {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px 8px;
+}
+
+.family-member-facts .family-target-summary > div:first-child {
+  display: flex;
+  grid-column: 1 / -1;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.family-app .family-member-facts .family-target-summary dd {
+  font-size: 23px;
+}
+
+.family-app .family-member-facts .family-target-summary > div:first-child dd {
+  font-size: 30px;
+}
+
+.family-app .family-summary dt {
+  color: var(--porcia-ink);
+  font-size: 13px;
+}
+
+.family-app .family-member-footer {
+  padding: 12px 20px;
+  border-top: 1px solid var(--porcia-ink);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.family-app .family-footnotes {
+  margin-top: 20px;
+  color: var(--porcia-muted);
+  font-size: 14px;
+}
+
+.family-footnotes p + p {
+  margin-top: 6px;
+}
+
+.family-storage-details {
+  margin-top: 12px;
+  color: var(--porcia-muted);
+  font-size: 14px;
+}
+
+.family-app .family-credits {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--porcia-ink);
+  color: var(--porcia-muted);
+  font-size: 13px;
+}
+
+.family-credits a {
+  color: inherit;
+  text-underline-offset: 3px;
+}
+
+.family-app summary {
+  min-height: 44px;
+  cursor: pointer;
+}
+
+.family-storage-details > summary {
+  padding-block: 10px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.family-app .family-button {
+  gap: 8px;
+  flex-shrink: 0;
+  border: var(--porcia-control-border);
+  border-radius: 12px;
+  background: var(--porcia-green);
+  color: var(--porcia-ink);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.family-app .family-button-secondary {
+  background: var(--porcia-surface);
+}
+
+.family-member-visual .family-button {
+  grid-column: 1;
+  justify-self: start;
+  gap: 6px;
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+.family-app .family-text-button {
+  color: var(--porcia-ink);
+}
+
+.family-app .family-back {
+  margin: 0 0 20px;
+}
+
+.family-app :is(button, input, select, textarea):focus-visible {
+  outline: 3px solid var(--porcia-ink);
+  outline-offset: 3px;
+}
+
+.family-app .family-page-heading h1:focus-visible {
+  outline: 3px solid var(--porcia-ink);
+  outline-offset: 5px;
+}
+
+.family-app .family-panel {
+  padding: 24px;
+  border: var(--porcia-card-border);
+  border-radius: 16px;
+  background: var(--porcia-surface);
+}
+
+.family-app .family-panel h2 {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -.6px;
+}
+
+.family-app .recipe-small {
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.family-app .family-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(280px, 1fr);
+  align-items: start;
+  gap: 24px;
+}
+
+.family-form-fields,
+.family-editor-summary {
+  min-width: 0;
+}
+
+.family-app .family-fields {
+  gap: 20px;
+}
+
+.family-form .family-fields:not(.family-physical-fields) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.family-app .family-field label {
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.family-app .family-field :is(input, select, textarea) {
+  border: 1.5px solid var(--porcia-ink);
+  border-radius: 8px;
+  background: var(--porcia-surface);
+  color: var(--porcia-ink);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.family-app .family-field [aria-invalid="true"] {
+  border: 2px solid #9d3828;
+}
+
+.family-app .family-recommendation-panel {
+  margin-top: 20px;
+}
+
+.family-app .family-recommendation-panel h3 {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -.6px;
+}
+
+.family-app .family-method {
+  color: var(--porcia-muted);
+  font-size: 14px;
+}
+
+.family-app .family-method :is(summary, a) {
+  color: var(--porcia-ink);
+}
+
+.family-app .family-checkbox input,
+.family-product-option input {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  accent-color: var(--porcia-ink);
+}
+
+.family-app .family-food-fields > legend {
+  margin-bottom: 12px;
+  font-weight: 800;
+}
+
+.family-product-picker {
+  overflow: hidden;
+  border: 1.5px solid var(--porcia-ink);
+  border-radius: 10px;
+}
+
+.family-product-picker > summary {
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.family-product-picker[open] > summary {
+  border-bottom: 1px solid var(--porcia-ink);
+}
+
+.family-product-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 16px;
+  padding: 8px 12px;
+}
+
+.family-product-option {
+  display: flex;
+  align-items: start;
+  gap: 10px;
+  min-height: 48px;
+  padding-block: 12px;
+  font-size: 14px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+
+.family-product-option input {
+  margin: 1px 0 0;
+}
+
+.family-free-text {
+  margin-top: 12px;
+}
+
+.family-free-text > summary {
+  padding-block: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.family-illustration {
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  min-width: 0;
+  padding: 20px 12px 8px;
+  border: var(--porcia-card-border);
+  border-radius: 18px;
+  background: var(--porcia-lavender);
+}
+
+.family-illustration img {
+  width: 32%;
+  height: 220px;
+  object-fit: contain;
+  object-position: center bottom;
+}
+
+.family-empty {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 32px;
+  padding: 32px;
+  border: var(--porcia-card-border);
+  border-radius: 22px;
+}
+
+.family-empty h2 {
+  font-family: var(--font-display), "Arial Narrow", sans-serif;
+  text-transform: uppercase;
+}
+
+.family-empty p {
+  margin-top: 16px;
+  color: var(--porcia-muted);
+}
+
+.family-empty .family-illustration {
+  border: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .family-app .family-button:hover {
+    background: #38dc80;
+    transform: translateY(-2px);
+  }
+
+  .family-app .family-button-secondary:hover {
+    background: var(--porcia-yellow);
+  }
+
+  .family-app summary:hover,
+  .family-app .family-text-button:hover,
+  .family-credits a:hover {
+    text-decoration-thickness: 2px;
+  }
+
+  .family-product-option:hover {
+    background: var(--porcia-background);
+  }
+}
+
+@media (max-width: 1150px) and (min-width: 761px) {
+  .family-app .family-page-heading h1 {
+    font-size: 64px;
+  }
+
+  .family-app .family-member-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .family-app .family-form {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .family-editor-summary {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+    gap: 20px;
+  }
+
+  .family-app .family-recommendation-panel {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 760px) {
+  .family-app .family-page-heading {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .family-app .family-page-heading h1 {
+    font-size: 52px;
+    letter-spacing: -1px;
+    line-height: 1.04;
+  }
+
+  .family-app .family-eyebrow {
+    margin-top: 16px;
+  }
+
+  .family-list-heading {
+    font-size: 13px;
+  }
+
+  .family-list-heading > p {
+    max-width: 160px;
+    text-align: right;
+  }
+
+  .family-app .family-member-list,
+  .family-app .family-form,
+  .family-empty {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .family-member-visual {
+    min-height: 240px;
+  }
+
+  .family-app .family-member-visual h3 {
+    font-size: 42px;
+  }
+
+  .family-member-visual .family-button {
+    width: auto;
+  }
+
+  .family-member-visual .family-member-age {
+    margin-top: 12px;
+  }
+
+  .family-app .family-panel,
+  .family-empty {
+    padding: 20px;
+  }
+
+  .family-app .family-panel h2 {
+    font-size: 23px;
+  }
+
+  .family-app .family-physical-fields {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .family-physical-fields label {
+    min-height: 3em;
+    text-wrap: balance;
+  }
+
+  .family-app .family-field label {
+    font-size: 14px;
+  }
+
+  .family-product-options {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .family-app .family-field input {
+    padding-inline: 8px;
+  }
+
+  .family-illustration img {
+    height: 180px;
+  }
+}
+
+@media (max-width: 359px) {
+  .family-app .family-page-heading h1 {
+    font-size: 46px;
+  }
+
+  .family-app .family-member-visual h3 {
+    font-size: 38px;
+  }
+
+  .family-app .family-member-facts .family-target-summary dd {
+    font-size: 20px;
+  }
+
+  .family-app .family-member-facts .family-target-summary > div:first-child dd {
+    font-size: 26px;
+  }
+
+  .family-app .family-physical-fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .family-physical-fields label {
+    min-height: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .family-app .family-button {
+    transition: none;
+  }
+
+  .family-app .family-button:hover,
+  .family-app .family-button:active {
+    transform: none;
+  }
+}
+
+/* Illustrated radio group: calculation category, not a member avatar. */
+.family-sex-field {
+  min-width: 0;
+  margin: 20px 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.family-sex-field > legend {
+  margin-bottom: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.family-sex-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.family-sex-option {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 12px 16px;
+  overflow: hidden;
+  border: 3px solid transparent;
+  border-radius: 16px;
+  background: var(--porcia-lavender);
+  color: var(--porcia-ink);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 150ms;
+}
+
+.family-sex-option:has(input[value="female"]) {
+  background: var(--porcia-green);
+}
+
+.family-sex-option:has(input:checked) {
+  border-color: var(--porcia-ink);
+}
+
+.family-sex-option input {
+  position: absolute;
+  z-index: 1;
+  top: 12px;
+  right: 12px;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--porcia-ink);
+  cursor: pointer;
+}
+
+.family-sex-option:has(input:focus-visible) {
+  outline: 3px solid var(--porcia-ink);
+  outline-offset: 4px;
+}
+
+.family-sex-art {
+  display: block;
+  width: 100%;
+  height: 220px;
+  padding: 12px 4px 4px;
+  overflow: hidden;
+}
+
+.family-sex-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform-origin: center bottom;
+  transition: transform 200ms ease;
+}
+
+.family-sex-field > .recipe-small {
+  margin-top: 12px;
+}
+
+.family-app .family-sex-clear {
+  margin-top: 0;
+}
+
+.family-sex-clear:disabled {
+  opacity: .6;
+  cursor: default;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .family-sex-option:hover .family-sex-art img {
+    transform: scale(1.07);
+  }
+}
+
+@media (max-width: 760px) {
+  .family-sex-art {
+    height: 180px;
+  }
+}
+
+@media (max-width: 359px) {
+  .family-sex-option {
+    padding-inline: 8px;
+  }
+
+  .family-sex-art {
+    height: 150px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .family-sex-option,
+  .family-sex-art img {
+    transition: none;
+  }
+
+  .family-sex-option:hover .family-sex-art img {
+    transform: none;
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "createdOn": "2026-11-23",
+  "tool": "Built-in image_gen",
+  "references": "User-supplied tiny man-on-lavender and walking-woman-on-green style references; original food-tech UI reference.",
+  "transferredOn": "2026-11-25",
+  "usage": "Brand artwork and illustrated calculation-category radio choices. Never assigned as the appearance of a real family member.",
+  "assets": [
+    {
+      "id": "man",
+      "file": "man.webp",
+      "prompt": "Use case: illustration-story. Asset: a single full-body family character cutout for Porcia, a friendly family food app. The two tiny attached reference images (man with dumbbell on lavender, walking woman on green) are STYLE REFERENCES. Reproduce their artistic language: flat 2D editorial cartoon, very thick confident irregular BLACK outlines, white skin as paper-white stylization (not realistic skin), predominantly pure black and white clothing, black hair, minimal interior lines, no gradients, no rendering, no realistic shadows, no 3D, no emoji, no background, no typography. Individual charming face with tiny simple nose and eyes. Entire body including shoes and hands inside canvas, safe margin all around, centered vertical portrait composition, character fills most of height. Genuine transparent alpha background, no colored square, no white backdrop, no sticker border around silhouette. Friendly humorous ordinary family energy, readable at 180px high. Subject: adult man about 35 with a slightly stocky ordinary build, short wavy black hair, white t-shirt with black shorts and simple black-and-white sneakers. Relaxed standing pose, one hand on hip, other hand casually holding one modest dumbbell at shoulder level, a friendly slight smile. This is not a muscular fitness model. One man only."
+    },
+    {
+      "id": "woman",
+      "file": "woman.webp",
+      "prompt": "Use case: illustration-story. Asset: a single full-body family character cutout for Porcia, a friendly family food app. The two tiny attached reference images (man with dumbbell on lavender, walking woman on green) are STYLE REFERENCES. Reproduce their artistic language: flat 2D editorial cartoon, very thick confident irregular BLACK outlines, white skin as paper-white stylization (not realistic skin), predominantly pure black and white clothing, black hair, minimal interior lines, no gradients, no rendering, no realistic shadows, no 3D, no emoji, no background, no typography. Individual charming face with tiny simple nose and eyes. Entire body including shoes and hands inside canvas, safe margin all around, centered vertical portrait composition, character fills most of height. Genuine transparent alpha background, no colored square, no white backdrop, no sticker border around silhouette. Friendly humorous ordinary family energy, readable at 180px high. Subject: adult woman about 35 with an ordinary slightly curvy build, short wavy black bob, black loose trousers, white simple t-shirt and black-and-white casual shoes. Full-body playful walking stride like the original walking woman reference, one leg stepping forward, arms naturally swinging, relaxed confident smile. No dumbbell, no sports equipment, no fitness costume. One woman only."
+    },
+    {
+      "id": "child",
+      "file": "child.webp",
+      "prompt": "Use case: illustration-story. Asset: a single full-body family character cutout for Porcia, a friendly family food app. The two tiny attached reference images (man with dumbbell on lavender, walking woman on green) are STYLE REFERENCES. Reproduce their artistic language: flat 2D editorial cartoon, very thick confident irregular BLACK outlines, white skin as paper-white stylization (not realistic skin), predominantly pure black and white clothing, black hair, minimal interior lines, no gradients, no rendering, no realistic shadows, no 3D, no emoji, no background, no typography. Individual charming face with tiny simple nose and eyes. Entire body including shoes and hands inside canvas, safe margin all around, centered vertical portrait composition, character fills most of height. Genuine transparent alpha background, no colored square, no white backdrop, no sticker border around silhouette. Friendly humorous ordinary family energy, readable at 180px high. Subject: school-age child about 8, age-appropriate ordinary proportions with a slightly larger head, short messy black hair, white roomy t-shirt, black shorts and simple sneakers. Playful balancing pose standing on one foot with other knee slightly lifted and arms open like an airplane, cheerful tiny smile. Fully clothed, non athletic ordinary play, no equipment, not a miniature adult. One child only."
+    }
+  ]
+}

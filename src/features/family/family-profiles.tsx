@@ -3,13 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import type { Product } from "../recipes/model";
 import type { FamilyMember, FamilyStorageDocument } from "./model";
-import { NutritionRecommendation } from "./nutrition-recommendation";
+import { MemberCard } from "./member-card";
+import { FamilyIllustration } from "./family-illustration";
 import { MemberForm } from "./member-form";
 import { loadFamily, resetFamily, saveFamily, type FamilyLoadResult } from "./storage";
-import { goalLabels } from "./validation";
 
 const browserStorage = () => window.localStorage;
-const amount = new Intl.NumberFormat("ru-RU", { maximumFractionDigits: 12 });
 
 export function FamilyProfiles({ products }: { products: readonly Pick<Product, "id" | "name">[] }) {
   const [loaded, setLoaded] = useState<FamilyLoadResult | null>(null);
@@ -60,8 +59,18 @@ export function FamilyProfiles({ products }: { products: readonly Pick<Product, 
     closeEditor();
     return null;
   }
-  if (!loaded) return <p role="status">Загружаем участников…</p>;
-  if (!loaded.ok) return <section className="family-panel" aria-labelledby="storage-heading">
+  const pageHeading = <div className="family-page-heading">
+    <div>
+      <p className="family-eyebrow">{editing ? "Параметры участника" : "Общая еда. Разные потребности."}</p>
+      <h1 tabIndex={-1} ref={heading}>{editing === "new" ? "Новый участник" : editing ? `Профиль: ${editing.displayName}` : "Ваша семья"}</h1>
+    </div>
+    {loaded?.ok && !editing && <button className="family-button" ref={addButton} onClick={() => { setNotice(""); setEditing("new"); }}><span aria-hidden="true">＋</span> Добавить участника</button>}
+  </div>;
+  const localNote = <aside className="family-local-note" aria-label="Хранение данных">
+    <p>Используйте вымышленные данные. Профили хранятся только в этом браузере, без синхронизации, и могут исчезнуть при очистке его данных.</p>
+  </aside>;
+  if (!loaded) return <>{pageHeading}<p role="status">Загружаем участников…</p></>;
+  if (!loaded.ok) return <>{pageHeading}<section className="family-panel" aria-labelledby="storage-heading">
     <h2 id="storage-heading">Локальные данные недоступны</h2>
     <p role="alert">{loaded.message}</p>
     <div className="family-actions">
@@ -80,38 +89,36 @@ export function FamilyProfiles({ products }: { products: readonly Pick<Product, 
       </div>
     </div>}
     <p role="status">{notice}</p>
-  </section>;
+  </section></>;
   return <>
+    {editing && <button type="button" className="family-text-button family-back" onClick={closeEditor}>← Участники семьи</button>}
+    {pageHeading}
+    {localNote}
     <p className="family-status" role="status">{notice}</p>
     {editing ? <>
-      <h2 className="family-editor-title" tabIndex={-1} ref={heading}>{editing === "new" ? "Добавить участника" : `Профиль: ${editing.displayName}`}</h2>
       <MemberForm key={editing === "new" ? "new" : editing.id} member={editing === "new" ? undefined : editing} products={products} onSave={save} onCancel={closeEditor} />
     </> : <>
-      <div className="recipe-section-heading">
-        <h2>Члены семьи <span className="family-count">{loaded.document?.members.length ?? 0}</span></h2>
-        <button className="family-button" ref={addButton} onClick={() => { setNotice(""); setEditing("new"); }}>Добавить участника</button>
+      <div className="family-list-heading">
+        <h2>Участники <span className="family-count">{String(loaded.document?.members.length ?? 0).padStart(2, "0")}</span></h2>
+        <p>Параметры и дневные ориентиры</p>
       </div>
-      {!loaded.document?.members.length ? <section className="recipe-empty">
-        <h3>Добавьте первого участника</h3>
-        <p>Начните с имени. Параметры для расчёта питания и предпочтения можно указать позже.</p>
+      {!loaded.document?.members.length ? <section className="family-empty">
+        <div><h2>Добавьте первого участника</h2><p>Начните с имени. Параметры для расчёта питания и предпочтения можно указать позже.</p></div>
+        <FamilyIllustration />
       </section> : <ul className="family-member-list">
-        {loaded.document.members.map((member) => <li className="family-panel family-member" key={member.id}>
-          <div className="family-member-heading">
-            <div><h3>{member.displayName}</h3><p className="recipe-small">{member.goal ? goalLabels[member.goal] : "Цель не выбрана"}</p></div>
-            <button className="family-button family-button-secondary" aria-label={`Редактировать: ${member.displayName}`} onClick={() => { setNotice(""); setEditing(member); }}>Редактировать</button>
-          </div>
-          <dl className="family-summary">
-            {([
-              ["Возраст", member.ageYears === null ? "Не указан" : `${member.ageYears} лет`],
-              ["Рост", member.heightCm === null ? "Не указан" : `${amount.format(member.heightCm)} см`],
-              ["Вес", member.weightKg === null ? "Не указан" : `${amount.format(member.weightKg)} кг`],
-            ]).map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}
-          </dl>
-          <NutritionRecommendation inputs={member} />
-          <p className="recipe-small">{member.restrictions.status === "not-specified" ? "Ограничения не указаны" : `Раздел ограничений заполнен. Записей: ${member.restrictions.items.length}`}. Предпочтений: {member.preferences.length}.</p>
+        {loaded.document.members.map((member) => <li key={member.id}>
+          <MemberCard member={member} onEdit={() => { setNotice(""); setEditing(member); }} />
         </li>)}
       </ul>}
-      <button className="family-text-button" onClick={reload}>Перечитать список из браузера</button>
+      <div className="family-footnotes">
+        <p>КБЖУ — расчётные ориентиры. Они не учитывают индивидуальные медицинские обстоятельства.</p>
+        <p>Ограничения сохраняются, но рецепты автоматически не проверяются.</p>
+      </div>
+      <details className="family-storage-details">
+        <summary>О локальном хранении профилей</summary>
+        <p>Доступа с других устройств нет. Очистка данных браузера удалит профили.</p>
+        <button className="family-text-button" onClick={reload}>Перечитать список из браузера</button>
+      </details>
     </>}
   </>;
 }
