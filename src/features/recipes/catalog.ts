@@ -173,7 +173,7 @@ export const products: readonly Product[] = [
 export const recipes: readonly Recipe[] = [
   {
     id: "banana-porridge",
-    image: { src: "/recipes/banana-porridge.webp", alt: "Овсяная каша на молоке с размятым бананом в светлой керамической миске", origin: "ai" },
+    image: { src: "/recipes/banana-porridge-cutout.webp", alt: "Овсяная каша на молоке с размятым бананом в светлой керамической миске", origin: "ai" },
     name: "Овсяная каша с бананом и корицей",
     description: "Нежная молочная каша со сладким бананом, сливочным маслом и ароматом корицы.",
     category: "breakfast",
@@ -199,7 +199,7 @@ export const recipes: readonly Recipe[] = [
   },
   {
     id: "banana-yoghurt",
-    image: { src: "/recipes/banana-yoghurt.webp", alt: "Натуральный йогурт с овсяными хлопьями, нарезанным бананом, грецкими орехами и корицей в светлой миске", origin: "ai" },
+    image: { src: "/recipes/banana-yoghurt-cutout.webp", alt: "Натуральный йогурт с овсяными хлопьями, нарезанным бананом, грецкими орехами и корицей в светлой миске", origin: "ai" },
     name: "Йогурт с бананом и грецкими орехами",
     description: "Густой йогурт с мягким бананом, овсяными хлопьями и хрустящими грецкими орехами. Завтрак без плиты.",
     category: "breakfast",
@@ -225,7 +225,7 @@ export const recipes: readonly Recipe[] = [
   },
   {
     id: "chicken-rice-vegetables",
-    image: { src: "/recipes/chicken-rice-vegetables.webp", alt: "Запечённая куриная грудка с паприкой, белый рис и подрумяненная брокколи отдельными компонентами на светлой тарелке", origin: "ai" },
+    image: { src: "/recipes/chicken-rice-vegetables-cutout.webp", alt: "Запечённая куриная грудка с паприкой, белый рис и подрумяненная брокколи отдельными компонентами на светлой тарелке", origin: "ai" },
     name: "Запечённая курица с рисом и брокколи",
     description: "Курица с паприкой, рассыпчатый рис и подрумяненная брокколи. Мясо и овощи запекаются вместе, пока варится гарнир.",
     category: "lunch",

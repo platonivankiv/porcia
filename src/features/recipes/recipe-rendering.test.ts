@@ -5,8 +5,29 @@ import { products, recipes } from "./catalog";
 import { RecipeCatalog } from "./recipe-catalog";
 import { RecipePhoto } from "./recipe-photo";
 import { RecipeDetails } from "./recipe-details";
+import { RecipeHeader } from "./recipe-ui";
+
+it("keeps the family section, catalog link and skip link available in the shared navigation", () => {
+  const html = renderToStaticMarkup(createElement(RecipeHeader, { section: "family" }));
+  expect(html).toContain('href="#recipe-content"');
+  expect(html).toContain('aria-label="Основная навигация"');
+  expect(html).toMatch(/<a[^>]*aria-current="location"[^>]*href="\/family"/);
+  expect(html).toContain('href="/recipes"');
+});
 
 describe("recipe read-only states", () => {
+  it("labels catalog calories as one base serving and keeps each existing recipe reachable", () => {
+    const html = renderToStaticMarkup(createElement(RecipeCatalog, { recipes, products }));
+    expect(html).toContain("на 1 базовую порцию");
+    for (const recipe of recipes) {
+      expect(html).toContain(`href="/recipes/${recipe.id}"`);
+      expect(html).toContain(recipe.name);
+    }
+    expect(html).toContain("478,3");
+    expect(html).toContain("386");
+    expect(html).toContain("611,3");
+  });
+
   it("preserves fractional base servings in catalog cards", () => {
     const html = renderToStaticMarkup(createElement(RecipeCatalog, {
       recipes: [{ ...recipes[0], baseServings: 1.25 }],

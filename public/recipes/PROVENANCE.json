@@ -1,0 +1,31 @@
+{
+  "createdOn": "2026-11-23",
+  "origin": "ai",
+  "tool": "Built-in image_gen",
+  "source": "Approved POR-DESIGN-001 A/v3 prototype",
+  "transferredOn": "2026-11-25",
+  "processing": {
+    "format": "WebP",
+    "width": 800,
+    "quality": 90,
+    "alphaQuality": 100,
+    "transparent": true
+  },
+  "assets": [
+    {
+      "id": "banana-porridge",
+      "file": "banana-porridge-cutout.webp",
+      "prompt": "Use case: photorealistic-natural. Asset: a SINGLE isolated food dish cutout for Porcia family meal recipe cards, one of a coherent three-image set. Professional appetizing editorial food photography in the bold food-tech reference aesthetic. Genuine transparent alpha background, no tabletop, no kitchen, no fabric, no scene or props. Entire plate/bowl visible with generous crop-safe transparent margin on all sides. Composition: large central dish, photographed slightly oblique from about 70 degrees overhead, almost top-down; the dish occupies 85% of the canvas width. One simple ivory white matte ceramic round vessel with gently scalloped rim, same vessel language across collection; crisp silhouette, clean natural light, delicious real food textures, restrained food styling, no illustrative food. No text, labels, watermark, hands, fork, knife, spoon, side props, garnish, herbs, berries or anything not specified. No dark background or opaque colored background. No cast ground shadow outside the vessel. The only scene is the single dish. Subject: a shallow white ceramic bowl of creamy cooked oat porridge made with rolled oats, cow milk, banana and melted butter. Some banana mashed into porridge, a few plain banana slices neatly arranged on top, subtle cinnamon dusting. ONLY oats, milk, banana, butter, cinnamon, salt. No nuts, seeds, berries, honey, granola, chocolate, fruit other than banana. Natural warm beige porridge with visible softened oat texture. Single bowl only."
+    },
+    {
+      "id": "banana-yoghurt",
+      "file": "banana-yoghurt-cutout.webp",
+      "prompt": "Use case: photorealistic-natural. Asset: a SINGLE isolated food dish cutout for Porcia family meal recipe cards, one of a coherent three-image set. Professional appetizing editorial food photography in the bold food-tech reference aesthetic. Genuine transparent alpha background, no tabletop, no kitchen, no fabric, no scene or props. Entire plate/bowl visible with generous crop-safe transparent margin on all sides. Composition: large central dish, photographed slightly oblique from about 70 degrees overhead, almost top-down; the dish occupies 85% of the canvas width. One simple ivory white matte ceramic round vessel with gently scalloped rim, same vessel language across collection; crisp silhouette, clean natural light, delicious real food textures, restrained food styling, no illustrative food. No text, labels, watermark, hands, fork, knife, spoon, side props, garnish, herbs, berries or anything not specified. No dark background or opaque colored background. No cast ground shadow outside the vessel. The only scene is the single dish. Subject: a shallow white ceramic bowl of thick plain yogurt with softened ordinary rolled oat flakes mixed in, sliced banana and roughly chopped WALNUT KERNELS on top, subtle cinnamon dusting. ONLY yogurt, rolled oats, banana, walnuts, cinnamon. Walnuts identifiable irregular walnut lobes, no almonds, peanuts, pecans, granola, chia, other seeds, berries, honey, syrup, mint or any garnish. Yogurt visibly white and creamy with banana and walnut texture. Single bowl only."
+    },
+    {
+      "id": "chicken-rice-vegetables",
+      "file": "chicken-rice-vegetables-cutout.webp",
+      "prompt": "Use case: photorealistic-natural. Asset: a SINGLE isolated food dish cutout for Porcia family meal recipe cards, one of a coherent three-image set. Professional appetizing editorial food photography in the bold food-tech reference aesthetic. Genuine transparent alpha background, no tabletop, no kitchen, no fabric, no scene or props. Entire plate/bowl visible with generous crop-safe transparent margin on all sides. Composition: large central dish, photographed slightly oblique from about 70 degrees overhead, almost top-down; the dish occupies 85% of the canvas width. One simple ivory white matte ceramic round vessel with gently scalloped rim, same vessel language across collection; crisp silhouette, clean natural light, delicious real food textures, restrained food styling, no illustrative food. No text, labels, watermark, hands, fork, knife, spoon, side props, garnish, herbs, berries or anything not specified. No dark background or opaque colored background. No cast ground shadow outside the vessel. The only scene is the single dish. Subject: a white scalloped ceramic dinner plate with exactly THREE clearly separated components: sliced fully cooked skinless chicken breast with red paprika seasoning and lightly browned roasted edges, plain fluffy white long-grain rice, ROASTED broccoli florets with visible browned tips lightly coated with rapeseed oil. ONLY chicken breast, white rice, broccoli, rapeseed oil, paprika, salt, black pepper. No egg, sauce, tomato, avocado, lemon, garlic, herbs, sesame, carrots, garnish or extra vegetable. Realistic ordinary home cooked portions with vivid green broccoli and warm golden chicken. One plate only."
+    }
+  ]
+}
