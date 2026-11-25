@@ -30,9 +30,9 @@ export function RecipeCatalog({ recipes, products }: { recipes: readonly Recipe[
         <div className="catalog-heading">
           <div>
             <p className="catalog-eyebrow">Вкусная общая еда</p>
-            <h1>Рецепты<br />для семьи</h1>
+            <h1>Рецепты для семьи</h1>
+            <p className="catalog-intro">{recipes.length === 3 ? "Три блюда. " : null}Ингредиенты и КБЖУ внутри.</p>
           </div>
-          <p className="catalog-intro">{recipes.length === 3 ? <>Три блюда.<br /></> : null}Ингредиенты и КБЖУ внутри.</p>
         </div>
         {recipes.length === 0 ? (
           <section className="recipe-empty" aria-labelledby="empty-heading">
@@ -60,7 +60,7 @@ export function RecipeCatalog({ recipes, products }: { recipes: readonly Recipe[
                       <span className="sr-only">Базовый объём рецепта. Порций: {formatServings(recipe.baseServings)}.</span>
                       <div className="catalog-card-bottom">
                         <div>{result.ok ? <><strong>{formatAmount(result.perServing.calories)}</strong> ккал<span>на 1 базовую порцию</span></> : <span className="catalog-data-error">Расчёт КБЖУ недоступен</span>}</div>
-                        <span className="catalog-card-arrow" aria-hidden="true">↗</span>
+                        <span className="catalog-card-arrow" aria-hidden="true">→</span>
                       </div>
                     </Link>
                   </li>

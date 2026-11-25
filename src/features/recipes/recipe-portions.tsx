@@ -7,11 +7,12 @@ import { parseServingsInput } from "./servings-input";
 import { NutritionFacts } from "./recipe-ui";
 import { formatAmount, formatIngredientQuantity, formatServings, stateLabels } from "./recipe-format";
 
-export function RecipePortions({ recipe, products, hero, allergens, tone, children }: {
+export function RecipePortions({ recipe, products, hero, allergens, calculationNotes, tone, children }: {
   recipe: Recipe;
   products: readonly Product[];
   hero: ReactNode;
   allergens: ReactNode;
+  calculationNotes: ReactNode;
   tone: string;
   children: ReactNode;
 }) {
@@ -30,36 +31,37 @@ export function RecipePortions({ recipe, products, hero, allergens, tone, childr
         {hero}
         <section className="recipe-nutrition" aria-label="Пищевая ценность базовой порции">
           {result?.ok ? <>
-            <div><h2 id="nutrition-heading">На одну<br /> базовую порцию</h2><p className="recipe-small">Расчётная оценка</p></div>
+            <div><h2 id="nutrition-heading">На 1 базовую порцию</h2></div>
             <NutritionFacts value={result.perServing} label="КБЖУ одной порции" />
           </> : <p className="recipe-small">{input.status === "valid" ? "КБЖУ недоступны до уточнения пищевых данных." : "КБЖУ текущего расчёта недоступны. Исправьте количество порций."}</p>}
         </section>
       </header>
       {allergens}
+      <div className="recipe-servings-control">
+        <label htmlFor="recipe-servings">Количество порций</label>
+        <input
+          id="recipe-servings"
+          type="text"
+          inputMode="decimal"
+          value={servingsInput}
+          onChange={(event) => setServingsInput(event.target.value)}
+          aria-invalid={input.status === "invalid"}
+          aria-describedby="recipe-servings-feedback"
+          autoComplete="off"
+          spellCheck={false}
+        />
+        <p id="recipe-servings-feedback" className="recipe-servings-feedback" aria-live="polite">{feedback}</p>
+        {result?.ok && <p className="recipe-volume-note">Всего: {formatAmount(result.total.calories)} ккал</p>}
+      </div>
       <div className="recipe-detail-grid">
         <section className="recipe-ingredients" aria-labelledby="ingredients-heading">
           <h2 id="ingredients-heading">Ингредиенты</h2>
-          <div className="recipe-servings-control">
-            <label htmlFor="recipe-servings">Количество порций</label>
-            <input
-              id="recipe-servings"
-              type="text"
-              inputMode="decimal"
-              value={servingsInput}
-              onChange={(event) => setServingsInput(event.target.value)}
-              aria-invalid={input.status === "invalid"}
-              aria-describedby="recipe-servings-feedback"
-              autoComplete="off"
-              spellCheck={false}
-            />
-            <p id="recipe-servings-feedback" className="recipe-servings-feedback" aria-live="polite">{feedback}</p>
-          </div>
           {!result?.ok ? <section className="recipe-data-error" aria-labelledby="data-error-heading" role="status">
             <h3 id="data-error-heading">{input.status === "empty" ? "Укажите количество порций" : "Расчёт недоступен"}</h3>
             <p>{result?.reason ?? "Исправьте количество порций, чтобы увидеть актуальные ингредиенты и КБЖУ."}</p>
             {result && <p>Полные КБЖУ нельзя показать, пока исходные данные не исправлены.</p>}
+            {calculationNotes}
           </section> : <>
-            <p className="recipe-volume-note">Порций: {formatServings(result.servings)} · всего {formatAmount(result.total.calories)} ккал</p>
             {result.components.map(({ component, ingredients, expectedYieldGrams }) => (
               <div className="recipe-ingredient-group" key={component.id}>
                 {result.components.length > 1 && <h3>{component.name}</h3>}
@@ -82,7 +84,9 @@ export function RecipePortions({ recipe, products, hero, allergens, tone, childr
         <details className="recipe-calculation-details">
           <summary>Расчёт и источники <span aria-hidden="true">+</span></summary>
           <div className="recipe-calculation-content">
+            {calculationNotes}
             <h2>КБЖУ выбранного объёма</h2>
+            <p className="recipe-small">Порций: {formatServings(result.servings)}</p>
             <NutritionFacts value={result.total} label="КБЖУ выбранного объёма" />
             <h3>Выход готового блюда</h3>
             {result.expectedYieldGrams === null ? (

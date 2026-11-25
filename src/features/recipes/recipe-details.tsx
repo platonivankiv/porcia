@@ -26,21 +26,23 @@ export function RecipeDetails({ recipe, products }: { recipe: Recipe; products: 
             <div className="recipe-detail-heading">
               <div className="recipe-detail-meta">
                 <span className="recipe-detail-category">{recipe.category ? categoryLabels[recipe.category] : "Рецепт"}</span>
-                {recipe.totalMinutes !== undefined && <span>◷ ≈ {recipe.totalMinutes} мин</span>}
               </div>
               <h1>{recipe.name}</h1>
               <p className="recipe-intro">{recipe.description}</p>
-              <p className="recipe-detail-time">
-                {recipe.activeMinutes !== undefined && <>Активная готовка ≈ {recipe.activeMinutes} мин · </>}
-                Базовых порций: {formatServings(recipe.baseServings)}.
-                {(recipe.totalMinutes !== undefined || recipe.activeMinutes !== undefined) && <> Время — оценка для базового объёма; при изменении порций оно может отличаться.</>}
-              </p>
+              {(recipe.totalMinutes !== undefined || recipe.activeMinutes !== undefined) && <div className="recipe-time-chips">
+                {recipe.totalMinutes !== undefined && <span>Всего ≈ {recipe.totalMinutes} мин</span>}
+                {recipe.activeMinutes !== undefined && <span>Активная готовка ≈ {recipe.activeMinutes} мин</span>}
+              </div>}
             </div>
             <div className="recipe-detail-art"><RecipePhoto image={recipe.image} priority
               sizes="(max-width: 760px) calc(100vw - 96px), (max-width: 1150px) 35vw, 500px" />
-              {recipe.image?.origin === "ai" && <span className="recipe-detail-image-note">AI-иллюстрация блюда</span>}
             </div>
           </>}
+          calculationNotes={<p className="recipe-detail-time">
+            {recipe.activeMinutes !== undefined && <>Активная готовка ≈ {recipe.activeMinutes} мин · </>}
+            Базовых порций: {formatServings(recipe.baseServings)}.
+            {(recipe.totalMinutes !== undefined || recipe.activeMinutes !== undefined) && <> Время — оценка для базового объёма; при изменении порций оно может отличаться.</>}
+          </p>}
           allergens={<aside className="recipe-detail-allergens" aria-label="Аллергены">
             <p><strong>{allergens.length > 0 ? `Известные аллергены: ${allergens.map((allergen) => allergenLabels[allergen]).join(", ")}.` : "Известные аллергены в справочнике не указаны."}</strong></p>
             <p>Список не подтверждает отсутствие других аллергенов. Проверяйте состав и предупреждения на упаковке.</p>

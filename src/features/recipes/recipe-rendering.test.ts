@@ -52,6 +52,7 @@ describe("recipe read-only states", () => {
     expect(html).not.toContain("КБЖУ выбранного объёма");
     expect(html).not.toContain('aria-label="КБЖУ одной порции"');
     expect(html).not.toContain("На 100 г готового блюда");
+    expect(html).toContain("при изменении порций оно может отличаться");
   });
 
   it("keeps calculated nutrition available without a cooked yield", () => {
@@ -65,11 +66,11 @@ describe("recipe read-only states", () => {
     const html = renderToStaticMarkup(createElement(RecipeDetails, { recipe: recipes[0], products }));
     expect(html).toContain("2 средних банана");
     expect(html).toContain("500 мл");
-    expect(html.replace(/<[^>]*>/g, "")).toContain("На одну базовую порцию");
+    expect(html).toContain("На 1 базовую порцию");
     expect(html).toContain("<details");
     expect(html).not.toContain("<details open");
     expect(html).toContain("Расчёт и источники");
-    expect(html).toContain("AI-иллюстрация блюда");
+    expect(html).toContain("AI-иллюстрации");
     expect(html).not.toContain("Взвесьте мякоть банана");
     expect(html).toContain('for="recipe-servings"');
     expect(html).toContain('inputMode="decimal"');
@@ -85,15 +86,28 @@ describe("recipe read-only states", () => {
   });
 });
 
-it("places servings with ingredients and keeps manual family portions in a closed disclosure after cooking", () => {
+it("places overall servings before the cooking columns and keeps manual family portions secondary", () => {
   const html = renderToStaticMarkup(createElement(RecipeDetails, { recipe: recipes[2], products }));
   const ingredients = html.slice(html.indexOf('aria-labelledby="ingredients-heading"'), html.indexOf('aria-labelledby="steps-heading"'));
-  expect(ingredients).toContain('id="recipe-servings"');
+  expect(html.indexOf('id="recipe-servings"')).toBeLessThan(html.indexOf('class="recipe-detail-grid"'));
+  expect(ingredients).not.toContain('id="recipe-servings"');
   expect(ingredients).toContain("Сухой продукт");
   expect(ingredients).toContain("Сырой продукт");
   expect(html).toMatch(/<details class="recipe-family-details">/);
   expect(html.indexOf('class="recipe-family-details"')).toBeGreaterThan(html.indexOf("74 °C"));
   expect(html).toContain("Вспомогательный расчёт");
+});
+
+it("shows only known total and active times and keeps the scaling explanation in calculation details", () => {
+  const html = renderToStaticMarkup(createElement(RecipeDetails, { recipe: recipes[0], products }));
+  const hero = html.slice(html.indexOf('class="recipe-detail-heading"'), html.indexOf('class="recipe-detail-art"'));
+  expect(hero).toContain("Всего ≈ 15 мин");
+  expect(hero).toContain("Активная готовка ≈ 7 мин");
+  expect(hero).not.toContain("Подготовка");
+  expect(hero).not.toContain("при изменении порций");
+  expect(html.slice(html.indexOf('<details class="recipe-calculation-details"'))).toContain("при изменении порций оно может отличаться");
+  const unknown = renderToStaticMarkup(createElement(RecipeDetails, { recipe: { ...recipes[0], totalMinutes: undefined, activeMinutes: undefined }, products }));
+  expect(unknown).not.toContain('class="recipe-time-chips"');
 });
 
 describe("compound recipe display", () => {
