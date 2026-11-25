@@ -1,31 +1,36 @@
-import type { FamilyMember } from "./model";
+import type { Product } from "../recipes/model";
+import type { FamilyMember, FoodSubject } from "./model";
+import { MemberAvatar } from "./member-avatar";
 import { NutritionRecommendation } from "./nutrition-recommendation";
 import { goalLabels } from "./validation";
 
-const amount = new Intl.NumberFormat("ru-RU", { maximumFractionDigits: 12 });
-
-export function MemberCard({ member, onEdit }: { member: FamilyMember; onEdit: () => void }) {
+export function MemberCard({ member, products, onEdit }: {
+  member: FamilyMember;
+  products: readonly Pick<Product, "id" | "name">[];
+  onEdit: () => void;
+}) {
+  function subjectLabel(subject: FoodSubject) {
+    return subject.kind === "description" ? subject.label : products.find((product) => product.id === subject.productId)?.name ?? subject.productId;
+  }
   return <article className="family-member">
     <div className="family-member-visual">
-      <h3>{member.displayName}</h3>
-      <p className="family-member-goal">{member.goal ? goalLabels[member.goal] : "Цель не выбрана"}</p>
-      <span className="family-monogram" aria-hidden="true">{Array.from(member.displayName.trim())[0]}</span>
-      <p className="family-member-age">{member.ageYears === null ? "Возраст не указан" : `Возраст: ${member.ageYears} лет`}</p>
-      <button className="family-button family-button-secondary" aria-label={`Редактировать: ${member.displayName}`} onClick={onEdit}>Изменить <span aria-hidden="true">↗</span></button>
+      <div className="family-member-info">
+        <h3>{member.displayName}</h3>
+        <p className="family-member-goal">{member.goal ? member.goal === "maintenance" ? "Поддержание веса" : goalLabels[member.goal] : "Цель не выбрана"}</p>
+        <p className="family-member-age">{member.ageYears === null ? "Возраст не указан" : `${member.ageYears} лет`}</p>
+        <button className="family-button family-button-secondary" aria-label={`Редактировать: ${member.displayName}`} onClick={onEdit}>Изменить <span aria-hidden="true">↗</span></button>
+      </div>
+      <MemberAvatar avatarId={member.avatarId} displayName={member.displayName} />
     </div>
     <div className="family-member-facts">
       <NutritionRecommendation inputs={member} compact />
-      <details className="family-method">
-        <summary>Параметры участника</summary>
-        <dl className="family-summary">
-          {([
-            ["Возраст", member.ageYears === null ? "Не указан" : `${member.ageYears} лет`],
-            ["Рост", member.heightCm === null ? "Не указан" : `${amount.format(member.heightCm)} см`],
-            ["Вес", member.weightKg === null ? "Не указан" : `${amount.format(member.weightKg)} кг`],
-          ]).map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}
-        </dl>
-      </details>
+      <div className="family-member-tags" aria-label="Ограничения и предпочтения">
+        {member.restrictions.status === "not-specified" ? <span>Ограничения не указаны</span>
+          : member.restrictions.items.length ? member.restrictions.items.map((item, index) => <span key={index}>{item.kind === "allergy" ? "Аллергия" : "Исключение"}: {subjectLabel(item.subject)}</span>)
+          : <span>Ограничения: раздел заполнен, записей нет</span>}
+        {member.preferences.length ? member.preferences.map((item, index) => <span key={index}>{item.preference === "like" ? "Нравится" : "Не нравится"}: {subjectLabel(item.subject)}</span>)
+          : <span>Предпочтения: 0</span>}
+      </div>
     </div>
-    <p className="family-member-footer">{member.restrictions.status === "not-specified" ? "Ограничения не указаны" : `Раздел ограничений заполнен. Записей: ${member.restrictions.items.length}`}. Предпочтений: {member.preferences.length}.</p>
   </article>;
 }

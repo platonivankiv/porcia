@@ -136,3 +136,26 @@ it("saves and reloads a name-only profile without removed calculation answers", 
   expect(saveFamily(() => storage, current, [], null).ok).toBe(true);
   expect(loadFamily(() => storage, [])).toMatchObject({ ok: true, document: current });
 });
+
+it("rejects unknown avatar identifiers without overwriting old data", () => {
+  const raw = JSON.stringify({ ...document, members: [{ ...document.members[0], avatarId: "external-image" }] });
+  const storage = memory(raw);
+  expect(loadFamily(() => storage, [])).toMatchObject({ ok: false, snapshot: raw });
+  expect(saveFamily(() => storage, document, [], raw).ok).toBe(false);
+  expect(storage.getItem(FAMILY_STORAGE_KEY)).toBe(raw);
+});
+
+it.each(["man", "woman", "child"] as const)("round-trips only avatar id %s in v2, retaining member identity", (avatarId) => {
+  const storage = memory(JSON.stringify(document));
+  const old = loadFamily(() => storage, []);
+  if (!old.ok || !old.document) throw new Error("Expected old v2 document");
+  expect(old.document.members[0]).not.toHaveProperty("avatarId");
+  const updated = { ...old.document, members: [{ ...old.document.members[0], avatarId }] };
+  expect(saveFamily(() => storage, updated, [], old.snapshot).ok).toBe(true);
+  const restored = loadFamily(() => storage, []);
+  expect(restored).toMatchObject({ ok: true, document: { version: 2, members: [{ id: "member-test", avatarId }] } });
+  expect(storage.getItem(FAMILY_STORAGE_KEY)).not.toContain("data:image");
+  const cleared = { ...updated, members: [{ ...updated.members[0], avatarId: undefined }] };
+  expect(saveFamily(() => storage, cleared, [], storage.getItem(FAMILY_STORAGE_KEY)).ok).toBe(true);
+  expect(JSON.parse(storage.getItem(FAMILY_STORAGE_KEY)!).members[0]).not.toHaveProperty("avatarId");
+});

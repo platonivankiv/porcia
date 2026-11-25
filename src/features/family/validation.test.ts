@@ -82,3 +82,17 @@ it("saves only current calculation parameters and ignores removed answers and le
   expect(result.value).not.toHaveProperty("dailyTargets");
   expect(result.value).not.toHaveProperty("legacyDailyTargets");
 });
+
+it("saves an explicitly selected avatar and clears it without requiring other profile fields", () => {
+  const form = new FormData();
+  form.set("displayName", "Саша");
+  form.set("avatarId", "woman");
+  expect(parseMemberForm(form, [])).toMatchObject({ ok: true, value: { avatarId: "woman", ageYears: null } });
+  form.set("avatarId", "");
+  const cleared = parseMemberForm(form, []);
+  expect(cleared.ok).toBe(true);
+  if (!cleared.ok) throw new Error("Expected valid profile");
+  expect(cleared.value).toHaveProperty("avatarId", undefined);
+  form.set("avatarId", "data:image/png;base64,anything");
+  expect(parseMemberForm(form, [])).toMatchObject({ ok: false, errors: { avatarId: expect.any(String) } });
+});

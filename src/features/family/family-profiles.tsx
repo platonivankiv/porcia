@@ -62,7 +62,7 @@ export function FamilyProfiles({ products }: { products: readonly Pick<Product, 
   const pageHeading = <div className="family-page-heading">
     <div>
       <p className="family-eyebrow">{editing ? "Параметры участника" : "Общая еда. Разные потребности."}</p>
-      <h1 tabIndex={-1} ref={heading}>{editing === "new" ? "Новый участник" : editing ? `Профиль: ${editing.displayName}` : "Ваша семья"}</h1>
+      <h1 tabIndex={-1} ref={heading}>{editing === "new" ? "Новый участник" : editing ? "Редактировать участника" : "Ваша семья"}</h1>
     </div>
     {loaded?.ok && !editing && <button className="family-button" ref={addButton} onClick={() => { setNotice(""); setEditing("new"); }}><span aria-hidden="true">＋</span> Добавить участника</button>}
   </div>;
@@ -107,7 +107,7 @@ export function FamilyProfiles({ products }: { products: readonly Pick<Product, 
         <FamilyIllustration />
       </section> : <ul className="family-member-list">
         {loaded.document.members.map((member) => <li key={member.id}>
-          <MemberCard member={member} onEdit={() => { setNotice(""); setEditing(member); }} />
+          <MemberCard member={member} products={products} onEdit={() => { setNotice(""); setEditing(member); }} />
         </li>)}
       </ul>}
       <div className="family-footnotes">

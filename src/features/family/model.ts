@@ -1,3 +1,5 @@
+export const avatarIds = ["man", "woman", "child"] as const;
+export type AvatarId = typeof avatarIds[number];
 export type NutritionGoal = "weight-loss" | "maintenance" | "muscle-gain" | "recomposition";
 export type FoodSubject =
   | Readonly<{ kind: "product"; productId: string }>
@@ -31,6 +33,7 @@ export type FamilyMember = Readonly<{
   id: string;
   householdId: string;
   displayName: string;
+  avatarId?: AvatarId;
   ageYears: number | null;
   heightCm: number | null;
   weightKg: number | null;

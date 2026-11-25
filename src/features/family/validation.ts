@@ -1,4 +1,4 @@
-import { emptyCalculationSettings, type FamilyMember, type NutritionGoal, type FoodSubject, type FamilyStorageDocument, type DailyTargets, type Household } from "./model";
+import { avatarIds, emptyCalculationSettings, type FamilyMember, type NutritionGoal, type FoodSubject, type FamilyStorageDocument, type DailyTargets, type Household } from "./model";
 import type { CalculationInputs } from "./calculate-targets";
 
 type MemberValues = Omit<FamilyMember, "id" | "householdId" | "legacyDailyTargets">;
@@ -56,6 +56,9 @@ export function parseMemberForm(form: FormData, productIds: readonly string[]): 
   const errors: Record<string, string> = {};
   const text = (key: string) => String(form.get(key) ?? "").trim();
   const displayName = text("displayName");
+  const avatarInput = text("avatarId");
+  const avatarId = avatarIds.find((id) => id === avatarInput);
+  if (avatarInput && !avatarId) errors.avatarId = "Выберите персонажа из коллекции.";
   if (!displayName) errors.displayName = "Укажите имя участника.";
   function subjects(prefix: string): FoodSubject[] {
     const ids = [...new Set(form.getAll(`${prefix}Products`).map(String))];
@@ -80,6 +83,7 @@ export function parseMemberForm(form: FormData, productIds: readonly string[]): 
   ];
   return Object.keys(errors).length ? { ok: false, errors } : { ok: true, value: {
     displayName, ...parameters.value, restrictions, preferences,
+    ...(form.has("avatarId") ? { avatarId } : {}),
   } };
 }
 
@@ -112,7 +116,9 @@ function validDocument(value: unknown, productIds: readonly string[], version: 1
   }
   return value.members.every((member: unknown) => {
     if (!record(member) || !nonempty(member.id) || ids.has(member.id) || member.householdId !== householdId
-      || !nonempty(member.displayName) || !optionalNumber(member.ageYears, true, true)
+      || !nonempty(member.displayName)
+      || (member.avatarId !== undefined && !avatarIds.some((id) => id === member.avatarId))
+      || !optionalNumber(member.ageYears, true, true)
       || !optionalNumber(member.heightCm, false) || !optionalNumber(member.weightKg, false)
       || !(member.goal === null || (typeof member.goal === "string" && Object.hasOwn(goalLabels, member.goal)))
       || !record(member.restrictions) || !Array.isArray(member.preferences)) return false;

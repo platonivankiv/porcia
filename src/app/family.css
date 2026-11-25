@@ -1,11 +1,12 @@
-/* POR-DESIGN-003: A/v3 family screens. Legacy portion controls keep their styles. */
+/* POR-DESIGN-006: approved family prototype. Shared navigation and POR-009 stay unchanged. */
 .family-app > .family-main {
-  max-width: 1450px;
+  max-width: 1360px;
+  padding: 36px;
 }
 
 .family-app .family-page-heading {
   display: flex;
-  align-items: end;
+  align-items: center;
   justify-content: space-between;
   gap: 24px;
   margin-bottom: 24px;
@@ -16,10 +17,10 @@
 }
 
 .family-app .family-page-heading h1 {
-  font-size: 76px;
-  line-height: 1.03;
+  font-size: clamp(40px, 4vw, 58px);
+  line-height: 1.12;
+  font-weight: 700;
   text-transform: uppercase;
-  text-wrap: balance;
   overflow-wrap: anywhere;
 }
 
@@ -27,29 +28,25 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 14px;
-  color: var(--porcia-muted);
+  margin-bottom: 10px;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .family-eyebrow::before {
   content: "";
   width: 8px;
   height: 8px;
-  flex-shrink: 0;
   border-radius: 50%;
   background: var(--porcia-ink);
 }
 
 .family-app .family-local-note {
-  padding: 0 0 0 12px;
-  margin-bottom: 24px;
-  border-left: 3px solid var(--porcia-ink);
-  border-radius: 0;
+  padding: 0;
+  margin-bottom: 20px;
   background: transparent;
   color: var(--porcia-muted);
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .family-app .family-status {
@@ -63,7 +60,6 @@
   height: 1px;
   overflow: hidden;
   clip-path: inset(50%);
-  white-space: nowrap;
 }
 
 .family-list-heading {
@@ -71,7 +67,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding-block: 16px;
+  padding: 16px 0 22px;
   border-top: 1px solid var(--porcia-ink);
   font-size: 14px;
 }
@@ -83,20 +79,14 @@
 }
 
 .family-app .family-count {
-  display: inline-block;
-  padding: 5px 10px;
-  margin-left: 4px;
-  border: 1px solid var(--porcia-ink);
-  border-radius: 6px;
-  background: var(--porcia-yellow);
-  color: var(--porcia-ink);
+  margin-left: 8px;
   font-size: 14px;
-  font-weight: 600;
+  color: var(--porcia-ink);
 }
 
 .family-app .family-member-list {
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  align-items: start;
+  align-items: stretch;
 }
 
 .family-member-list > li {
@@ -104,19 +94,18 @@
 }
 
 .family-member {
+  height: 100%;
   overflow: hidden;
   border: var(--porcia-card-border);
-  border-radius: 22px;
-  background: var(--porcia-surface);
+  border-radius: 18px;
+  background: var(--porcia-background);
 }
 
 .family-member-visual {
-  position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 105px;
-  align-content: start;
-  gap: 12px;
-  min-height: 300px;
+  grid-template-columns: minmax(0, 1fr) 43%;
+  gap: 8px;
+  min-height: 264px;
   padding: 20px;
   background: var(--porcia-lavender);
 }
@@ -130,107 +119,97 @@
 }
 
 .family-app .family-member-visual h3 {
-  grid-column: 1 / -1;
+  margin-bottom: 12px;
   font-family: var(--font-display), "Arial Narrow", sans-serif;
-  font-size: 44px;
-  line-height: 1.08;
+  font-size: 38px;
+  line-height: 1.15;
   font-weight: 700;
-  letter-spacing: -.5px;
   text-transform: uppercase;
   overflow-wrap: anywhere;
 }
 
 .family-member-goal {
-  grid-column: 1;
-  font-size: 15px;
-  line-height: 1.5;
+  display: inline-block;
+  padding: 5px 10px;
+  border: 1px solid var(--porcia-ink);
+  border-radius: 20px;
+  background: var(--porcia-background);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.family-app .family-member-age {
+  margin: 12px 0;
+  font-size: 14px;
+}
+
+.family-avatar {
+  align-self: end;
+  width: 100%;
+  height: 224px;
+  object-fit: contain;
 }
 
 .family-monogram {
   display: grid;
-  grid-column: 2;
-  grid-row: 2 / 5;
   align-self: center;
   place-items: center;
   width: 100%;
+  height: auto;
   aspect-ratio: 1;
   border: var(--porcia-card-border);
   border-radius: 50%;
-  background: var(--porcia-surface);
+  background: var(--porcia-background);
   font-family: var(--font-display), "Arial Narrow", sans-serif;
-  font-size: 64px;
+  font-size: 60px;
   font-weight: 700;
   text-transform: uppercase;
 }
 
-.family-member-visual .family-member-age {
-  grid-column: 1;
-  align-self: end;
-  margin-top: 40px;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-
 .family-member-facts {
-  padding: 18px 20px;
-  border-top: 2px solid var(--porcia-ink);
+  padding: 18px;
 }
 
-.family-member-facts .family-recommendation {
+.family-app .family-member-facts .family-recommendation {
   margin-top: 0;
 }
 
 .family-app .family-member-facts h3 {
-  font-size: 14px;
+  margin-bottom: 12px;
+  font-size: 16px;
+  line-height: 1.4;
   font-weight: 700;
   letter-spacing: normal;
 }
 
 .family-app .family-target-summary {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px 12px;
-  padding-block: 0;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px 0;
+  padding: 0;
+  margin-top: 0 !important;
   border: 0;
   font-variant-numeric: tabular-nums;
 }
 
-.family-app .family-target-summary dd {
-  font-size: 26px;
-  line-height: 1.3;
-  font-weight: 800;
-  letter-spacing: -.5px;
+.family-target-summary > div {
+  padding: 0 6px;
+  border-right: 1px solid var(--recipe-border);
+  text-align: center;
 }
 
-.family-app .family-target-summary dd span {
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: normal;
+.family-target-summary > div:last-child {
+  border-right: 0;
 }
 
-.family-member-facts .family-method {
-  margin-top: 4px;
-}
-
-.family-app .family-member-facts .family-target-summary {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px 8px;
-}
-
-.family-member-facts .family-target-summary > div:first-child {
+.family-target-summary > div:first-child {
   display: flex;
   grid-column: 1 / -1;
   align-items: baseline;
   justify-content: space-between;
   gap: 8px;
-}
-
-.family-app .family-member-facts .family-target-summary dd {
-  font-size: 23px;
-}
-
-.family-app .family-member-facts .family-target-summary > div:first-child dd {
-  font-size: 30px;
+  padding: 0;
+  border: 0;
+  text-align: left;
 }
 
 .family-app .family-summary dt {
@@ -238,10 +217,63 @@
   font-size: 13px;
 }
 
-.family-app .family-member-footer {
-  padding: 12px 20px;
-  border-top: 1px solid var(--porcia-ink);
+.family-app .family-target-summary dd {
+  font-size: 22px;
+  line-height: 1.3;
+  font-weight: 800;
+  letter-spacing: -.5px;
+}
+
+.family-app .family-target-summary dd span {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: normal;
+}
+
+.family-app .family-target-summary > div:first-child dd {
+  font-size: 28px;
+}
+
+.family-member-facts .family-method {
+  padding-top: 12px;
+  margin-top: 18px;
+  border-top: 1px solid var(--recipe-border);
+}
+
+.family-member-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 12px;
+}
+
+.family-member-tags > span {
+  max-width: 100%;
+  padding: 4px 8px;
+  border: 1px solid var(--recipe-border);
+  border-radius: 7px;
   font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.family-parameter-list {
+  display: grid;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.family-parameter-list > div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.family-parameter-list dt {
+  color: var(--porcia-muted);
+}
+
+.family-parameter-list dd {
+  margin: 0;
   overflow-wrap: anywhere;
 }
 
@@ -256,8 +288,7 @@
 }
 
 .family-storage-details {
-  margin-top: 12px;
-  color: var(--porcia-muted);
+  margin-top: 16px;
   font-size: 14px;
 }
 
@@ -276,20 +307,14 @@
 
 .family-app summary {
   min-height: 44px;
+  padding: 10px 0;
   cursor: pointer;
-}
-
-.family-storage-details > summary {
-  padding-block: 10px;
-  text-decoration: underline;
-  text-underline-offset: 3px;
 }
 
 .family-app .family-button {
   gap: 8px;
-  flex-shrink: 0;
   border: var(--porcia-control-border);
-  border-radius: 12px;
+  border-radius: 10px;
   background: var(--porcia-green);
   color: var(--porcia-ink);
   font-size: 15px;
@@ -298,43 +323,53 @@
 }
 
 .family-app .family-button-secondary {
-  background: var(--porcia-surface);
+  background: var(--porcia-background);
 }
 
-.family-member-visual .family-button {
-  grid-column: 1;
-  justify-self: start;
+.family-member-info .family-button {
+  min-height: 44px;
   gap: 6px;
-  padding: 8px 12px;
+  padding: 7px 12px;
   font-size: 14px;
 }
 
+.family-app .family-button:hover {
+  background: var(--porcia-yellow);
+  transform: translateY(-2px);
+}
+
+.family-app .family-button:active {
+  transform: translateY(1px);
+}
+
 .family-app .family-text-button {
+  margin-top: 0;
   color: var(--porcia-ink);
 }
 
 .family-app .family-back {
-  margin: 0 0 20px;
+  margin: 0 0 12px;
 }
 
-.family-app :is(button, input, select, textarea):focus-visible {
+.family-app :is(button, input, select, textarea, summary):focus-visible {
   outline: 3px solid var(--porcia-ink);
-  outline-offset: 3px;
+  outline-offset: 4px;
 }
 
-.family-app .family-page-heading h1:focus-visible {
+.family-app :is(h1, h2):focus-visible {
   outline: 3px solid var(--porcia-ink);
   outline-offset: 5px;
 }
 
 .family-app .family-panel {
-  padding: 24px;
-  border: var(--porcia-card-border);
-  border-radius: 16px;
-  background: var(--porcia-surface);
+  padding: 22px;
+  border: var(--porcia-control-border);
+  border-radius: 14px;
+  background: var(--porcia-background);
 }
 
 .family-app .family-panel h2 {
+  margin-bottom: 8px;
   font-size: 24px;
   font-weight: 800;
   letter-spacing: -.6px;
@@ -342,12 +377,54 @@
 
 .family-app .recipe-small {
   font-size: 14px;
-  line-height: 1.65;
+  line-height: 1.5;
 }
 
 .family-app .family-form {
+  display: block;
+}
+
+.family-section-nav {
   display: grid;
-  grid-template-columns: minmax(0, 1.65fr) minmax(280px, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.family-section-nav button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 58px;
+  padding: 10px 4px 14px;
+  border-bottom: 2px solid var(--recipe-border);
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+
+.family-section-nav button[aria-current] {
+  border-color: var(--porcia-ink);
+}
+
+.family-section-nav span {
+  display: grid;
+  flex: 0 0 30px;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--porcia-ink);
+  border-radius: 50%;
+}
+
+.family-section-nav button[aria-current] span {
+  border-width: 2px;
+  background: var(--porcia-green);
+}
+
+.family-editor-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 290px;
   align-items: start;
   gap: 24px;
 }
@@ -357,20 +434,35 @@
   min-width: 0;
 }
 
-.family-app .family-fields {
-  gap: 20px;
+.family-form-fields > [hidden] {
+  display: none;
 }
 
-.family-form .family-fields:not(.family-physical-fields) {
-  grid-template-columns: minmax(0, 1fr);
+.family-app .family-fields {
+  gap: 14px;
+}
+
+.family-app .family-physical-fields {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.family-app .family-field {
+  gap: 7px;
+  margin: 16px 0;
 }
 
 .family-app .family-field label {
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.5;
+  font-weight: 700;
+}
+
+.family-physical-fields .family-field label {
+  font-size: 13px;
 }
 
 .family-app .family-field :is(input, select, textarea) {
+  min-height: 46px;
   border: 1.5px solid var(--porcia-ink);
   border-radius: 8px;
   background: var(--porcia-surface);
@@ -384,14 +476,266 @@
   border: 2px solid #9d3828;
 }
 
+.family-choice-field {
+  position: relative;
+  min-width: 0;
+  padding-top: 12px;
+  margin-top: 22px;
+  border-top: 1px solid var(--recipe-border);
+}
+
+.family-choice-field legend {
+  float: left;
+  width: 100%;
+  margin: 12px 0 6px;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.family-app .family-clear-choice {
+  display: block;
+  margin-left: auto;
+  font-size: 14px;
+}
+
+.family-goal-options,
+.family-sex-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.family-choice {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  border: 3px solid transparent;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.family-choice:has(input:checked) {
+  border-color: var(--porcia-ink);
+  box-shadow: inset 0 0 0 2px var(--porcia-background);
+}
+
+.family-choice:has(input:focus-visible) {
+  outline: 3px solid var(--porcia-ink);
+  outline-offset: 4px;
+}
+
+.family-choice input {
+  position: absolute;
+  z-index: 1;
+  top: 10px;
+  right: 10px;
+  width: 23px;
+  height: 23px;
+  margin: 0;
+  accent-color: var(--porcia-ink);
+}
+
+.family-app .family-choice input:focus-visible {
+  outline: none;
+}
+
+.family-choice img {
+  width: 100%;
+  height: 123px;
+  margin-top: 8px;
+  object-fit: contain;
+  transition: transform 180ms ease;
+}
+
+.family-choice > span:last-child {
+  padding: 8px 10px 14px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.family-goal-choice > span:last-child {
+  font-family: var(--font-display), "Arial Narrow", sans-serif;
+  font-size: 21px;
+  line-height: 1.15;
+}
+
+.family-sex-option img {
+  height: 118px;
+}
+
+.family-tone-green,
+.family-tone-woman {
+  background: var(--porcia-green);
+}
+
+.family-tone-lavender,
+.family-tone-man {
+  background: var(--porcia-lavender);
+}
+
+.family-tone-yellow,
+.family-tone-neutral {
+  background: var(--porcia-yellow);
+}
+
+.family-tone-coral,
+.family-tone-child {
+  background: var(--porcia-coral);
+}
+
+.family-next-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.family-avatar-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+  margin: 16px 0;
+  border: var(--porcia-control-border);
+  border-radius: 10px;
+  background: var(--porcia-yellow);
+}
+
+.family-avatar-row strong {
+  font-size: 15px;
+}
+
+.family-avatar-row .family-text-button {
+  display: block;
+  font-size: 14px;
+  text-align: left;
+}
+
+.family-avatar-mini {
+  flex: 0 0 58px;
+  width: 58px;
+  height: 72px;
+  object-fit: contain;
+}
+
+.family-monogram.family-avatar-mini {
+  height: 58px;
+  font-size: 30px;
+}
+
+.family-avatar-dialog {
+  width: calc(100% - 32px);
+  max-width: 660px;
+  max-height: calc(100dvh - 40px);
+  padding: 24px;
+  border: var(--porcia-card-border);
+  border-radius: 18px;
+  background: var(--porcia-background);
+  color: var(--porcia-ink);
+}
+
+.family-avatar-dialog::backdrop {
+  background: #20251f80;
+}
+
+.family-dialog-heading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.family-avatar-options {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 24px 0;
+}
+
+.family-avatar-choice img {
+  height: 160px;
+}
+
+.family-avatar-choice .family-monogram {
+  width: 80px;
+  height: 80px;
+  margin: 40px auto;
+  font-size: 40px;
+}
+
+.family-avatar-choice > span:last-child {
+  font-size: 14px;
+}
+
+.family-editor-portrait {
+  padding: 20px;
+  margin-bottom: 20px;
+  border: var(--porcia-card-border);
+  border-radius: 16px;
+  background: var(--porcia-lavender);
+  text-align: center;
+}
+
+.family-app .family-editor-portrait h2 {
+  font-family: var(--font-display), "Arial Narrow", sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+
+.family-editor-portrait img {
+  height: 206px;
+  margin-top: 12px;
+}
+
+.family-editor-portrait .family-monogram {
+  width: 130px;
+  margin: 20px auto;
+}
+
 .family-app .family-recommendation-panel {
-  margin-top: 20px;
+  padding: 18px;
+  margin-top: 0;
 }
 
 .family-app .family-recommendation-panel h3 {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 800;
-  letter-spacing: -.6px;
+  letter-spacing: normal;
+}
+
+.family-recommendation-panel .family-target-summary > div:first-child {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.family-app .family-recommendation-panel .family-target-summary dd {
+  font-size: 20px;
+}
+
+.family-app .family-recommendation-panel .family-target-summary > div:first-child dd {
+  margin-top: 6px;
+  font-size: 32px;
+}
+
+.family-form-footer {
+  max-width: calc(100% - 314px);
+  margin-top: 20px;
+}
+
+.family-form-footer .family-actions {
+  margin-top: 20px;
+}
+
+.family-form-footer .family-actions > button:first-child {
+  flex: 1;
 }
 
 .family-app .family-method {
@@ -399,406 +743,271 @@
   font-size: 14px;
 }
 
-.family-app .family-method :is(summary, a) {
+.family-app .family-method summary {
+  display: list-item;
+  list-style: revert;
+  font-weight: 700;
+  text-decoration: none;
   color: var(--porcia-ink);
 }
 
-.family-app .family-checkbox input,
-.family-product-option input {
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-  accent-color: var(--porcia-ink);
+.family-method p,
+.family-method ul {
+  margin-top: 12px;
 }
 
-.family-app .family-food-fields > legend {
-  margin-bottom: 12px;
+.family-app .family-food-fields {
+  min-width: 0;
+  padding-top: 14px;
+  margin-top: 20px;
+  border-top: 1px solid var(--recipe-border);
+}
+
+.family-app .family-food-fields legend {
+  padding-top: 12px;
+  font-size: 18px;
   font-weight: 800;
 }
 
+.family-food-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.family-food-chips:empty {
+  display: none;
+}
+
+.family-food-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+  padding: 0 6px 0 10px;
+  border: 1px solid var(--porcia-ink);
+  border-radius: 8px;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.family-food-chip button {
+  min-width: 36px;
+  min-height: 44px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
 .family-product-picker {
-  overflow: hidden;
-  border: 1.5px solid var(--porcia-ink);
-  border-radius: 10px;
-}
-
-.family-product-picker > summary {
-  padding: 12px;
-  font-size: 15px;
-  font-weight: 600;
-}
-
-.family-product-picker[open] > summary {
-  border-bottom: 1px solid var(--porcia-ink);
+  padding: 0 12px;
+  border: 1px solid var(--recipe-border);
+  border-radius: 8px;
+  background: var(--porcia-surface);
 }
 
 .family-product-options {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0 16px;
-  padding: 8px 12px;
+  gap: 0 12px;
+  padding-bottom: 12px;
 }
 
 .family-product-option {
   display: flex;
-  align-items: start;
-  gap: 10px;
-  min-height: 48px;
-  padding-block: 12px;
-  font-size: 14px;
-  line-height: 1.55;
-  overflow-wrap: anywhere;
-  cursor: pointer;
-}
-
-.family-product-option input {
-  margin: 1px 0 0;
-}
-
-.family-free-text {
-  margin-top: 12px;
-}
-
-.family-free-text > summary {
-  padding-block: 10px;
-  font-size: 14px;
-  font-weight: 600;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
-
-.family-illustration {
-  display: flex;
-  align-items: end;
-  justify-content: center;
-  min-width: 0;
-  padding: 20px 12px 8px;
-  border: var(--porcia-card-border);
-  border-radius: 18px;
-  background: var(--porcia-lavender);
-}
-
-.family-illustration img {
-  width: 32%;
-  height: 220px;
-  object-fit: contain;
-  object-position: center bottom;
-}
-
-.family-empty {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
   align-items: center;
-  gap: 32px;
-  padding: 32px;
-  border: var(--porcia-card-border);
-  border-radius: 22px;
+  gap: 10px;
+  min-height: 44px;
+  font-size: 14px;
 }
 
-.family-empty h2 {
-  font-family: var(--font-display), "Arial Narrow", sans-serif;
-  text-transform: uppercase;
+.family-app .family-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  font-size: 15px;
+  font-weight: 600;
 }
 
-.family-empty p {
-  margin-top: 16px;
-  color: var(--porcia-muted);
-}
-
-.family-empty .family-illustration {
-  border: 0;
+.family-app input[type="checkbox"] {
+  flex: 0 0 21px;
+  width: 21px;
+  height: 21px;
+  accent-color: var(--porcia-ink);
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .family-app .family-button:hover {
-    background: #38dc80;
-    transform: translateY(-2px);
-  }
-
-  .family-app .family-button-secondary:hover {
-    background: var(--porcia-yellow);
-  }
-
-  .family-app summary:hover,
-  .family-app .family-text-button:hover,
-  .family-credits a:hover {
-    text-decoration-thickness: 2px;
-  }
-
-  .family-product-option:hover {
-    background: var(--porcia-background);
+  .family-choice:hover img {
+    transform: scale(1.04);
   }
 }
 
-@media (max-width: 1150px) and (min-width: 761px) {
-  .family-app .family-page-heading h1 {
-    font-size: 64px;
+@media (max-width: 1279px) {
+  .family-app > .family-main {
+    padding: 28px 24px;
   }
 
   .family-app .family-member-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .family-app .family-form {
+  .family-editor-grid {
+    grid-template-columns: minmax(0, 1fr) 250px;
+    gap: 18px;
+  }
+
+  .family-form-footer {
+    max-width: calc(100% - 268px);
+  }
+}
+
+@media (max-width: 1000px) {
+  .family-editor-grid {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .family-editor-summary {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    align-items: start;
-    gap: 20px;
+  .family-editor-portrait {
+    display: none;
   }
 
-  .family-app .family-recommendation-panel {
-    margin-top: 0;
+  .family-form-footer {
+    max-width: none;
   }
 }
 
 @media (max-width: 760px) {
+  .family-app > .family-main {
+    padding: 24px 20px;
+  }
+
   .family-app .family-page-heading {
-    align-items: stretch;
-    flex-direction: column;
-    gap: 20px;
+    display: block;
   }
 
   .family-app .family-page-heading h1 {
-    font-size: 52px;
-    letter-spacing: -1px;
-    line-height: 1.04;
+    font-size: 42px;
   }
 
-  .family-app .family-eyebrow {
-    margin-top: 16px;
+  .family-page-heading > .family-button {
+    width: 100%;
+    margin-top: 20px;
   }
 
   .family-list-heading {
-    font-size: 13px;
+    flex-wrap: wrap;
   }
 
-  .family-list-heading > p {
-    max-width: 160px;
-    text-align: right;
-  }
-
-  .family-app .family-member-list,
-  .family-app .family-form,
-  .family-empty {
+  .family-app .family-member-list {
     grid-template-columns: minmax(0, 1fr);
   }
 
   .family-member-visual {
-    min-height: 240px;
+    min-height: 250px;
   }
 
-  .family-app .family-member-visual h3 {
-    font-size: 42px;
+  .family-member-visual .family-avatar {
+    height: 210px;
   }
 
-  .family-member-visual .family-button {
-    width: auto;
+  .family-member-visual .family-monogram {
+    height: auto;
   }
 
-  .family-member-visual .family-member-age {
-    margin-top: 12px;
+  .family-app .family-panel {
+    padding: 18px;
   }
 
-  .family-app .family-panel,
-  .family-empty {
-    padding: 20px;
+  .family-section-nav {
+    gap: 6px;
   }
 
-  .family-app .family-panel h2 {
-    font-size: 23px;
+  .family-section-nav button {
+    flex-direction: column;
+    align-items: start;
+    gap: 8px;
+    font-size: 13px;
   }
 
-  .family-app .family-physical-fields {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  .family-app .family-fields {
     gap: 10px;
   }
 
-  .family-physical-fields label {
-    min-height: 3em;
-    text-wrap: balance;
+  .family-physical-fields .family-field label {
+    font-size: 12px;
   }
 
-  .family-app .family-field label {
-    font-size: 14px;
+  .family-goal-options {
+    gap: 10px;
+  }
+
+  .family-goal-choice > span:last-child {
+    padding-inline: 5px;
+    font-size: 20px;
   }
 
   .family-product-options {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .family-app .family-field input {
-    padding-inline: 8px;
+  .family-app .family-actions > .family-button,
+  .family-next-section > .family-button {
+    width: 100%;
   }
 
-  .family-illustration img {
-    height: 180px;
+  .family-avatar-options {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .family-avatar-dialog {
+    padding: 18px;
   }
 }
 
 @media (max-width: 359px) {
+  .family-app > .family-main {
+    padding-inline: 14px;
+  }
+
+  .family-app .family-panel {
+    padding: 14px;
+  }
+
   .family-app .family-page-heading h1 {
-    font-size: 46px;
-  }
-
-  .family-app .family-member-visual h3 {
-    font-size: 38px;
-  }
-
-  .family-app .family-member-facts .family-target-summary dd {
-    font-size: 20px;
-  }
-
-  .family-app .family-member-facts .family-target-summary > div:first-child dd {
-    font-size: 26px;
+    font-size: 36px;
   }
 
   .family-app .family-physical-fields {
     grid-template-columns: minmax(0, 1fr);
+    gap: 0;
   }
 
-  .family-physical-fields label {
-    min-height: 0;
+  .family-goal-choice > span:last-child {
+    font-size: 18px;
+  }
+
+  .family-app .family-member-visual h3 {
+    font-size: 32px;
+  }
+
+  .family-member-visual {
+    padding: 16px;
+  }
+
+  .family-avatar {
+    height: 200px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .family-app .family-button {
+  .family-app .family-button,
+  .family-choice img {
     transition: none;
   }
 
   .family-app .family-button:hover,
-  .family-app .family-button:active {
-    transform: none;
-  }
-}
-
-/* Illustrated radio group: calculation category, not a member avatar. */
-.family-sex-field {
-  min-width: 0;
-  margin: 20px 0 0;
-  padding: 0;
-  border: 0;
-}
-
-.family-sex-field > legend {
-  margin-bottom: 12px;
-  font-size: 15px;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-
-.family-sex-options {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.family-sex-option {
-  position: relative;
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 12px 16px;
-  overflow: hidden;
-  border: 3px solid transparent;
-  border-radius: 16px;
-  background: var(--porcia-lavender);
-  color: var(--porcia-ink);
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: border-color 150ms;
-}
-
-.family-sex-option:has(input[value="female"]) {
-  background: var(--porcia-green);
-}
-
-.family-sex-option:has(input:checked) {
-  border-color: var(--porcia-ink);
-}
-
-.family-sex-option input {
-  position: absolute;
-  z-index: 1;
-  top: 12px;
-  right: 12px;
-  width: 20px;
-  height: 20px;
-  margin: 0;
-  accent-color: var(--porcia-ink);
-  cursor: pointer;
-}
-
-.family-sex-option:has(input:focus-visible) {
-  outline: 3px solid var(--porcia-ink);
-  outline-offset: 4px;
-}
-
-.family-sex-art {
-  display: block;
-  width: 100%;
-  height: 220px;
-  padding: 12px 4px 4px;
-  overflow: hidden;
-}
-
-.family-sex-art img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  transform-origin: center bottom;
-  transition: transform 200ms ease;
-}
-
-.family-sex-field > .recipe-small {
-  margin-top: 12px;
-}
-
-.family-app .family-sex-clear {
-  margin-top: 0;
-}
-
-.family-sex-clear:disabled {
-  opacity: .6;
-  cursor: default;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .family-sex-option:hover .family-sex-art img {
-    transform: scale(1.07);
-  }
-}
-
-@media (max-width: 760px) {
-  .family-sex-art {
-    height: 180px;
-  }
-}
-
-@media (max-width: 359px) {
-  .family-sex-option {
-    padding-inline: 8px;
-  }
-
-  .family-sex-art {
-    height: 150px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .family-sex-option,
-  .family-sex-art img {
-    transition: none;
-  }
-
-  .family-sex-option:hover .family-sex-art img {
+  .family-app .family-button:active,
+  .family-choice:hover img {
     transform: none;
   }
 }

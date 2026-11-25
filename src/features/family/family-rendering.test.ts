@@ -16,7 +16,7 @@ describe("family profile interface", () => {
   });
   it("offers all four goals and optional physical data without suggested nutrition", () => {
     const html = renderToStaticMarkup(createElement(MemberForm, { products: [], onSave: () => null, onCancel: () => {} }));
-    for (const label of ["Похудение", "Поддержание", "Набор массы", "Рекомпозиция", "Возраст, полных лет", "Рост, см", "Вес, кг"]) expect(html).toContain(label);
+    for (const label of ["Похудение", "Поддержание", "Набор массы", "Рекомпозиция", "Возраст, лет", "Рост, см", "Вес, кг"]) expect(html).toContain(label);
     expect(html).not.toContain('name="calories"');
     expect(html).not.toContain('name="protein"');
     expect(html).not.toContain("Принять");
@@ -68,12 +68,12 @@ it("shows a neutral member card with daily targets and keeps calculation details
   const member = { id: "test", householdId: "home", displayName: "Саша", ageYears: 30, heightCm: 180, weightKg: 80, goal: "maintenance" as const,
     restrictions: { status: "not-specified" as const }, preferences: [],
     calculation: { sexForEquation: "male" as const, activity: "inactive" as const, training: "none" as const } };
-  const html = renderToStaticMarkup(createElement(MemberCard, { member, onEdit: () => {} }));
+  const html = renderToStaticMarkup(createElement(MemberCard, { member, products: [], onEdit: () => {} }));
   expect(html).toContain("Саша");
   expect(html).toContain('aria-label="Редактировать: Саша"');
   expect(html).toContain("2 726,2");
   expect(html).toContain("96");
-  expect(html).toContain("Как выполнен расчёт");
+  expect(html).toContain("Параметры и расчёт");
   expect(html).not.toContain("<img");
   expect(html).toContain("Ограничения не указаны");
 });
@@ -84,27 +84,23 @@ it("removes applicability questions and marks calculation inputs without requiri
     expect(html).not.toContain(removed);
   }
   for (const name of ["displayName", "ageYears", "heightCm", "weightKg", "goal", "activity", "training"]) {
-    const label = html.match(new RegExp(`<label[^>]*for="${name}"[^>]*>(.*?)</label>`))?.[1];
-    expect(label).toContain("*");
     const control = html.match(new RegExp(`<(?:input|select)[^>]*name="${name}"[^>]*>`))?.[0];
     expect(control).toBeDefined();
-    expect(control).toContain("member-fields-hint");
     expect(control?.includes('required=""')).toBe(name === "displayName");
   }
   expect(html).toContain("Имя обязательно для сохранения профиля");
-  expect(html).toContain("Остальные отмеченные поля необходимы для автоматического расчёта КБЖУ");
-  expect(html).toContain("Заполненность всех полей не гарантирует, что расчёт будет доступен");
+  expect(html).toContain("Нужна для КБЖУ, необязательна для сохранения");
 });
 
 it("offers two optional illustrated sex categories as a named radio group", () => {
   const html = renderToStaticMarkup(createElement(MemberForm, { products: [], onSave: () => null, onCancel: () => {} }));
-  expect(html).toContain('Пол: <span aria-hidden="true">*</span>');
+  expect(html).toContain("Половая категория для расчёта");
   for (const value of ["male", "female"]) {
     const radio = html.match(new RegExp(`<input[^>]*id="sexForEquation-${value}"[^>]*>`))?.[0];
     expect(radio).toContain('type="radio"');
     expect(radio).toContain('name="sexForEquation"');
     expect(radio).toContain(`value="${value}"`);
-    expect(radio).toContain("member-fields-hint");
+    expect(radio).toContain("sexForEquation-hint");
     expect(radio).not.toContain('checked=""');
     expect(radio).not.toContain('required=""');
     expect(html).toContain(`for="sexForEquation-${value}"`);
@@ -136,4 +132,30 @@ it("keeps existing nutrition warnings visible in the compact presentation", () =
     calculation: { sexForEquation: "female", activity: "inactive", training: "regular-strength" },
   } }));
   expect(html.split("<details")[0]).toContain("Доля углеводов вне общего справочного диапазона");
+});
+
+it("keeps all three editor sections mounted and offers four keyboard radio goals", () => {
+  const html = renderToStaticMarkup(createElement(MemberForm, { products: [], onSave: () => null, onCancel: () => {} }));
+  expect(html).toContain('aria-label="Разделы профиля"');
+  for (const section of ["basic", "activity", "food"]) expect(html).toContain(`id="member-section-${section}"`);
+  for (const value of ["weight-loss", "muscle-gain", "maintenance", "recomposition"]) {
+    expect(html.match(new RegExp(`<input[^>]*name="goal"[^>]*value="${value}"[^>]*>`))?.[0]).toContain('type="radio"');
+  }
+  expect(html).not.toContain('<select id="goal"');
+  expect(html).toContain('name="avatarId"');
+});
+
+it("uses only the explicit avatar and resolves food tags from real product names", () => {
+  const member = { id: "avatar-test", householdId: "home", displayName: "Любое имя", avatarId: "man" as const,
+    ageYears: null, heightCm: null, weightKg: null, goal: null,
+    calculation: { ...emptyCalculationSettings, sexForEquation: "female" as const },
+    restrictions: { status: "recorded" as const, items: [{ kind: "allergy" as const, subject: { kind: "product" as const, productId: "milk" } }] },
+    preferences: [{ preference: "dislike" as const, subject: { kind: "description" as const, label: "Грибы" } }],
+  };
+  const html = renderToStaticMarkup(createElement(MemberCard, { member, products: [{ id: "milk", name: "Молоко" }], onEdit: () => {} }));
+  expect(html).toContain("man.webp");
+  expect(html).not.toContain("woman.webp");
+  expect(html).toContain("Аллергия: Молоко");
+  expect(html).toContain("Не нравится: Грибы");
+  expect(html.match(/<summary>/g)).toHaveLength(1);
 });

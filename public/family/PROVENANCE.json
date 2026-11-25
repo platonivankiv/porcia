@@ -3,7 +3,7 @@
   "tool": "Built-in image_gen",
   "references": "User-supplied tiny man-on-lavender and walking-woman-on-green style references; original food-tech UI reference.",
   "transferredOn": "2026-11-25",
-  "usage": "Brand artwork and illustrated calculation-category radio choices. Never assigned as the appearance of a real family member.",
+  "usage": "Brand artwork, goal and calculation-category radio choices, and manually selected decorative avatars (POR-DESIGN-006). No inference from name, age or calculation category; never a representation of real appearance.",
   "assets": [
     {
       "id": "man",
