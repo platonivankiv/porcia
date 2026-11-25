@@ -65,7 +65,7 @@ describe("recipe read-only states", () => {
     const html = renderToStaticMarkup(createElement(RecipeDetails, { recipe: recipes[0], products }));
     expect(html).toContain("2 средних банана");
     expect(html).toContain("500 мл");
-    expect(html).toContain("На одну порцию");
+    expect(html.replace(/<[^>]*>/g, "")).toContain("На одну базовую порцию");
     expect(html).toContain("<details");
     expect(html).not.toContain("<details open");
     expect(html).toContain("Расчёт и источники");
@@ -83,6 +83,17 @@ describe("recipe read-only states", () => {
     expect(html).toContain("Изображения пока нет");
     expect(html).not.toContain("<img");
   });
+});
+
+it("places servings with ingredients and keeps manual family portions in a closed disclosure after cooking", () => {
+  const html = renderToStaticMarkup(createElement(RecipeDetails, { recipe: recipes[2], products }));
+  const ingredients = html.slice(html.indexOf('aria-labelledby="ingredients-heading"'), html.indexOf('aria-labelledby="steps-heading"'));
+  expect(ingredients).toContain('id="recipe-servings"');
+  expect(ingredients).toContain("Сухой продукт");
+  expect(ingredients).toContain("Сырой продукт");
+  expect(html).toMatch(/<details class="recipe-family-details">/);
+  expect(html.indexOf('class="recipe-family-details"')).toBeGreaterThan(html.indexOf("74 °C"));
+  expect(html).toContain("Вспомогательный расчёт");
 });
 
 describe("compound recipe display", () => {
