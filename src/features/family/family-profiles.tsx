@@ -1,5 +1,7 @@
 "use client";
 
+import styles from "./family-profiles.module.scss";
+
 import { useEffect, useRef, useState } from "react";
 import type { Product } from "../recipes/model";
 import type { FamilyMember, FamilyStorageDocument } from "./model";
@@ -59,65 +61,65 @@ export function FamilyProfiles({ products }: { products: readonly Pick<Product, 
     closeEditor();
     return null;
   }
-  const pageHeading = <div className="family-page-heading">
+  const pageHeading = <div className={styles.pageHeading}>
     <div>
-      <p className="family-eyebrow">{editing ? "Параметры участника" : "Общая еда. Разные потребности."}</p>
+      <p className={styles.eyebrow}>{editing ? "Параметры участника" : "Общая еда. Разные потребности."}</p>
       <h1 tabIndex={-1} ref={heading}>{editing === "new" ? "Новый участник" : editing ? "Редактировать участника" : "Ваша семья"}</h1>
     </div>
-    {loaded?.ok && !editing && <button className="family-button" ref={addButton} onClick={() => { setNotice(""); setEditing("new"); }}><span aria-hidden="true">＋</span> Добавить участника</button>}
+    {loaded?.ok && !editing && <button className={styles.actionButton} ref={addButton} onClick={() => { setNotice(""); setEditing("new"); }}><span aria-hidden="true">＋</span> Добавить участника</button>}
   </div>;
-  const localNote = <aside className="family-local-note" aria-label="Хранение данных">
+  const localNote = <aside className={styles.localNote} aria-label="Хранение данных">
     <p>Используйте вымышленные данные. Профили хранятся только в этом браузере, без синхронизации, и могут исчезнуть при очистке его данных.</p>
   </aside>;
   if (!loaded) return <>{pageHeading}<p role="status">Загружаем участников…</p></>;
-  if (!loaded.ok) return <>{pageHeading}<section className="family-panel" aria-labelledby="storage-heading">
+  if (!loaded.ok) return <>{pageHeading}<section className={styles.panel} aria-labelledby="storage-heading">
     <h2 id="storage-heading">Локальные данные недоступны</h2>
     <p role="alert">{loaded.message}</p>
-    <div className="family-actions">
-      <button className="family-button" onClick={reload}>Повторить чтение</button>
-      {loaded.snapshot !== null && !confirmReset && <button className="family-button family-button-secondary" onClick={() => setConfirmReset(true)}>Сбросить локальные данные</button>}
+    <div className={styles.actions}>
+      <button className={styles.actionButton} onClick={reload}>Повторить чтение</button>
+      {loaded.snapshot !== null && !confirmReset && <button className={styles.actionButton + " " + styles.secondaryButton} onClick={() => setConfirmReset(true)}>Сбросить локальные данные</button>}
     </div>
-    {confirmReset && loaded.snapshot !== null && <div className="family-reset">
+    {confirmReset && loaded.snapshot !== null && <div className={styles.reset}>
       <p>Удалить сохранённую запись семьи из этого браузера? Восстановить её через приложение не получится.</p>
-      <div className="family-actions">
-        <button className="family-button" onClick={() => {
+      <div className={styles.actions}>
+        <button className={styles.actionButton} onClick={() => {
           const result = resetFamily(browserStorage, loaded.snapshot!);
           if (result.ok) reload();
           else setNotice(result.message);
         }}>Удалить запись и начать заново</button>
-        <button className="family-button family-button-secondary" onClick={() => setConfirmReset(false)}>Отмена сброса</button>
+        <button className={styles.actionButton + " " + styles.secondaryButton} onClick={() => setConfirmReset(false)}>Отмена сброса</button>
       </div>
     </div>}
     <p role="status">{notice}</p>
   </section></>;
   return <>
-    {editing && <button type="button" className="family-text-button family-back" onClick={closeEditor}>← Участники семьи</button>}
+    {editing && <button type="button" className={styles.textButton + " " + styles.back} onClick={closeEditor}>← Участники семьи</button>}
     {pageHeading}
     {localNote}
-    <p className="family-status" role="status">{notice}</p>
+    <p className={styles.status} role="status">{notice}</p>
     {editing ? <>
       <MemberForm key={editing === "new" ? "new" : editing.id} member={editing === "new" ? undefined : editing} products={products} onSave={save} onCancel={closeEditor} />
     </> : <>
-      <div className="family-list-heading">
-        <h2>Участники <span className="family-count">{String(loaded.document?.members.length ?? 0).padStart(2, "0")}</span></h2>
+      <div className={styles.listHeading}>
+        <h2>Участники <span className={styles.count}>{String(loaded.document?.members.length ?? 0).padStart(2, "0")}</span></h2>
         <p>Параметры и дневные ориентиры</p>
       </div>
-      {!loaded.document?.members.length ? <section className="family-empty">
+      {!loaded.document?.members.length ? <section>
         <div><h2>Добавьте первого участника</h2><p>Начните с имени. Параметры для расчёта питания и предпочтения можно указать позже.</p></div>
         <FamilyIllustration />
-      </section> : <ul className="family-member-list">
+      </section> : <ul className={styles.memberList}>
         {loaded.document.members.map((member) => <li key={member.id}>
           <MemberCard member={member} products={products} onEdit={() => { setNotice(""); setEditing(member); }} />
         </li>)}
       </ul>}
-      <div className="family-footnotes">
+      <div className={styles.footnotes}>
         <p>КБЖУ — расчётные ориентиры. Они не учитывают индивидуальные медицинские обстоятельства.</p>
         <p>Ограничения сохраняются, но рецепты автоматически не проверяются.</p>
       </div>
-      <details className="family-storage-details">
+      <details className={styles.storageDetails}>
         <summary>О локальном хранении профилей</summary>
         <p>Доступа с других устройств нет. Очистка данных браузера удалит профили.</p>
-        <button className="family-text-button" onClick={reload}>Перечитать список из браузера</button>
+        <button className={styles.textButton} onClick={reload}>Перечитать список из браузера</button>
       </details>
     </>}
   </>;

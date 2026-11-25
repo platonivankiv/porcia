@@ -1,3 +1,4 @@
+import styles from "./recipe-catalog.module.scss";
 import Link from "next/link";
 import { calculateRecipe } from "./calculate-recipe";
 import type { Product, Recipe } from "./model";
@@ -24,43 +25,43 @@ export function RecipeCatalog({ recipes, products }: { recipes: readonly Recipe[
   }).join(" · ");
 
   return (
-    <div className="recipe-app recipe-catalog-app">
+    <div className={styles.catalogApp}>
       <RecipeHeader />
-      <main className="recipe-container recipe-main catalog-main" id="recipe-content">
-        <div className="catalog-heading">
+      <main className={`${styles.container} ${styles.main}`} id="recipe-content">
+        <div className={styles.heading}>
           <div>
-            <p className="catalog-eyebrow">Вкусная общая еда</p>
+            <p className={styles.eyebrow}>Вкусная общая еда</p>
             <h1>Рецепты для семьи</h1>
-            <p className="catalog-intro">{recipes.length === 3 ? "Три блюда. " : null}Ингредиенты и КБЖУ внутри.</p>
+            <p className={styles.intro}>{recipes.length === 3 ? "Три блюда. " : null}Ингредиенты и КБЖУ внутри.</p>
           </div>
         </div>
         {recipes.length === 0 ? (
-          <section className="recipe-empty" aria-labelledby="empty-heading">
+          <section className={styles.empty} aria-labelledby="empty-heading">
             <h2 id="empty-heading">Рецептов пока нет</h2>
             <p>Когда в каталоге появятся рецепты, они будут доступны здесь.</p>
           </section>
         ) : (
           <>
-            <div className="catalog-summary">
+            <div className={styles.summary}>
               <h2>Все рецепты <span>{String(recipes.length).padStart(2, "0")}</span></h2>
               <p>{summary}</p>
             </div>
-            <ul className="catalog-grid">
+            <ul className={styles.grid}>
               {recipes.map((recipe, index) => {
                 const result = calculateRecipe(recipe, products);
                 return (
                   <li key={recipe.id}>
-                    <Link className="catalog-card" href={`/recipes/${recipe.id}`}>
-                      <div className="catalog-card-meta">
-                        <span className="catalog-meal">{recipe.category ? mealLabels[recipe.category][0] : "Рецепт"}</span>
-                        {recipe.totalMinutes !== undefined && <span className="catalog-time"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 6v6l4 2" /></svg>≈ {recipe.totalMinutes} мин</span>}
+                    <Link className={styles.card} href={`/recipes/${recipe.id}`}>
+                      <div className={styles.cardMeta}>
+                        <span className={styles.meal}>{recipe.category ? mealLabels[recipe.category][0] : "Рецепт"}</span>
+                        {recipe.totalMinutes !== undefined && <span className={styles.time}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 6v6l4 2" /></svg>≈ {recipe.totalMinutes} мин</span>}
                       </div>
-                      <RecipePhoto image={recipe.image} priority={index === 0} sizes="(max-width: 760px) 160px, (max-width: 1150px) 350px, 340px" />
+                      <RecipePhoto className={styles.photo} imageClassName={styles.photoImage} image={recipe.image} priority={index === 0} sizes="(max-width: 760px) 160px, (max-width: 1150px) 350px, 340px" />
                       <h3>{recipe.name}</h3>
-                      <span className="sr-only">Базовый объём рецепта. Порций: {formatServings(recipe.baseServings)}.</span>
-                      <div className="catalog-card-bottom">
-                        <div>{result.ok ? <><strong>{formatAmount(result.perServing.calories)}</strong> ккал<span>на 1 базовую порцию</span></> : <span className="catalog-data-error">Расчёт КБЖУ недоступен</span>}</div>
-                        <span className="catalog-card-arrow" aria-hidden="true">→</span>
+                      <span className={"sr-only"}>Базовый объём рецепта. Порций: {formatServings(recipe.baseServings)}.</span>
+                      <div className={styles.cardBottom}>
+                        <div>{result.ok ? <><strong>{formatAmount(result.perServing.calories)}</strong> ккал<span>на 1 базовую порцию</span></> : <span className={styles.dataError}>Расчёт КБЖУ недоступен</span>}</div>
+                        <span className={styles.cardArrow} aria-hidden="true">→</span>
                       </div>
                     </Link>
                   </li>
@@ -70,8 +71,8 @@ export function RecipeCatalog({ recipes, products }: { recipes: readonly Recipe[
           </>
         )}
       </main>
-      <div className="catalog-footer">
-        {recipes.some((recipe) => recipe.image?.origin === "ai") && <ImageCredits />}
+      <div className={styles.catalogFooter}>
+        {recipes.some((recipe) => recipe.image?.origin === "ai") && <ImageCredits className={styles.footer} />}
         <p>Время — оценка для базового объёма.</p>
       </div>
     </div>

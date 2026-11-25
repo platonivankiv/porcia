@@ -1,5 +1,7 @@
 "use client";
 
+import styles from "./recipe-details.module.scss";
+
 import { useState, type ReactNode } from "react";
 import { calculateRecipe } from "./calculate-recipe";
 import type { Product, Recipe } from "./model";
@@ -26,18 +28,18 @@ export function RecipePortions({ recipe, products, hero, allergens, calculationN
       : "Можно вводить дробные порции, например 1,25.";
 
   return (
-    <div className="recipe-portions">
-      <header className={`recipe-detail-hero recipe-detail-tone-${tone}`}>
+    <div className={styles.portions}>
+      <header className={`${styles.detailHero} ${styles[`tone-${tone}`]}`}>
         {hero}
-        <section className="recipe-nutrition" aria-label="Пищевая ценность базовой порции">
+        <section className={styles.nutrition} aria-label="Пищевая ценность базовой порции">
           {result?.ok ? <>
             <div><h2 id="nutrition-heading">На 1 базовую порцию</h2></div>
-            <NutritionFacts value={result.perServing} label="КБЖУ одной порции" />
-          </> : <p className="recipe-small">{input.status === "valid" ? "КБЖУ недоступны до уточнения пищевых данных." : "КБЖУ текущего расчёта недоступны. Исправьте количество порций."}</p>}
+            <NutritionFacts className={styles.nutrients} value={result.perServing} label="КБЖУ одной порции" />
+          </> : <p className={styles.small}>{input.status === "valid" ? "КБЖУ недоступны до уточнения пищевых данных." : "КБЖУ текущего расчёта недоступны. Исправьте количество порций."}</p>}
         </section>
       </header>
       {allergens}
-      <div className="recipe-servings-control">
+      <div className={styles.servingsControl}>
         <label htmlFor="recipe-servings">Количество порций</label>
         <input
           id="recipe-servings"
@@ -50,23 +52,23 @@ export function RecipePortions({ recipe, products, hero, allergens, calculationN
           autoComplete="off"
           spellCheck={false}
         />
-        <p id="recipe-servings-feedback" className="recipe-servings-feedback" aria-live="polite">{feedback}</p>
-        {result?.ok && <p className="recipe-volume-note">Всего: {formatAmount(result.total.calories)} ккал</p>}
+        <p id="recipe-servings-feedback" className={styles.servingsFeedback} aria-live="polite">{feedback}</p>
+        {result?.ok && <p className={styles.volumeNote}>Всего: {formatAmount(result.total.calories)} ккал</p>}
       </div>
-      <div className="recipe-detail-grid">
-        <section className="recipe-ingredients" aria-labelledby="ingredients-heading">
+      <div className={styles.detailGrid}>
+        <section className={styles.ingredients} aria-labelledby="ingredients-heading">
           <h2 id="ingredients-heading">Ингредиенты</h2>
-          {!result?.ok ? <section className="recipe-data-error" aria-labelledby="data-error-heading" role="status">
+          {!result?.ok ? <section className={styles.dataError} aria-labelledby="data-error-heading" role="status">
             <h3 id="data-error-heading">{input.status === "empty" ? "Укажите количество порций" : "Расчёт недоступен"}</h3>
             <p>{result?.reason ?? "Исправьте количество порций, чтобы увидеть актуальные ингредиенты и КБЖУ."}</p>
             {result && <p>Полные КБЖУ нельзя показать, пока исходные данные не исправлены.</p>}
             {calculationNotes}
           </section> : <>
             {result.components.map(({ component, ingredients, expectedYieldGrams }) => (
-              <div className="recipe-ingredient-group" key={component.id}>
+              <div className={styles.ingredientGroup} key={component.id}>
                 {result.components.length > 1 && <h3>{component.name}</h3>}
-                {expectedYieldGrams !== null && <p className="recipe-small">Ожидаемый выход: {formatAmount(expectedYieldGrams)} г</p>}
-                <ul className="recipe-ingredient-list">
+                {expectedYieldGrams !== null && <p className={styles.small}>Ожидаемый выход: {formatAmount(expectedYieldGrams)} г</p>}
+                <ul className={styles.ingredientList}>
                   {ingredients.map(({ ingredient, product }, index) => (
                     <li key={`${product.id}-${index}`}><span>{product.name}<small>{stateLabels[ingredient.state]}</small></span><strong>{formatIngredientQuantity(ingredient, product)}</strong></li>
                   ))}
@@ -81,13 +83,13 @@ export function RecipePortions({ recipe, products, hero, allergens, calculationN
         {children}
       </div>
       {result?.ok && (
-        <details className="recipe-calculation-details">
+        <details className={styles.calculationDetails}>
           <summary>Расчёт и источники <span aria-hidden="true">+</span></summary>
-          <div className="recipe-calculation-content">
+          <div className={styles.calculationContent}>
             {calculationNotes}
             <h2>КБЖУ выбранного объёма</h2>
-            <p className="recipe-small">Порций: {formatServings(result.servings)}</p>
-            <NutritionFacts value={result.total} label="КБЖУ выбранного объёма" />
+            <p className={styles.small}>Порций: {formatServings(result.servings)}</p>
+            <NutritionFacts className={styles.nutrients} value={result.total} label="КБЖУ выбранного объёма" />
             <h3>Выход готового блюда</h3>
             {result.expectedYieldGrams === null ? (
               <p>Без данных о выходе КБЖУ на 100 г готового блюда недоступны. КБЖУ рецепта и порции рассчитаны по ингредиентам.</p>
@@ -100,10 +102,10 @@ export function RecipePortions({ recipe, products, hero, allergens, calculationN
               <p>Компоненты без данных о выходе: {result.components.filter((item) => item.expectedYieldGrams === null).map((item) => item.component.name).join(", ")}. Общий выход нельзя определить по части компонентов.</p>
             )}
             {result.components.length > 1 && result.components.map(({ component, nutrition, expectedYieldGrams, per100g }) => (
-              <div className="recipe-component-calculation" key={component.id}>
+              <div className={styles.componentCalculation} key={component.id}>
                 <h3>{component.name}</h3>
-                <p className="recipe-small">КБЖУ компонента для выбранного объёма</p>
-                <NutritionFacts value={nutrition} label={`КБЖУ компонента: ${component.name}`} />
+                <p className={styles.small}>КБЖУ компонента для выбранного объёма</p>
+                <NutritionFacts className={styles.nutrients} value={nutrition} label={`КБЖУ компонента: ${component.name}`} />
                 {expectedYieldGrams === null ? (
                   <p>Ожидаемый выход не задан. КБЖУ компонента рассчитаны по ингредиентам; показатель на 100 г готового компонента недоступен.</p>
                 ) : (
@@ -111,7 +113,7 @@ export function RecipePortions({ recipe, products, hero, allergens, calculationN
                 )}
                 {per100g && <>
                   <h4>На 100 г готового компонента</h4>
-                  <NutritionFacts value={per100g} label={`КБЖУ на 100 г компонента: ${component.name}`} />
+                  <NutritionFacts className={styles.nutrients} value={per100g} label={`КБЖУ на 100 г компонента: ${component.name}`} />
                 </>}
               </div>
             ))}
@@ -119,7 +121,7 @@ export function RecipePortions({ recipe, products, hero, allergens, calculationN
             <h3>Методика расчёта</h3>
             <p>КБЖУ рассчитаны по массе исходных ингредиентов и соответствующим их состоянию профилям на 100 г. Это оценка: небольшие количества обычных приправ не учитываются. Масло, орехи и другие калорийные добавки включены в расчёт. Потери нутриентов при приготовлении не учитываются. Значения округлены только для отображения. Штучные продукты рассчитаны по среднему размеру. Средние массы и плотность — бытовые оценки.</p>
             <h3>Источники пищевой ценности и переводов единиц</h3>
-            <ul className="recipe-source-list">
+            <ul className={styles.sourceList}>
               {result.components.flatMap(({ component, ingredients }) => ingredients.map(({ ingredient, product, profile, grams }, index) => {
                 const conversion = product.gramsPerUnit?.find((item) => item.state === ingredient.state && item.unit === ingredient.unit);
                 return (
@@ -128,7 +130,7 @@ export function RecipePortions({ recipe, products, hero, allergens, calculationN
                     <p>{stateLabels[profile.state]} · Расчётная масса: {formatAmount(grams)} г</p>
                     <p>На 100 г продукта: {formatAmount(profile.per100g.calories)} ккал · Б {formatAmount(profile.per100g.protein)} г · Ж {formatAmount(profile.per100g.fat)} г · У {formatAmount(profile.per100g.carbohydrates)} г</p>
                     <p><a href={profile.source.url}>{profile.source.title}</a> · Запись {profile.source.recordId} · Проверено: <time dateTime={profile.source.checkedAt}>{profile.source.checkedAt}</time></p>
-                    {conversion?.source && <div className="recipe-conversion-source"><p>{conversion.source.note}</p><p><a href={conversion.source.url}>{conversion.source.title}</a> · Проверено: <time dateTime={conversion.source.checkedAt}>{conversion.source.checkedAt}</time></p></div>}
+                    {conversion?.source && <div className={styles.conversionSource}><p>{conversion.source.note}</p><p><a href={conversion.source.url}>{conversion.source.title}</a> · Проверено: <time dateTime={conversion.source.checkedAt}>{conversion.source.checkedAt}</time></p></div>}
                   </li>
                 );
               }))}

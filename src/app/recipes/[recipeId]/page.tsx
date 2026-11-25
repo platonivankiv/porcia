@@ -1,4 +1,3 @@
-import "@/app/recipe-details.css";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { products, recipes } from "@/features/recipes/catalog";

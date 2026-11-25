@@ -1,3 +1,4 @@
+import styles from "./recipe-details.module.scss";
 import Link from "next/link";
 import type { Allergen, Product, Recipe } from "./model";
 import { RecipePhoto } from "./recipe-photo";
@@ -16,54 +17,54 @@ export function RecipeDetails({ recipe, products }: { recipe: Recipe; products: 
   const recipeProducts = products.filter((product) => productIds.has(product.id));
   const allergens = [...new Set(recipeProducts.flatMap((product) => product.allergens ?? []))];
   return (
-    <div className="recipe-app recipe-detail-app">
+    <div className={styles.detailApp}>
       <RecipeHeader />
-      <main className="recipe-container recipe-main" id="recipe-content">
-        <Link className="recipe-back" href="/recipes"><span aria-hidden="true">←</span> Все рецепты</Link>
+      <main className={styles.container + " " + styles.main} id="recipe-content">
+        <Link className={styles.back} href="/recipes"><span aria-hidden="true">←</span> Все рецепты</Link>
         <RecipePortions key={recipe.id} recipe={recipe} products={recipeProducts}
           tone={heroTones[recipe.id] ?? "green"}
           hero={<>
-            <div className="recipe-detail-heading">
-              <div className="recipe-detail-meta">
-                <span className="recipe-detail-category">{recipe.category ? categoryLabels[recipe.category] : "Рецепт"}</span>
+            <div className={styles.detailHeading}>
+              <div className={styles.detailMeta}>
+                <span className={styles.detailCategory}>{recipe.category ? categoryLabels[recipe.category] : "Рецепт"}</span>
               </div>
               <h1>{recipe.name}</h1>
-              <p className="recipe-intro">{recipe.description}</p>
-              {(recipe.totalMinutes !== undefined || recipe.activeMinutes !== undefined) && <div className="recipe-time-chips">
+              <p className={styles.intro}>{recipe.description}</p>
+              {(recipe.totalMinutes !== undefined || recipe.activeMinutes !== undefined) && <div className={styles.timeChips}>
                 {recipe.totalMinutes !== undefined && <span>Всего ≈ {recipe.totalMinutes} мин</span>}
                 {recipe.activeMinutes !== undefined && <span>Активная готовка ≈ {recipe.activeMinutes} мин</span>}
               </div>}
             </div>
-            <div className="recipe-detail-art"><RecipePhoto image={recipe.image} priority
+            <div className={styles.detailArt}><RecipePhoto className={styles.photo} imageClassName={styles.photoImage} image={recipe.image} priority
               sizes="(max-width: 760px) calc(100vw - 96px), (max-width: 1150px) 35vw, 500px" />
             </div>
           </>}
-          calculationNotes={<p className="recipe-detail-time">
+          calculationNotes={<p className={styles.detailTime}>
             {recipe.activeMinutes !== undefined && <>Активная готовка ≈ {recipe.activeMinutes} мин · </>}
             Базовых порций: {formatServings(recipe.baseServings)}.
             {(recipe.totalMinutes !== undefined || recipe.activeMinutes !== undefined) && <> Время — оценка для базового объёма; при изменении порций оно может отличаться.</>}
           </p>}
-          allergens={<aside className="recipe-detail-allergens" aria-label="Аллергены">
+          allergens={<aside className={styles.detailAllergens} aria-label="Аллергены">
             <p><strong>{allergens.length > 0 ? `Известные аллергены: ${allergens.map((allergen) => allergenLabels[allergen]).join(", ")}.` : "Известные аллергены в справочнике не указаны."}</strong></p>
             <p>Список не подтверждает отсутствие других аллергенов. Проверяйте состав и предупреждения на упаковке.</p>
           </aside>}>
-          <section className="recipe-preparation" aria-labelledby="steps-heading">
+          <section className={styles.preparation} aria-labelledby="steps-heading">
             <h2 id="steps-heading">Как приготовить</h2>
-            <ol className="recipe-steps">
+            <ol className={styles.steps}>
               {recipe.steps.map((step, index) => <li key={index}><span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span><p>{step}</p></li>)}
             </ol>
-            {recipe.safetyNote && <aside className="recipe-safety" aria-labelledby="safety-heading">
+            {recipe.safetyNote && <aside className={styles.safety} aria-labelledby="safety-heading">
               <h3 id="safety-heading">Безопасное приготовление</h3>
               <p>{recipe.safetyNote}</p>
             </aside>}
           </section>
         </RecipePortions>
-        <details className="recipe-family-details">
+        <details className={styles.familyDetails}>
           <summary><span>Ручные порции семьи <small>Вспомогательный расчёт</small></span><span aria-hidden="true">＋</span></summary>
           <FamilyRecipePortions key={`family-${recipe.id}`} recipe={recipe} products={products} />
         </details>
       </main>
-      {recipe.image?.origin === "ai" && <ImageCredits />}
+      {recipe.image?.origin === "ai" && <ImageCredits className={styles.footer} />}
     </div>
   );
 }

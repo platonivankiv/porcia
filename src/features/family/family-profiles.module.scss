@@ -1,10 +1,170 @@
-/* POR-DESIGN-006: approved family prototype. Shared navigation and POR-009 stay unchanged. */
-.family-app > .family-main {
+.actionButton {
+  composes: actionButton from "../../shared/ui/form-controls.module.scss";
+}
+
+.secondaryButton {
+  composes: secondaryButton from "../../shared/ui/form-controls.module.scss";
+}
+
+.textButton {
+  composes: textButton from "../../shared/ui/form-controls.module.scss";
+}
+
+.panel {
+  composes: panel from "../../shared/ui/form-controls.module.scss";
+}
+
+.fields {
+  composes: fields from "../../shared/ui/form-controls.module.scss";
+}
+
+.physicalFields {
+  composes: physicalFields from "../../shared/ui/form-controls.module.scss";
+}
+
+.field {
+  composes: field from "../../shared/ui/form-controls.module.scss";
+}
+
+.actions {
+  composes: actions from "../../shared/ui/form-controls.module.scss";
+}
+
+.foodFields {
+  composes: foodFields from "../../shared/ui/form-controls.module.scss";
+}
+
+.checkbox {
+  composes: checkbox from "../../shared/ui/form-controls.module.scss";
+}
+
+.fieldError {
+  composes: fieldError from "../../shared/ui/form-controls.module.scss";
+}
+
+.restrictions {
+  composes: restrictions from "../../shared/ui/form-controls.module.scss";
+}
+
+.app {
+  composes: app from "../../shared/ui/app-shell.module.scss";
+}
+
+.main {
+  composes: container main from "../../shared/ui/app-shell.module.scss";
+}
+
+.localNote {
+  border-radius: 12px;
+}
+
+.localNote p {
+  overflow-wrap: anywhere;
+}
+
+.member h3 {
+  overflow-wrap: anywhere;
+}
+
+.status {
+  margin-bottom: 12px;
+}
+
+.count {
+  font-weight: 400;
+}
+
+.memberList {
+  display: grid;
+  gap: 20px;
+  padding: 0;
+  list-style: none;
+  margin: 0;
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.summary dd {
+  font-size: 17px;
+  overflow-wrap: anywhere;
+}
+
+.targetSummary {
+  padding-block: 20px;
+  border-top: 1px solid var(--recipe-border);
+  border-bottom: 1px solid var(--recipe-border);
+}
+
+.summary small {
+  display: block;
+  color: var(--recipe-muted);
+  font-size: 12px;
+}
+
+.reset {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--recipe-border);
+}
+
+.recommendation {
+  margin-top: 20px;
+}
+
+.recommendationPanel > .recommendation {
+  margin-top: 0;
+}
+
+.recommendation > p {
+  margin-top: 12px;
+}
+
+.recommendation h3 {
+  font-size: 21px;
+}
+
+.method {
+  margin-top: 16px;
+}
+
+.method summary {
+  align-items: center;
+  min-height: 44px;
+  cursor: pointer;
+  text-underline-offset: 3px;
+}
+
+.method a {
+  color: var(--recipe-green);
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+
+.method ul {
+  padding-left: 20px;
+}
+
+.method li + li {
+  margin-top: 8px;
+}
+
+.nutritionNote {
+  padding-left: 12px;
+  border-left: 2px solid var(--recipe-border);
+  font-size: 14px;
+}
+
+.main {
   max-width: 1360px;
   padding: 36px;
 }
 
-.family-app .family-page-heading {
+.pageHeading {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -12,11 +172,11 @@
   margin-bottom: 24px;
 }
 
-.family-page-heading > div {
+.pageHeading > div {
   min-width: 0;
 }
 
-.family-app .family-page-heading h1 {
+.pageHeading h1 {
   font-size: clamp(40px, 4vw, 58px);
   line-height: 1.12;
   font-weight: 700;
@@ -24,7 +184,7 @@
   overflow-wrap: anywhere;
 }
 
-.family-app .family-eyebrow {
+.eyebrow {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -33,7 +193,7 @@
   font-weight: 600;
 }
 
-.family-eyebrow::before {
+.eyebrow::before {
   content: "";
   width: 8px;
   height: 8px;
@@ -41,7 +201,7 @@
   background: var(--porcia-ink);
 }
 
-.family-app .family-local-note {
+.localNote {
   padding: 0;
   margin-bottom: 20px;
   background: transparent;
@@ -49,12 +209,12 @@
   font-size: 14px;
 }
 
-.family-app .family-status {
+.status {
   min-height: 0;
   color: var(--porcia-ink);
 }
 
-.family-status:empty {
+.status:empty {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -62,7 +222,7 @@
   clip-path: inset(50%);
 }
 
-.family-list-heading {
+.listHeading {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -72,28 +232,28 @@
   font-size: 14px;
 }
 
-.family-app .family-list-heading h2 {
+.listHeading h2 {
   font: inherit;
   font-weight: 700;
   letter-spacing: normal;
 }
 
-.family-app .family-count {
+.count {
   margin-left: 8px;
   font-size: 14px;
   color: var(--porcia-ink);
 }
 
-.family-app .family-member-list {
+.memberList {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   align-items: stretch;
 }
 
-.family-member-list > li {
+.memberList > li {
   min-width: 0;
 }
 
-.family-member {
+.member {
   height: 100%;
   overflow: hidden;
   border: var(--porcia-card-border);
@@ -101,7 +261,7 @@
   background: var(--porcia-background);
 }
 
-.family-member-visual {
+.memberVisual {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 43%;
   gap: 8px;
@@ -110,15 +270,15 @@
   background: var(--porcia-lavender);
 }
 
-.family-member-list > li:nth-child(3n + 2) .family-member-visual {
+.memberList > li:nth-child(3n + 2) .memberVisual {
   background: var(--porcia-green);
 }
 
-.family-member-list > li:nth-child(3n) .family-member-visual {
+.memberList > li:nth-child(3n) .memberVisual {
   background: var(--porcia-yellow);
 }
 
-.family-app .family-member-visual h3 {
+.memberVisual h3 {
   margin-bottom: 12px;
   font-family: var(--font-display), "Arial Narrow", sans-serif;
   font-size: 38px;
@@ -128,7 +288,7 @@
   overflow-wrap: anywhere;
 }
 
-.family-member-goal {
+.memberGoal {
   display: inline-block;
   padding: 5px 10px;
   border: 1px solid var(--porcia-ink);
@@ -138,19 +298,19 @@
   font-weight: 700;
 }
 
-.family-app .family-member-age {
+.memberAge {
   margin: 12px 0;
   font-size: 14px;
 }
 
-.family-avatar {
+.avatar {
   align-self: end;
   width: 100%;
   height: 224px;
   object-fit: contain;
 }
 
-.family-monogram {
+.monogram {
   display: grid;
   align-self: center;
   place-items: center;
@@ -166,15 +326,15 @@
   text-transform: uppercase;
 }
 
-.family-member-facts {
+.memberFacts {
   padding: 18px;
 }
 
-.family-app .family-member-facts .family-recommendation {
+.memberFacts .recommendation {
   margin-top: 0;
 }
 
-.family-app .family-member-facts h3 {
+.memberFacts h3 {
   margin-bottom: 12px;
   font-size: 16px;
   line-height: 1.4;
@@ -182,26 +342,26 @@
   letter-spacing: normal;
 }
 
-.family-app .family-target-summary {
+.targetSummary {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px 0;
   padding: 0;
-  margin-top: 0 !important;
+  margin-top: 0;
   border: 0;
   font-variant-numeric: tabular-nums;
 }
 
-.family-target-summary > div {
+.targetSummary > div {
   padding: 0 6px;
   border-right: 1px solid var(--recipe-border);
   text-align: center;
 }
 
-.family-target-summary > div:last-child {
+.targetSummary > div:last-child {
   border-right: 0;
 }
 
-.family-target-summary > div:first-child {
+.targetSummary > div:first-child {
   display: flex;
   grid-column: 1 / -1;
   align-items: baseline;
@@ -212,42 +372,42 @@
   text-align: left;
 }
 
-.family-app .family-summary dt {
+.summary dt {
   color: var(--porcia-ink);
   font-size: 13px;
 }
 
-.family-app .family-target-summary dd {
+.targetSummary dd {
   font-size: 22px;
   line-height: 1.3;
   font-weight: 800;
   letter-spacing: -.5px;
 }
 
-.family-app .family-target-summary dd span {
+.targetSummary dd span {
   font-size: 14px;
   font-weight: 500;
   letter-spacing: normal;
 }
 
-.family-app .family-target-summary > div:first-child dd {
+.targetSummary > div:first-child dd {
   font-size: 28px;
 }
 
-.family-member-facts .family-method {
+.memberFacts .method {
   padding-top: 12px;
   margin-top: 18px;
   border-top: 1px solid var(--recipe-border);
 }
 
-.family-member-tags {
+.memberTags {
   display: flex;
   flex-wrap: wrap;
   gap: 7px;
   margin-top: 12px;
 }
 
-.family-member-tags > span {
+.memberTags > span {
   max-width: 100%;
   padding: 4px 8px;
   border: 1px solid var(--recipe-border);
@@ -256,43 +416,43 @@
   overflow-wrap: anywhere;
 }
 
-.family-parameter-list {
+.parameterList {
   display: grid;
   gap: 8px;
   margin: 12px 0;
 }
 
-.family-parameter-list > div {
+.parameterList > div {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
 }
 
-.family-parameter-list dt {
+.parameterList dt {
   color: var(--porcia-muted);
 }
 
-.family-parameter-list dd {
+.parameterList dd {
   margin: 0;
   overflow-wrap: anywhere;
 }
 
-.family-app .family-footnotes {
+.footnotes {
   margin-top: 20px;
   color: var(--porcia-muted);
   font-size: 14px;
 }
 
-.family-footnotes p + p {
+.footnotes p + p {
   margin-top: 6px;
 }
 
-.family-storage-details {
+.storageDetails {
   margin-top: 16px;
   font-size: 14px;
 }
 
-.family-app .family-credits {
+.credits {
   margin-top: 24px;
   padding-top: 16px;
   border-top: 1px solid var(--porcia-ink);
@@ -300,18 +460,18 @@
   font-size: 13px;
 }
 
-.family-credits a {
+.credits a {
   color: inherit;
   text-underline-offset: 3px;
 }
 
-.family-app summary {
+.app summary {
   min-height: 44px;
   padding: 10px 0;
   cursor: pointer;
 }
 
-.family-app .family-button {
+.actionButton {
   gap: 8px;
   border: var(--porcia-control-border);
   border-radius: 10px;
@@ -322,76 +482,77 @@
   line-height: 1.5;
 }
 
-.family-app .family-button-secondary {
+.secondaryButton {
   background: var(--porcia-background);
 }
 
-.family-member-info .family-button {
+.memberInfo .actionButton {
   min-height: 44px;
   gap: 6px;
   padding: 7px 12px;
   font-size: 14px;
 }
 
-.family-app .family-button:hover {
+.actionButton:hover {
   background: var(--porcia-yellow);
   transform: translateY(-2px);
 }
 
-.family-app .family-button:active {
+.actionButton:active {
   transform: translateY(1px);
 }
 
-.family-app .family-text-button {
+.textButton {
   margin-top: 0;
   color: var(--porcia-ink);
 }
 
-.family-app .family-back {
+.back {
   margin: 0 0 12px;
 }
 
-.family-app :is(button, input, select, textarea, summary):focus-visible {
+.app :is(button, input, select, textarea, summary):focus-visible {
   outline: 3px solid var(--porcia-ink);
   outline-offset: 4px;
 }
 
-.family-app :is(h1, h2):focus-visible {
+.app :is(h1, h2):focus-visible {
   outline: 3px solid var(--porcia-ink);
   outline-offset: 5px;
 }
 
-.family-app .family-panel {
+.panel {
   padding: 22px;
   border: var(--porcia-control-border);
   border-radius: 14px;
   background: var(--porcia-background);
 }
 
-.family-app .family-panel h2 {
+.panel h2 {
   margin-bottom: 8px;
   font-size: 24px;
   font-weight: 800;
   letter-spacing: -.6px;
 }
 
-.family-app .recipe-small {
+.small {
+  color: var(--recipe-muted);
   font-size: 14px;
   line-height: 1.5;
 }
 
-.family-app .family-form {
+.form {
   display: block;
 }
 
-.family-section-nav {
+.sectionNav {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
   margin-bottom: 24px;
 }
 
-.family-section-nav button {
+.sectionNav button {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -403,11 +564,11 @@
   cursor: pointer;
 }
 
-.family-section-nav button[aria-current] {
+.sectionNav button[aria-current] {
   border-color: var(--porcia-ink);
 }
 
-.family-section-nav span {
+.sectionNav span {
   display: grid;
   flex: 0 0 30px;
   place-items: center;
@@ -417,51 +578,54 @@
   border-radius: 50%;
 }
 
-.family-section-nav button[aria-current] span {
+.sectionNav button[aria-current] span {
   border-width: 2px;
   background: var(--porcia-green);
 }
 
-.family-editor-grid {
+.editorGrid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 290px;
   align-items: start;
   gap: 24px;
 }
 
-.family-form-fields,
-.family-editor-summary {
+.formFields {
   min-width: 0;
 }
 
-.family-form-fields > [hidden] {
+.editorSummary {
+  min-width: 0;
+}
+
+.formFields > [hidden] {
   display: none;
 }
 
-.family-app .family-fields {
+.fields {
   gap: 14px;
 }
 
-.family-app .family-physical-fields {
+.physicalFields {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.family-app .family-field {
+.field {
   gap: 7px;
   margin: 16px 0;
 }
 
-.family-app .family-field label {
+.field label {
   font-size: 14px;
   line-height: 1.5;
   font-weight: 700;
 }
 
-.family-physical-fields .family-field label {
+.physicalFields .field label {
   font-size: 13px;
 }
 
-.family-app .family-field :is(input, select, textarea) {
+.field :is(input, select, textarea) {
   min-height: 46px;
   border: 1.5px solid var(--porcia-ink);
   border-radius: 8px;
@@ -472,11 +636,11 @@
   line-height: 1.5;
 }
 
-.family-app .family-field [aria-invalid="true"] {
+.field [aria-invalid="true"] {
   border: 2px solid #9d3828;
 }
 
-.family-choice-field {
+.choiceField {
   position: relative;
   min-width: 0;
   padding-top: 12px;
@@ -484,7 +648,7 @@
   border-top: 1px solid var(--recipe-border);
 }
 
-.family-choice-field legend {
+.choiceField legend {
   float: left;
   width: 100%;
   margin: 12px 0 6px;
@@ -492,21 +656,27 @@
   font-weight: 800;
 }
 
-.family-app .family-clear-choice {
+.clearChoice {
   display: block;
   margin-left: auto;
   font-size: 14px;
 }
 
-.family-goal-options,
-.family-sex-options {
+.goalOptions {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
   margin-top: 12px;
 }
 
-.family-choice {
+.sexOptions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.choice {
   position: relative;
   display: flex;
   min-width: 0;
@@ -518,17 +688,17 @@
   cursor: pointer;
 }
 
-.family-choice:has(input:checked) {
+.choice:has(input:checked) {
   border-color: var(--porcia-ink);
   box-shadow: inset 0 0 0 2px var(--porcia-background);
 }
 
-.family-choice:has(input:focus-visible) {
+.choice:has(input:focus-visible) {
   outline: 3px solid var(--porcia-ink);
   outline-offset: 4px;
 }
 
-.family-choice input {
+.choice input {
   position: absolute;
   z-index: 1;
   top: 10px;
@@ -539,11 +709,11 @@
   accent-color: var(--porcia-ink);
 }
 
-.family-app .family-choice input:focus-visible {
+.choice input:focus-visible {
   outline: none;
 }
 
-.family-choice img {
+.choice img {
   width: 100%;
   height: 123px;
   margin-top: 8px;
@@ -551,43 +721,55 @@
   transition: transform 180ms ease;
 }
 
-.family-choice > span:last-child {
+.choice > span:last-child {
   padding: 8px 10px 14px;
   font-weight: 700;
   text-align: center;
 }
 
-.family-goal-choice > span:last-child {
+.goalChoice > span:last-child {
   font-family: var(--font-display), "Arial Narrow", sans-serif;
   font-size: 21px;
   line-height: 1.15;
 }
 
-.family-sex-option img {
+.sexOption img {
   height: 118px;
 }
 
-.family-tone-green,
-.family-tone-woman {
+.tone-green {
   background: var(--porcia-green);
 }
 
-.family-tone-lavender,
-.family-tone-man {
+.tone-woman {
+  background: var(--porcia-green);
+}
+
+.tone-lavender {
   background: var(--porcia-lavender);
 }
 
-.family-tone-yellow,
-.family-tone-neutral {
+.tone-man {
+  background: var(--porcia-lavender);
+}
+
+.tone-yellow {
   background: var(--porcia-yellow);
 }
 
-.family-tone-coral,
-.family-tone-child {
+.tone-neutral {
+  background: var(--porcia-yellow);
+}
+
+.tone-coral {
   background: var(--porcia-coral);
 }
 
-.family-next-section {
+.tone-child {
+  background: var(--porcia-coral);
+}
+
+.nextSection {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
@@ -595,7 +777,7 @@
   margin-top: 16px;
 }
 
-.family-avatar-row {
+.avatarRow {
   display: flex;
   align-items: center;
   gap: 16px;
@@ -606,29 +788,29 @@
   background: var(--porcia-yellow);
 }
 
-.family-avatar-row strong {
+.avatarRow strong {
   font-size: 15px;
 }
 
-.family-avatar-row .family-text-button {
+.avatarRow .textButton {
   display: block;
   font-size: 14px;
   text-align: left;
 }
 
-.family-avatar-mini {
+.avatarMini {
   flex: 0 0 58px;
   width: 58px;
   height: 72px;
   object-fit: contain;
 }
 
-.family-monogram.family-avatar-mini {
+.monogram.avatarMini {
   height: 58px;
   font-size: 30px;
 }
 
-.family-avatar-dialog {
+.avatarDialog {
   width: calc(100% - 32px);
   max-width: 660px;
   max-height: calc(100dvh - 40px);
@@ -639,11 +821,11 @@
   color: var(--porcia-ink);
 }
 
-.family-avatar-dialog::backdrop {
+.avatarDialog::backdrop {
   background: #20251f80;
 }
 
-.family-dialog-heading {
+.dialogHeading {
   display: flex;
   align-items: start;
   justify-content: space-between;
@@ -651,29 +833,29 @@
   margin-bottom: 12px;
 }
 
-.family-avatar-options {
+.avatarOptions {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
   margin: 24px 0;
 }
 
-.family-avatar-choice img {
+.avatarChoice img {
   height: 160px;
 }
 
-.family-avatar-choice .family-monogram {
+.avatarChoice .monogram {
   width: 80px;
   height: 80px;
   margin: 40px auto;
   font-size: 40px;
 }
 
-.family-avatar-choice > span:last-child {
+.avatarChoice > span:last-child {
   font-size: 14px;
 }
 
-.family-editor-portrait {
+.editorPortrait {
   padding: 20px;
   margin-bottom: 20px;
   border: var(--porcia-card-border);
@@ -682,7 +864,7 @@
   text-align: center;
 }
 
-.family-app .family-editor-portrait h2 {
+.editorPortrait h2 {
   font-family: var(--font-display), "Arial Narrow", sans-serif;
   font-size: 32px;
   font-weight: 700;
@@ -690,60 +872,60 @@
   overflow-wrap: anywhere;
 }
 
-.family-editor-portrait img {
+.editorPortrait img {
   height: 206px;
   margin-top: 12px;
 }
 
-.family-editor-portrait .family-monogram {
+.editorPortrait .monogram {
   width: 130px;
   margin: 20px auto;
 }
 
-.family-app .family-recommendation-panel {
+.recommendationPanel {
   padding: 18px;
   margin-top: 0;
 }
 
-.family-app .family-recommendation-panel h3 {
+.recommendationPanel h3 {
   font-size: 20px;
   font-weight: 800;
   letter-spacing: normal;
 }
 
-.family-recommendation-panel .family-target-summary > div:first-child {
+.recommendationPanel .targetSummary > div:first-child {
   display: block;
   margin-bottom: 6px;
 }
 
-.family-app .family-recommendation-panel .family-target-summary dd {
+.recommendationPanel .targetSummary dd {
   font-size: 20px;
 }
 
-.family-app .family-recommendation-panel .family-target-summary > div:first-child dd {
+.recommendationPanel .targetSummary > div:first-child dd {
   margin-top: 6px;
   font-size: 32px;
 }
 
-.family-form-footer {
+.formFooter {
   max-width: calc(100% - 314px);
   margin-top: 20px;
 }
 
-.family-form-footer .family-actions {
+.formFooter .actions {
   margin-top: 20px;
 }
 
-.family-form-footer .family-actions > button:first-child {
+.formFooter .actions > button:first-child {
   flex: 1;
 }
 
-.family-app .family-method {
+.method {
   color: var(--porcia-muted);
   font-size: 14px;
 }
 
-.family-app .family-method summary {
+.method summary {
   display: list-item;
   list-style: revert;
   font-weight: 700;
@@ -751,36 +933,39 @@
   color: var(--porcia-ink);
 }
 
-.family-method p,
-.family-method ul {
+.method p {
   margin-top: 12px;
 }
 
-.family-app .family-food-fields {
+.method ul {
+  margin-top: 12px;
+}
+
+.foodFields {
   min-width: 0;
   padding-top: 14px;
   margin-top: 20px;
   border-top: 1px solid var(--recipe-border);
 }
 
-.family-app .family-food-fields legend {
+.foodFields legend {
   padding-top: 12px;
   font-size: 18px;
   font-weight: 800;
 }
 
-.family-food-chips {
+.foodChips {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
   margin-bottom: 10px;
 }
 
-.family-food-chips:empty {
+.foodChips:empty {
   display: none;
 }
 
-.family-food-chip {
+.foodChip {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -792,28 +977,28 @@
   overflow-wrap: anywhere;
 }
 
-.family-food-chip button {
+.foodChip button {
   min-width: 36px;
   min-height: 44px;
   font-size: 20px;
   cursor: pointer;
 }
 
-.family-product-picker {
+.productPicker {
   padding: 0 12px;
   border: 1px solid var(--recipe-border);
   border-radius: 8px;
   background: var(--porcia-surface);
 }
 
-.family-product-options {
+.productOptions {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0 12px;
   padding-bottom: 12px;
 }
 
-.family-product-option {
+.productOption {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -821,7 +1006,7 @@
   font-size: 14px;
 }
 
-.family-app .family-checkbox {
+.checkbox {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -830,7 +1015,7 @@
   font-weight: 600;
 }
 
-.family-app input[type="checkbox"] {
+.app input[type="checkbox"] {
   flex: 0 0 21px;
   width: 21px;
   height: 21px;
@@ -838,176 +1023,195 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .family-choice:hover img {
+  .choice:hover img {
     transform: scale(1.04);
   }
+
 }
 
 @media (max-width: 1279px) {
-  .family-app > .family-main {
+  .main {
     padding: 28px 24px;
   }
 
-  .family-app .family-member-list {
+  .memberList {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .family-editor-grid {
+  .editorGrid {
     grid-template-columns: minmax(0, 1fr) 250px;
     gap: 18px;
   }
 
-  .family-form-footer {
+  .formFooter {
     max-width: calc(100% - 268px);
   }
+
 }
 
 @media (max-width: 1000px) {
-  .family-editor-grid {
+  .editorGrid {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .family-editor-portrait {
+  .editorPortrait {
     display: none;
   }
 
-  .family-form-footer {
+  .formFooter {
     max-width: none;
   }
+
 }
 
 @media (max-width: 760px) {
-  .family-app > .family-main {
+  .main {
     padding: 24px 20px;
   }
 
-  .family-app .family-page-heading {
+  .pageHeading {
     display: block;
   }
 
-  .family-app .family-page-heading h1 {
+  .pageHeading h1 {
     font-size: 42px;
   }
 
-  .family-page-heading > .family-button {
+  .pageHeading > .actionButton {
     width: 100%;
     margin-top: 20px;
   }
 
-  .family-list-heading {
+  .listHeading {
     flex-wrap: wrap;
   }
 
-  .family-app .family-member-list {
+  .memberList {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .family-member-visual {
+  .memberVisual {
     min-height: 250px;
   }
 
-  .family-member-visual .family-avatar {
+  .memberVisual .avatar {
     height: 210px;
   }
 
-  .family-member-visual .family-monogram {
+  .memberVisual .monogram {
     height: auto;
   }
 
-  .family-app .family-panel {
+  .panel {
     padding: 18px;
   }
 
-  .family-section-nav {
+  .sectionNav {
     gap: 6px;
   }
 
-  .family-section-nav button {
+  .sectionNav button {
     flex-direction: column;
     align-items: start;
     gap: 8px;
     font-size: 13px;
   }
 
-  .family-app .family-fields {
+  .fields {
     gap: 10px;
   }
 
-  .family-physical-fields .family-field label {
+  .physicalFields .field label {
     font-size: 12px;
   }
 
-  .family-goal-options {
+  .goalOptions {
     gap: 10px;
   }
 
-  .family-goal-choice > span:last-child {
+  .goalChoice > span:last-child {
     padding-inline: 5px;
     font-size: 20px;
   }
 
-  .family-product-options {
+  .productOptions {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .family-app .family-actions > .family-button,
-  .family-next-section > .family-button {
+  .actions > .actionButton {
     width: 100%;
   }
 
-  .family-avatar-options {
+  .nextSection > .actionButton {
+    width: 100%;
+  }
+
+  .avatarOptions {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .family-avatar-dialog {
+  .avatarDialog {
     padding: 18px;
   }
+
 }
 
 @media (max-width: 359px) {
-  .family-app > .family-main {
+  .main {
     padding-inline: 14px;
   }
 
-  .family-app .family-panel {
+  .panel {
     padding: 14px;
   }
 
-  .family-app .family-page-heading h1 {
+  .pageHeading h1 {
     font-size: 36px;
   }
 
-  .family-app .family-physical-fields {
+  .physicalFields {
     grid-template-columns: minmax(0, 1fr);
     gap: 0;
   }
 
-  .family-goal-choice > span:last-child {
+  .goalChoice > span:last-child {
     font-size: 18px;
   }
 
-  .family-app .family-member-visual h3 {
+  .memberVisual h3 {
     font-size: 32px;
   }
 
-  .family-member-visual {
+  .memberVisual {
     padding: 16px;
   }
 
-  .family-avatar {
+  .avatar {
     height: 200px;
   }
+
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .family-app .family-button,
-  .family-choice img {
+  .actionButton {
     transition: none;
   }
 
-  .family-app .family-button:hover,
-  .family-app .family-button:active,
-  .family-choice:hover img {
+  .choice img {
+    transition: none;
+  }
+
+  .actionButton:hover {
     transform: none;
   }
+
+  .actionButton:active {
+    transform: none;
+  }
+
+  .choice:hover img {
+    transform: none;
+  }
+
 }
+

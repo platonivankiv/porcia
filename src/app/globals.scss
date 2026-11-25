@@ -1,0 +1,10 @@
+@use "../styles/tokens";
+
+body {
+  margin: 0;
+  font-family: var(--font-body), Arial, sans-serif;
+  background: var(--porcia-background);
+  color: var(--porcia-ink);
+  font-synthesis: none;
+}
+

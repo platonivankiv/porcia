@@ -1,0 +1,153 @@
+.container {
+  composes: container from "../../shared/ui/app-shell.module.scss";
+}
+
+footer.footer {
+  grid-column: 2;
+  width: 100%;
+  max-width: 1450px;
+  padding: 0 40px 32px;
+}
+
+.button {
+  border: var(--porcia-control-border);
+}
+
+@media (max-width: 760px) {
+  footer.footer {
+    padding: 0 20px 24px;
+  }
+
+}
+
+.eyebrow {
+  margin-bottom: 12px;
+  color: var(--recipe-green);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.small {
+  color: var(--recipe-muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.nutrients {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.nutrients dt {
+  font-size: 13px;
+  color: var(--recipe-muted);
+}
+
+.nutrients dd {
+  white-space: nowrap;
+}
+
+.nutrients strong {
+  font-size: 28px;
+  letter-spacing: -.7px;
+  font-weight: 550;
+}
+
+.nutrients dd span {
+  font-size: 13px;
+}
+
+.footer a {
+  color: var(--recipe-green);
+  text-underline-offset: 3px;
+}
+
+.empty {
+  border: 1px solid var(--recipe-border);
+  border-radius: 20px;
+  padding: 48px;
+  background: #fff;
+  margin-top: 24px;
+}
+
+.empty h1 {
+  margin-bottom: 16px;
+}
+
+.empty h2 {
+  margin-bottom: 16px;
+}
+
+.empty p {
+  color: var(--recipe-muted);
+}
+
+.empty p + p {
+  margin-top: 12px;
+}
+
+.button {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  margin-top: 24px;
+  background: var(--recipe-green);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 12px;
+  text-decoration: none;
+}
+
+.footer {
+  padding-block: 0 32px;
+  color: var(--recipe-muted);
+  font-size: 13px;
+}
+
+.footer a {
+  display: inline-block;
+  padding-block: 8px;
+}
+
+@media (max-width: 1023px) {
+  .nutrients strong {
+    font-size: 26px;
+  }
+
+}
+
+@media (max-width: 700px) {
+  .nutrients {
+    column-gap: 8px;
+    row-gap: 16px;
+  }
+
+  .nutrients strong {
+    font-size: 23px;
+  }
+
+  .nutrients dd span {
+    display: block;
+    font-size: 12px;
+  }
+
+  .nutrients dd {
+    white-space: normal;
+  }
+
+  .empty {
+    padding: 28px 20px;
+  }
+
+}
+
+.empty .eyebrow {
+  color: var(--recipe-green);
+}
+

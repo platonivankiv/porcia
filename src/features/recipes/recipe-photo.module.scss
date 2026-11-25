@@ -1,0 +1,27 @@
+.photo {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background: #e9eee4;
+}
+
+.photo img {
+  object-fit: contain;
+  transition: transform 600ms;
+}
+
+.photoEmpty {
+  display: grid;
+  height: 100%;
+  place-items: center;
+  padding: 24px;
+  color: var(--recipe-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo img {
+    transition: none;
+  }
+
+}
+

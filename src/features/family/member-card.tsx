@@ -1,3 +1,4 @@
+import styles from "./family-profiles.module.scss";
 import type { Product } from "../recipes/model";
 import type { FamilyMember, FoodSubject } from "./model";
 import { MemberAvatar } from "./member-avatar";
@@ -12,19 +13,19 @@ export function MemberCard({ member, products, onEdit }: {
   function subjectLabel(subject: FoodSubject) {
     return subject.kind === "description" ? subject.label : products.find((product) => product.id === subject.productId)?.name ?? subject.productId;
   }
-  return <article className="family-member">
-    <div className="family-member-visual">
-      <div className="family-member-info">
+  return <article className={styles.member}>
+    <div className={styles.memberVisual}>
+      <div className={styles.memberInfo}>
         <h3>{member.displayName}</h3>
-        <p className="family-member-goal">{member.goal ? member.goal === "maintenance" ? "Поддержание веса" : goalLabels[member.goal] : "Цель не выбрана"}</p>
-        <p className="family-member-age">{member.ageYears === null ? "Возраст не указан" : `${member.ageYears} лет`}</p>
-        <button className="family-button family-button-secondary" aria-label={`Редактировать: ${member.displayName}`} onClick={onEdit}>Изменить <span aria-hidden="true">↗</span></button>
+        <p className={styles.memberGoal}>{member.goal ? member.goal === "maintenance" ? "Поддержание веса" : goalLabels[member.goal] : "Цель не выбрана"}</p>
+        <p className={styles.memberAge}>{member.ageYears === null ? "Возраст не указан" : `${member.ageYears} лет`}</p>
+        <button className={styles.actionButton + " " + styles.secondaryButton} aria-label={`Редактировать: ${member.displayName}`} onClick={onEdit}>Изменить <span aria-hidden="true">↗</span></button>
       </div>
       <MemberAvatar avatarId={member.avatarId} displayName={member.displayName} />
     </div>
-    <div className="family-member-facts">
+    <div className={styles.memberFacts}>
       <NutritionRecommendation inputs={member} compact />
-      <div className="family-member-tags" aria-label="Ограничения и предпочтения">
+      <div className={styles.memberTags} aria-label="Ограничения и предпочтения">
         {member.restrictions.status === "not-specified" ? <span>Ограничения не указаны</span>
           : member.restrictions.items.length ? member.restrictions.items.map((item, index) => <span key={index}>{item.kind === "allergy" ? "Аллергия" : "Исключение"}: {subjectLabel(item.subject)}</span>)
           : <span>Ограничения: раздел заполнен, записей нет</span>}

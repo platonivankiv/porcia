@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import localFont from "next/font/local";
-import "@/app/globals.css";
+import "@/app/tailwind.css";
+import "@/app/globals.scss";
 
 const bodyFont = localFont({
   src: [
