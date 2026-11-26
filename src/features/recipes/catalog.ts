@@ -166,6 +166,198 @@ export const products: readonly Product[] = [
       },
     }],
   },
+  // POR-011: quantities refer to edible parts; do not apply purchase waste factors again.
+  {
+    id: "red-lentils",
+    name: "Чечевица красная, сухая",
+    nutrition: [
+      {
+        state: "dry",
+        per100g: {
+          calories: 274,
+          protein: 22.5,
+          fat: 2.2,
+          carbohydrates: 31.9
+        },
+        source: {
+          title: "Matvaretabellen · Lentils, red, uncooked",
+          url: "https://www.matvaretabellen.no/en/lentils-red-uncooked/",
+          recordId: "06.184",
+          checkedAt: "2026-11-26"
+        }
+      }
+    ]
+  },
+  {
+    id: "onion",
+    name: "Лук репчатый, очищенный",
+    nutrition: [
+      {
+        state: "raw",
+        per100g: {
+          calories: 30,
+          protein: 1,
+          fat: 0,
+          carbohydrates: 4.4
+        },
+        source: {
+          title: "Matvaretabellen · Onion, Norwegian, raw",
+          url: "https://www.matvaretabellen.no/en/onion-norwegian-raw/",
+          recordId: "06.042",
+          checkedAt: "2026-11-26"
+        }
+      }
+    ]
+  },
+  {
+    id: "carrot",
+    name: "Морковь, съедобная часть",
+    nutrition: [
+      {
+        state: "raw",
+        per100g: {
+          calories: 25,
+          protein: 0,
+          fat: 0,
+          carbohydrates: 5.3
+        },
+        source: {
+          title: "Matvaretabellen · Carrot, Norwegian, raw",
+          url: "https://www.matvaretabellen.no/en/carrot-norwegian-raw/",
+          recordId: "06.036",
+          checkedAt: "2026-11-26"
+        }
+      }
+    ]
+  },
+  {
+    id: "garlic",
+    name: "Чеснок, очищенный",
+    nutrition: [
+      {
+        state: "raw",
+        per100g: {
+          calories: 106,
+          protein: 7.9,
+          fat: 0.6,
+          carbohydrates: 16.3
+        },
+        source: {
+          title: "Matvaretabellen · Garlic, raw",
+          url: "https://www.matvaretabellen.no/en/garlic-raw/",
+          recordId: "06.038",
+          checkedAt: "2026-11-26"
+        }
+      }
+    ]
+  },
+  {
+    id: "canned-tomatoes",
+    name: "Томаты консервированные в собственном соку, с соком",
+    nutrition: [
+      {
+        state: "ready",
+        per100g: {
+          calories: 21,
+          protein: 0.8,
+          fat: 0.2,
+          carbohydrates: 3.3
+        },
+        source: {
+          title: "Matvaretabellen · Tomato, canned",
+          url: "https://www.matvaretabellen.no/en/tomato-canned/",
+          recordId: "06.070",
+          checkedAt: "2026-11-26"
+        }
+      }
+    ]
+  },
+  {
+    id: "wheat-pasta",
+    name: "Макароны пшеничные, сухие, без яйца",
+    allergens: ["wheat"],
+    nutrition: [
+      {
+        state: "dry",
+        per100g: {
+          calories: 347,
+          protein: 11.9,
+          fat: 1.3,
+          carbohydrates: 69.8
+        },
+        source: {
+          title: "Matvaretabellen · Pasta, plain, uncooked",
+          url: "https://www.matvaretabellen.no/en/pasta-plain-uncooked/",
+          recordId: "05.016",
+          checkedAt: "2026-11-26"
+        }
+      }
+    ]
+  },
+  {
+    id: "ground-beef-4-5",
+    name: "Фарш говяжий 4,5% жирности",
+    nutrition: [
+      {
+        state: "raw",
+        per100g: {
+          calories: 123,
+          protein: 20.7,
+          fat: 4.5,
+          carbohydrates: 0
+        },
+        source: {
+          title: "Matvaretabellen · Beef, minced meat, 4,5 % fat, raw",
+          url: "https://www.matvaretabellen.no/en/beef-minced-meat-4-5-fat-raw/",
+          recordId: "03.126",
+          checkedAt: "2026-11-26"
+        }
+      }
+    ]
+  },
+  {
+    id: "wild-cod",
+    name: "Треска атлантическая дикая, филе без кожи и костей",
+    allergens: ["fish"],
+    nutrition: [
+      {
+        state: "raw",
+        per100g: {
+          calories: 79,
+          protein: 17.4,
+          fat: 1,
+          carbohydrates: 0
+        },
+        source: {
+          title: "Matvaretabellen · Cod, wild, raw",
+          url: "https://www.matvaretabellen.no/en/cod-wild-raw/",
+          recordId: "04.038",
+          checkedAt: "2026-11-26"
+        }
+      }
+    ]
+  },
+  {
+    id: "potatoes",
+    name: "Картофель для хранения, очищенный",
+    nutrition: [
+      {
+        state: "raw",
+        per100g: {
+          calories: 80,
+          protein: 1.9,
+          fat: 0.1,
+          carbohydrates: 17.1
+        },
+        source: {
+          title: "Matvaretabellen · Potatoes, storage, raw",
+          url: "https://www.matvaretabellen.no/en/potatoes-storage-raw/",
+          recordId: "06.004",
+          checkedAt: "2026-11-26"
+        }
+      }
+    ]
+  },
 ];
 
 // Demonstration compositions; preparation times are estimates, not measured data.
@@ -266,5 +458,245 @@ export const recipes: readonly Recipe[] = [
       "Пока работает духовка, промойте рис, добавьте воду и соль по вкусу. Варите под крышкой на слабом огне примерно 15–20 минут, затем оставьте без нагрева ещё на 5 минут. Количество воды и время на упаковке вашего риса имеют приоритет.",
       "Нарежьте готовую курицу и подайте с рисом и брокколи. Каждый компонент распределите отдельно.",
     ],
+  },
+  {
+    id: "lentil-vegetable-stew",
+    image: { src: "/recipes/lentil-vegetable-stew-cutout.webp", alt: "Густое чечевичное рагу с морковью и томатами в светлой миске", origin: "ai" },
+    name: "Чечевичное рагу с овощами",
+    description: "Густое рагу из красной чечевицы, моркови и томатов с чесноком и паприкой.",
+    category: "dinner",
+    baseServings: 2,
+    activeMinutes: 15,
+    totalMinutes: 55,
+    components: [
+      {
+        id: "stew",
+        name: "Чечевичное рагу",
+        ingredients: [
+          {
+            productId: "red-lentils",
+            state: "dry",
+            quantity: 160,
+            unit: "g"
+          },
+          {
+            productId: "carrot",
+            state: "raw",
+            quantity: 150,
+            unit: "g"
+          },
+          {
+            productId: "onion",
+            state: "raw",
+            quantity: 100,
+            unit: "g"
+          },
+          {
+            productId: "garlic",
+            state: "raw",
+            quantity: 6,
+            unit: "g"
+          },
+          {
+            productId: "canned-tomatoes",
+            state: "ready",
+            quantity: 300,
+            unit: "g"
+          },
+          {
+            productId: "rapeseed-oil",
+            state: "ready",
+            quantity: 15,
+            unit: "g"
+          }
+        ],
+        seasonings: [
+          "Паприка",
+          "Молотый кумин",
+          "Соль",
+          "Чёрный перец"
+        ]
+      }
+    ],
+    steps: [
+      "Переберите и промойте чечевицу. Взвесьте овощи после очистки: мелко нарежьте лук, нарежьте морковь небольшими кубиками, измельчите чеснок.",
+      "В кастрюле с толстым дном нагрейте масло. Готовьте лук и морковь на среднем огне около 7–8 минут, помешивая.",
+      "Добавьте чеснок, паприку и кумин по вкусу, перемешивайте около 30 секунд.",
+      "Добавьте чечевицу и начальные 500 мл питьевой воды для двух базовых порций. Доведите до кипения и готовьте до мягкости, ориентировочно 25–30 минут. Инструкция выбранной чечевицы имеет приоритет. Следите, чтобы смесь не выкипела; при необходимости добавляйте горячую воду. Количество воды не задаёт выход готового блюда.",
+      "Добавьте томаты вместе с соком, разомните крупные куски. Тушите ещё около 10 минут до желаемой густоты. Посолите, поперчите и перемешайте перед распределением рагу."
+    ],
+    safetyNote: "Используйте промытые овощи, чистый инвентарь и полностью приготовленную чечевицу. Чечевица не объявляется гипоаллергенной: проверяйте состав и предупреждения на упаковках. Время — предварительная оценка без контрольной готовки. При изменении объёма воду и время уточняйте по консистенции и инструкции продукта."
+  },
+  {
+    id: "pasta-beef-tomato",
+    image: { src: "/recipes/pasta-beef-tomato-cutout.webp", alt: "Пшеничные макароны пенне и густой томатный соус с говяжьим фаршем на светлой тарелке", origin: "ai" },
+    name: "Паста с томатным соусом и говядиной",
+    description: "Макароны с густым соусом из нежирного говяжьего фарша, томатов и овощей. Макароны и соус распределяются отдельно.",
+    category: "lunch",
+    baseServings: 2,
+    activeMinutes: 20,
+    totalMinutes: 45,
+    components: [
+      {
+        id: "pasta",
+        name: "Макароны",
+        ingredients: [
+          {
+            productId: "wheat-pasta",
+            state: "dry",
+            quantity: 160,
+            unit: "g"
+          }
+        ],
+        seasonings: [
+          "Соль"
+        ]
+      },
+      {
+        id: "meat-sauce",
+        name: "Мясной соус",
+        ingredients: [
+          {
+            productId: "ground-beef-4-5",
+            state: "raw",
+            quantity: 300,
+            unit: "g"
+          },
+          {
+            productId: "canned-tomatoes",
+            state: "ready",
+            quantity: 400,
+            unit: "g"
+          },
+          {
+            productId: "onion",
+            state: "raw",
+            quantity: 100,
+            unit: "g"
+          },
+          {
+            productId: "carrot",
+            state: "raw",
+            quantity: 100,
+            unit: "g"
+          },
+          {
+            productId: "garlic",
+            state: "raw",
+            quantity: 6,
+            unit: "g"
+          },
+          {
+            productId: "rapeseed-oil",
+            state: "ready",
+            quantity: 10,
+            unit: "g"
+          }
+        ],
+        seasonings: [
+          "Сушёный орегано",
+          "Соль",
+          "Чёрный перец"
+        ]
+      }
+    ],
+    steps: [
+      "Взвесьте овощи после очистки. Мелко нарежьте лук, натрите морковь, измельчите чеснок.",
+      "Нагрейте масло в глубокой сковороде. Готовьте лук и морковь около 5–7 минут.",
+      "Добавьте говяжий фарш 4,5% жирности. Готовьте примерно 7–10 минут, тщательно разбивая комки. Добавьте чеснок на последнюю минуту.",
+      "Влейте томаты вместе с соком, добавьте орегано по вкусу. Тушите при слабом кипении примерно 15–20 минут, периодически перемешивая. При необходимости добавьте немного воды. Жир и сок соуса не сливайте: они входят в расчётный состав.",
+      "Пока тушится соус, сварите макароны в воде по инструкции упаковки. Слейте воду. Используйте сухие пшеничные макароны без яйца; проверяйте состав упаковки.",
+      "Проверьте готовность фарша по рекомендации ниже. Раскладывайте макароны и мясной соус отдельно, соединяя в тарелке. Ингредиенты внутри соуса распределяются совместно."
+    ],
+    safetyNote: "После работы с сырым фаршем вымойте руки и инвентарь; не допускайте контакта сырого мяса и его соков с готовой едой. Для надёжной проверки рекомендуем термометр: не менее 71 °C в фарше. Цвет мяса и минуты приготовления не заменяют измерение температуры. Пшеничные макароны содержат глютен; проверяйте состав и предупреждения упаковки. Время — предварительная оценка без контрольной готовки."
+  },
+  {
+    id: "cod-potatoes-broccoli",
+    image: { src: "/recipes/cod-potatoes-broccoli-cutout.webp", alt: "Запечённое филе трески, золотистый картофель и брокколи отдельными компонентами на светлой тарелке", origin: "ai" },
+    name: "Запечённая треска с картофелем и брокколи",
+    description: "Нежное филе трески с картофелем, паприкой и отдельно запечённой брокколи. Три компонента для отдельного распределения.",
+    category: "dinner",
+    baseServings: 2,
+    activeMinutes: 15,
+    totalMinutes: 55,
+    components: [
+      {
+        id: "fish",
+        name: "Треска",
+        ingredients: [
+          {
+            productId: "wild-cod",
+            state: "raw",
+            quantity: 400,
+            unit: "g"
+          },
+          {
+            productId: "rapeseed-oil",
+            state: "ready",
+            quantity: 5,
+            unit: "g"
+          }
+        ],
+        seasonings: [
+          "Сушёный укроп",
+          "Соль",
+          "Чёрный перец"
+        ]
+      },
+      {
+        id: "potatoes",
+        name: "Картофель",
+        ingredients: [
+          {
+            productId: "potatoes",
+            state: "raw",
+            quantity: 500,
+            unit: "g"
+          },
+          {
+            productId: "rapeseed-oil",
+            state: "ready",
+            quantity: 10,
+            unit: "g"
+          }
+        ],
+        seasonings: [
+          "Паприка",
+          "Соль",
+          "Чёрный перец"
+        ]
+      },
+      {
+        id: "vegetables",
+        name: "Запечённая брокколи",
+        ingredients: [
+          {
+            productId: "broccoli",
+            state: "raw",
+            quantity: 300,
+            unit: "g"
+          },
+          {
+            productId: "rapeseed-oil",
+            state: "ready",
+            quantity: 5,
+            unit: "g"
+          }
+        ],
+        seasonings: [
+          "Соль",
+          "Чёрный перец"
+        ]
+      }
+    ],
+    steps: [
+      "Если филе заморожено, заранее разморозьте его в холодильнике. Размораживание не входит в оценку времени. Взвесьте 400 г размороженного сырого филе без кожи и костей для двух базовых порций.",
+      "Разогрейте духовку до 200 °C, верх/низ. Взвесьте картофель после очистки, нарежьте кусочками около 2 см.",
+      "Перемешайте картофель с его маслом, паприкой и солью по вкусу. Разложите одним слоем и запекайте около 25 минут.",
+      "Разберите брокколи на небольшие соцветия и перемешайте с её маслом. Рыбу обсушите, проверьте на оставшиеся кости, смажьте её маслом, добавьте сушёный укроп и соль по вкусу.",
+      "Перемешайте картофель. Поставьте рыбу в отдельной небольшой форме, брокколи — отдельно от рыбы и её соков. Продолжайте запекание ориентировочно 15–20 минут. Картофель должен стать мягким; время рыбы зависит от толщины филе.",
+      "Проверьте температуру рыбы в наиболее толстой части по рекомендации ниже. Распределяйте рыбу, картофель и брокколи отдельно. Сок из формы подавайте вместе с рыбой. Оценка времени предполагает одновременное размещение компонентов; при нескольких заходах время увеличится."
+    ],
+    safetyNote: "Рыба — известный аллерген. Размораживайте филе в холодильнике. После сырой рыбы вымойте руки и инвентарь; её соки не должны попадать на готовую еду. Для надёжной проверки рекомендуем термометр: не менее 63 °C в самой толстой части филе. Время и внешний вид не гарантируют готовность. Время — предварительная оценка без контрольной готовки."
   },
 ];

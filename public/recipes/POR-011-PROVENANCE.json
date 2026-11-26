@@ -1,0 +1,66 @@
+{
+  "createdOn": "2026-11-26",
+  "origin": "ai",
+  "tool": "Built-in image_gen",
+  "note": "AI illustrations, not photographs of prepared portions. Original PNGs retained in the image generation workspace. No external reference images were submitted; style matched the existing Porcia collection through text prompts.",
+  "assets": [
+    {
+      "id": "lentil-vegetable-stew",
+      "file": "lentil-vegetable-stew-cutout.webp",
+      "createdOn": "2026-11-26",
+      "origin": "ai",
+      "tool": "Built-in image_gen",
+      "prompt": "Use case: photorealistic-natural. Create a SINGLE isolated food dish cutout for Porcia recipe cards in the approved Bold Food Editorial collection. Genuine transparent alpha background, no tabletop, kitchen, fabric, props, text, watermark, hands or utensils. A single ivory matte ceramic round vessel with gently scalloped rim, entirely visible with crop-safe transparent margin; large central dish occupies 85% width. Slightly oblique 70-degree overhead view, clean natural light, appetizing realistic home-cooked textures. No cast ground shadow outside vessel. Ingredients exactly as specified, no decorative garnish or additions. Subject: shallow scalloped ivory bowl of thick red lentil vegetable stew. Soft cooked red lentils in a warm orange-red tomato base, visible small carrot cubes, finely cooked onion and garlic mixed throughout, rapeseed oil, subtle paprika and ground cumin, salt and black pepper. ONLY these ingredients and water. No parsley, cilantro, fresh herbs, cream, yogurt, bread, potatoes, rice, meat or other vegetables. One mixed stew, not separate piles.",
+      "sourcePng": "exec-d8190629-4d5c-46b3-9fa6-9ea77e7bc7ea.png",
+      "editPrompt": "Edit target: the provided generated food image. Preserve the food, ingredients, plate, composition, camera angle and lighting exactly. Change ONLY the area OUTSIDE the ceramic vessel: remove the entire broad gray/white glowing halo and all drop shadows, replacing everything outside the vessel silhouette with genuinely transparent alpha. Clean crisp plate silhouette with natural antialiasing, no haze, aura, shadow or opaque background anywhere outside the plate. The ceramic plate and food must be opaque. Keep the whole vessel visible.",
+      "editInputPng": "exec-aacf0341-c7d2-41f4-aa0d-1692e6360018.png",
+      "sha256": "4fa5947942c188a86d624f7f847b390c79e130d74f9b0703f20472ce9f34f1dc",
+      "processing": {
+        "format": "WebP",
+        "width": 800,
+        "height": 533,
+        "quality": 90,
+        "alphaQuality": 100,
+        "transparent": true
+      }
+    },
+    {
+      "id": "pasta-beef-tomato",
+      "file": "pasta-beef-tomato-cutout.webp",
+      "createdOn": "2026-11-26",
+      "origin": "ai",
+      "tool": "Built-in image_gen",
+      "prompt": "Use case: photorealistic-natural. Create a SINGLE isolated food dish cutout for Porcia recipe cards in the approved Bold Food Editorial collection. Genuine transparent alpha background, no tabletop, kitchen, fabric, props, text, watermark, hands or utensils. A single ivory matte ceramic round vessel with gently scalloped rim, entirely visible with crop-safe transparent margin; large central dish occupies 85% width. Slightly oblique 70-degree overhead view, clean natural light, appetizing realistic home-cooked textures. No cast ground shadow outside vessel. Ingredients exactly as specified, no decorative garnish or additions. Subject: scalloped ivory dinner plate of plain cooked wheat penne pasta with a generous portion of thick tomato and minced beef sauce served as a distinct mound partly alongside and partly over pasta, so both pasta and sauce are clearly visible. Sauce contains fine minced beef, crushed canned tomatoes, finely chopped onion, finely grated carrot and garlic cooked into sauce, rapeseed oil, subtle dried oregano, salt, black pepper. ONLY these ingredients. No cheese, fresh basil, parsley, cream, salad, bread or extra garnish. Rich red sauce and natural golden pasta.",
+      "sourcePng": "exec-153ad115-b62d-432c-9574-7d9621c786b5.png",
+      "sha256": "32e43a831dab0f9d5756f20bacb9718d169b43e02952105109497894cdd9b8c5",
+      "processing": {
+        "format": "WebP",
+        "width": 800,
+        "height": 600,
+        "quality": 90,
+        "alphaQuality": 100,
+        "transparent": true
+      }
+    },
+    {
+      "id": "cod-potatoes-broccoli",
+      "file": "cod-potatoes-broccoli-cutout.webp",
+      "createdOn": "2026-11-26",
+      "origin": "ai",
+      "tool": "Built-in image_gen",
+      "prompt": "Use case: photorealistic-natural. Create a SINGLE isolated food dish cutout for Porcia recipe cards in the approved Bold Food Editorial collection. Genuine transparent alpha background, no tabletop, kitchen, fabric, props, text, watermark, hands or utensils. A single ivory matte ceramic round vessel with gently scalloped rim, entirely visible with crop-safe transparent margin; large central dish occupies 85% width. Slightly oblique 70-degree overhead view, clean natural light, appetizing realistic home-cooked textures. No cast ground shadow outside vessel. Ingredients exactly as specified, no decorative garnish or additions. Subject: scalloped ivory dinner plate with exactly THREE separate components: fully baked skinless white cod fillet with natural moist white flakes, very subtle dried dill flecks and rapeseed oil; golden roasted peeled potato chunks with paprika; green roasted broccoli florets with lightly browned tips and rapeseed oil. ONLY cod, potatoes, broccoli, rapeseed oil, paprika, dried dill, salt, black pepper. No lemon, butter, sauces, fresh herbs, parsley, rice, carrots, tomatoes or garnish. Fish is cod, not salmon, no skin or breading.",
+      "sourcePng": "exec-93127cd8-21b3-4006-ac91-f118c4048e97.png",
+      "editPrompt": "Edit target: the provided generated food image. Preserve the food, ingredients, plate, composition, camera angle and lighting exactly. Change ONLY the area OUTSIDE the ceramic vessel: remove the entire broad gray/white glowing halo and all drop shadows, replacing everything outside the vessel silhouette with genuinely transparent alpha. Clean crisp plate silhouette with natural antialiasing, no haze, aura, shadow or opaque background anywhere outside the plate. The ceramic plate and food must be opaque. Keep the whole vessel visible.",
+      "editInputPng": "exec-68ac8bfd-93bf-4120-a320-4f4f7afe5158.png",
+      "sha256": "dd5cc1cd458d3df5f9850e59d442f3aea253e35acf3f326b0c5f612310be045a",
+      "processing": {
+        "format": "WebP",
+        "width": 800,
+        "height": 533,
+        "quality": 90,
+        "alphaQuality": 100,
+        "transparent": true
+      }
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 export type ProductState = 'dry' | 'raw' | 'ready' | 'cooked'
 // Extend this union when another known allergen is recorded.
-export type Allergen = 'milk' | 'walnut'
+export type Allergen = 'milk' | 'walnut' | 'wheat' | 'fish'
 export type IngredientUnit = 'g' | 'ml' | 'piece'
 
 export type Nutrition = Readonly<{

@@ -8,9 +8,12 @@ import { RecipePortions } from "./recipe-portions";
 import { FamilyRecipePortions } from "./family-recipe-portions";
 
 const categoryLabels = { breakfast: "Завтрак", lunch: "Обед", dinner: "Ужин", snack: "Перекус" } as const;
-const heroTones: Record<string, string> = { "banana-porridge": "green", "banana-yoghurt": "lavender", "chicken-rice-vegetables": "coral" };
+const heroTones: Record<string, string> = {
+  "banana-porridge": "green", "banana-yoghurt": "lavender", "chicken-rice-vegetables": "coral",
+  "lentil-vegetable-stew": "green", "pasta-beef-tomato": "lavender", "cod-potatoes-broccoli": "coral",
+};
 
-const allergenLabels: Record<Allergen, string> = { milk: "Молоко", walnut: "Грецкие орехи" };
+const allergenLabels: Record<Allergen, string> = { milk: "Молоко", walnut: "Грецкие орехи", wheat: "Пшеница", fish: "Рыба" };
 
 export function RecipeDetails({ recipe, products }: { recipe: Recipe; products: readonly Product[] }) {
   const productIds = new Set(recipe.components.flatMap((component) => component.ingredients.map((ingredient) => ingredient.productId)));
