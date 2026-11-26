@@ -298,16 +298,17 @@
 
   .header nav {
     flex-direction: row;
-    gap: 8px;
+    gap: 4px;
   }
 
   .navLink {
     flex: 1;
     justify-content: center;
     min-height: 44px;
-    padding: 8px 12px;
+    padding: 8px 7px;
+    gap: 6px;
     border-radius: 8px;
-    font-size: 15px;
+    font-size: 13px;
   }
 
   .navIcon {
@@ -324,6 +325,16 @@
 @media (max-width: 359px) {
   .app > :where(.main) {
     padding-inline: 16px;
+  }
+
+  .headerInner {
+    padding-inline: 16px;
+  }
+
+  .navLink {
+    padding-inline: 4px;
+    gap: 4px;
+    font-size: 12px;
   }
 
 }
