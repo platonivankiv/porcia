@@ -1,8 +1,9 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Product, Recipe } from "../recipes/model";
 import { isMealPlanTemplate } from "./validation";
 import { RecipePhoto } from "../recipes/recipe-photo";
-import { formatDays, MealPlanLayout, MealPlanNotice } from "./meal-plan-ui";
+import { formatDays, formatDishes, MealPlanArrow, MealPlanLayout, MealPlanNotice } from "./meal-plan-ui";
 import styles from "./meal-plan-ui.module.scss";
 
 export function MealPlanCatalog({ templates, recipes, products }: {
@@ -16,6 +17,7 @@ export function MealPlanCatalog({ templates, recipes, products }: {
       <div className={styles.heading}>
         <p className={styles.eyebrow}>Вкусная общая еда</p>
         <h1>Готовые рационы</h1>
+        <Image className={styles.headingArt} src="/meal-plans/tomato.svg" alt="" aria-hidden="true" width={180} height={140} />
         <p className={styles.intro}>Домашние блюда, уже собранные в меню по дням.</p>
       </div>
       <div className={styles.summary}>
@@ -43,10 +45,10 @@ export function MealPlanCatalog({ templates, recipes, products }: {
             <li key={template.id}>
               <article className={styles.planCard}>
                 <div className={styles.cardCopy}>
-                  <span className={styles.pill}>{formatDays(template.days.length)}</span>
+                  <div className={styles.cardStats}><span className={styles.pill}>{formatDays(template.days.length)}</span><span className={styles.statBadge}>{formatDishes(template)}</span></div>
                   <h2>{template.name}</h2>
                   <p>{template.description.split(/(?<=[.!?])\s/)[0]}</p>
-                  <Link className={styles.button} href={`/meal-plans/${encodeURIComponent(template.id)}`}>Посмотреть рацион <span aria-hidden="true">↗</span></Link>
+                  <Link className={styles.button} href={`/meal-plans/${encodeURIComponent(template.id)}`}>Посмотреть рацион <span className={styles.buttonArrow} aria-hidden="true"><MealPlanArrow /></span></Link>
                 </div>
                 <div className={styles.foodWall} aria-label="Блюда из рациона">
                   {cover.map((recipe, index) => <RecipePhoto key={index} className={styles.photo} image={recipe.image} priority={index === 0} sizes="(max-width: 760px) 45vw, 22vw" />)}

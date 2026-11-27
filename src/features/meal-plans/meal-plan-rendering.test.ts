@@ -29,6 +29,7 @@ describe("prepared meal plan catalog", () => {
     expect(html).toContain(template.name);
     expect(html).toContain('href="/meal-plans/home-meals-two-days"');
     expect(html).toContain("2 дня");
+    expect(html).toContain("6 блюд");
     expect(html).toContain("Посмотреть рацион");
     expect(html).toContain("Совместимость с аллергиями и ограничениями семьи не проверяется");
     expect(html.match(/Посмотреть рацион/g)).toHaveLength(1);
@@ -53,6 +54,7 @@ describe("prepared meal plan menu", () => {
     const html = renderToStaticMarkup(createElement(MealPlanDetails, { template, recipes, products }));
     expect(html).toContain(template.description);
     expect(html).toContain("2 дня");
+    expect(html).toContain("6 блюд");
     expect(html.indexOf("День 1")).toBeLessThan(html.indexOf("День 2"));
     const orderedIds = ["banana-porridge", "chicken-rice-vegetables", "lentil-vegetable-stew", "banana-yoghurt", "pasta-beef-tomato", "cod-potatoes-broccoli"];
     let previous = -1;
@@ -86,4 +88,17 @@ it("derives the duration from the array and keeps named meals and direct product
   expect(html).toContain("Банан");
   expect(html).toContain("Сырой продукт");
   expect(html).not.toContain("День 2");
+});
+
+it("derives the dish badge from recipe occurrences and excludes direct products", () => {
+  const oneDay = { ...template, days: [{ ...template.days[0], meals: [
+    ...template.days[0].meals,
+    { id: "fruit", label: "Фрукт", items: [{ id: "banana", kind: "product", productId: "banana", state: "raw" }] },
+  ] }] };
+  const html = renderToStaticMarkup(createElement(MealPlanDetails, { template: oneDay, recipes, products }));
+  expect(html).toContain("3 блюда");
+  expect(html).not.toContain("6 блюд");
+  const catalog = renderToStaticMarkup(createElement(MealPlanCatalog, { templates: [oneDay], recipes, products }));
+  expect(catalog).toContain("3 блюда");
+  expect(catalog).toContain("1 день");
 });

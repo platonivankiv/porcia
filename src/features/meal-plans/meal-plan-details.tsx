@@ -1,9 +1,10 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Product, Recipe } from "../recipes/model";
 import { isMealPlanTemplate } from "./validation";
 import { RecipePhoto } from "../recipes/recipe-photo";
 import { stateLabels } from "../recipes/recipe-format";
-import { formatDays, MealPlanLayout, MealPlanNotice, MealPlanUnavailable } from "./meal-plan-ui";
+import { formatDays, formatDishes, MealPlanArrow, MealPlanLayout, MealPlanNotice, MealPlanUnavailable } from "./meal-plan-ui";
 import styles from "./meal-plan-ui.module.scss";
 
 export function MealPlanDetails({ template, recipes, products }: {
@@ -16,8 +17,10 @@ export function MealPlanDetails({ template, recipes, products }: {
     <MealPlanLayout>
       <Link className={styles.back} href="/meal-plans">← Все рационы</Link>
       <div className={`${styles.heading} ${styles.detailHeading}`}>
-        <p className={styles.eyebrow}>Готовый рацион · {formatDays(template.days.length)}</p>
+        <p className={styles.eyebrow}>Готовый рацион</p>
         <h1>{template.name}</h1>
+        <Image className={styles.headingArt} src="/meal-plans/herbs.svg" alt="" aria-hidden="true" width={170} height={150} />
+        <div className={styles.planStats}><span className={styles.pill}>{formatDays(template.days.length)}</span><span className={styles.statBadge}>{formatDishes(template)}</span></div>
         <p className={styles.intro}>{template.description}</p>
       </div>
       <MealPlanNotice />
@@ -35,7 +38,7 @@ export function MealPlanDetails({ template, recipes, products }: {
             <ol className={styles.meals}>
               {day.meals.map((meal) => (
                 <li key={meal.id}>
-                  <h4>{meal.label}</h4>
+                  <h4 className={styles.mealBadge}>{meal.label}</h4>
                   {meal.items.map((item) => {
                     if (item.kind === "product") {
                       const product = products.find((product) => product.id === item.productId)!;
@@ -47,8 +50,8 @@ export function MealPlanDetails({ template, recipes, products }: {
                         <RecipePhoto className={styles.photo} image={recipe.image} sizes="(max-width: 760px) 40vw, (max-width: 1150px) 40vw, 20vw" />
                         <div className={styles.dishCopy}>
                           <h5>{recipe.name}</h5>
-                          {recipe.totalMinutes !== undefined && <p className={styles.time}>≈ {recipe.totalMinutes} мин</p>}
-                          <span className={styles.recipeLink}>Открыть рецепт <span aria-hidden="true">↗</span></span>
+                          {recipe.totalMinutes !== undefined && <p className={styles.time}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 6v6l4 2" /></svg>≈ {recipe.totalMinutes} мин</p>}
+                          <span className={styles.recipeLink}>Открыть рецепт <span className={styles.recipeArrow} aria-hidden="true"><MealPlanArrow /></span></span>
                         </div>
                       </Link>
                     );

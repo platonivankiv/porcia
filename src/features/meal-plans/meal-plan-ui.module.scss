@@ -61,6 +61,7 @@
 }
 
 .heading {
+  position: relative;
   margin-bottom: 28px;
 }
 
@@ -108,7 +109,8 @@
   border: 2px solid var(--porcia-ink);
   background: var(--porcia-yellow);
   padding: 4px 15px;
-  border-radius: 40px;
+  border-radius: 14px;
+  box-shadow: 2px 2px 0 var(--porcia-ink);
   font-weight: 800;
   font-size: 15px;
 }
@@ -219,11 +221,12 @@
 
 .notice {
   display: grid;
-  grid-template-columns: 180px 1fr;
-  gap: 24px;
-  padding: 20px 0;
-  border-top: 1px solid var(--porcia-ink);
-  border-bottom: 1px solid var(--porcia-ink);
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 14px;
+  padding: 18px 20px;
+  border: 2px solid var(--porcia-ink);
+  border-radius: 14px;
+  background: #fff3cf;
   margin-top: 28px;
   font-size: 14px;
   line-height: 1.6;
@@ -330,6 +333,9 @@
 }
 
 .dayHeader h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font: 700 32px/1 var(--font-display), "Arial Narrow", sans-serif;
   text-transform: uppercase;
 }
@@ -405,6 +411,9 @@
 }
 
 .time {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-size: 13px;
   margin-top: 12px;
   font-weight: 600;
@@ -497,7 +506,7 @@
     min-height: 180px;
   }
   .notice {
-    grid-template-columns: 150px 1fr;
+    grid-template-columns: 30px minmax(0, 1fr);
   }
   .footer {
     margin-inline: 24px;
@@ -568,11 +577,11 @@
     min-height: 0;
   }
   .notice {
-    grid-template-columns: 1fr;
-    gap: 6px;
+    grid-template-columns: 26px minmax(0, 1fr);
+    gap: 10px;
     font-size: 13px;
     margin-top: 24px;
-    padding: 16px 0;
+    padding: 16px;
   }
   .notice p {
     line-height: 1.65;
@@ -731,4 +740,127 @@
 
 .meals .dish + .dish, .meals .product + .dish, .meals .dish + .product, .meals .product + .product {
   margin-top: 12px;
+}
+
+.headingArt {
+  position: absolute;
+  top: 0;
+  right: 4px;
+  width: 150px;
+  height: 130px;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+.heading:not(.detailHeading) h1::after {
+  content: "";
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  margin-left: 10px;
+  vertical-align: top;
+  background: url("/meal-plans/strokes.svg") center / contain no-repeat;
+  pointer-events: none;
+}
+
+.cardStats, .planStats {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.cardStats { margin: 0; }
+
+.statBadge {
+  padding: 5px 12px;
+  border: 2px solid var(--porcia-ink);
+  border-radius: 10px;
+  background: var(--porcia-surface);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.planStats .pill { font-size: 13px; }
+
+.buttonArrow, .recipeArrow {
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.buttonArrow svg { width: 28px; height: 28px; }
+
+.recipeLink .recipeArrow {
+  width: 36px;
+  height: 36px;
+  border: 2px solid var(--porcia-ink);
+  border-radius: 50%;
+  background: var(--porcia-background);
+  transition: background 180ms;
+}
+
+.recipeArrow svg { width: 23px; height: 23px; }
+.dish:hover .recipeArrow { background: var(--porcia-yellow); }
+.time svg { width: 18px; height: 18px; flex-shrink: 0; }
+.noticeIcon { width: 30px; height: 30px; }
+.notice strong { display: block; margin-bottom: 3px; }
+
+.meals .mealBadge {
+  display: inline-block;
+  padding: 3px 12px;
+  border: 1.5px solid var(--porcia-ink);
+  border-radius: 20px;
+  background: #d5f4bb;
+  line-height: 1.35;
+}
+.meals li:nth-child(2) .mealBadge { background: #ffb7ac; }
+.meals li:nth-child(3) .mealBadge { background: #dec7fa; }
+
+.dayHeader h3::after {
+  content: "";
+  width: 22px;
+  height: 22px;
+  background: url("/meal-plans/strokes.svg") center / contain no-repeat;
+  pointer-events: none;
+}
+
+.foodWall .photo:nth-child(2)::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 28px;
+  background: url("/meal-plans/strokes.svg") center / contain no-repeat;
+  pointer-events: none;
+}
+
+.detailHeading .headingArt { top: -68px; width: 110px; height: 90px; }
+
+@media (min-width: 761px) and (max-width: 1150px) {
+  .headingArt { width: 70px; height: 54px; top: -28px; }
+  .detailHeading .headingArt { top: -42px; width: 84px; height: 70px; }
+}
+
+@media (max-width: 760px) {
+  .headingArt { width: 62px; height: 52px; top: -19px; right: 0; }
+  .detailHeading .headingArt { width: 52px; height: 48px; top: -22px; }
+  .heading:not(.detailHeading) h1::after { width: 20px; height: 22px; margin-left: 6px; }
+  .noticeIcon { width: 26px; height: 26px; }
+  .planStats { margin-top: 14px; }
+  .foodWall .photo:nth-child(2)::after { width: 24px; height: 22px; top: 5px; right: 5px; }
+  .recipeLink .recipeArrow { width: 32px; height: 32px; }
+  .recipeArrow svg { width: 21px; height: 21px; }
+}
+
+@media (max-width: 359px) {
+  .dayHeader h3::after { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .recipeLink .recipeArrow { transition: none; }
 }
